@@ -9,13 +9,14 @@ import authMiddleware from "../utils/authMiddleware.js";
 const router = Router();
 
 // Rate limiting for login endpoint - prevent brute force attacks
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 login requests per windowMs
-  message: "Too many login attempts, please try again later.",
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+// COMMENTED OUT: Rate limiter disabled - uncomment if needed for security
+// const loginLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 5, // Limit each IP to 5 login requests per windowMs
+//   message: "Too many login attempts, please try again later.",
+//   standardHeaders: true,
+//   legacyHeaders: false,
+// });
 
 // Rate limiting for password change endpoint
 const passwordChangeLimiter = rateLimit({
@@ -27,7 +28,8 @@ const passwordChangeLimiter = rateLimit({
 });
 
 // POST /auth/login
-router.post("/login", loginLimiter, async (req, res) => {
+// Rate limiter commented out - uncomment loginLimiter above and add it here if needed
+router.post("/login", /* loginLimiter, */ async (req, res) => {
   try {
     if (!jwtSecret) {
       console.error("JWT_SECRET is not configured");
