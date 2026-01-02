@@ -31,7 +31,6 @@ export default function CallCard({
   const [isExpanded, setIsExpanded] = useState(false);
   const { transcript, utterances } = extractTranscriptData(call);
   
-  const finalCallId = callId || extractCallId(call, mapping);
   const finalCreatedAt = createdAt || extractCreatedAt(call, mapping);
   const phoneNumber = extractPhoneNumber(call);
   const durationSeconds = extractCallDuration(call);

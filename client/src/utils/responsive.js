@@ -37,15 +37,4 @@ export function getResponsiveStyles(styles) {
   return styles.desktop || styles;
 }
 
-/**
- * Responsive value helper - returns different values based on screen size
- */
-export function responsiveValue(mobile, tablet, desktop) {
-  if (typeof window === 'undefined') return desktop;
-  
-  const width = window.innerWidth;
-  if (width < breakpoints.mobile) return mobile;
-  if (width < breakpoints.tablet) return tablet;
-  return desktop;
-}
 

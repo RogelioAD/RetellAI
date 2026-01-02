@@ -5,17 +5,13 @@ import { breakpoints } from "../utils/responsive";
  * Custom hook for responsive design
  */
 export function useResponsive() {
-  const [windowSize, setWindowSize] = useState({
-    width: typeof window !== 'undefined' ? window.innerWidth : 1200,
-    height: typeof window !== 'undefined' ? window.innerHeight : 800
-  });
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1200
+  );
 
   useEffect(() => {
     function handleResize() {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
+      setWindowWidth(window.innerWidth);
     }
 
     window.addEventListener('resize', handleResize);
@@ -24,15 +20,10 @@ export function useResponsive() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const isMobile = windowSize.width < breakpoints.mobile;
-  const isTablet = windowSize.width >= breakpoints.mobile && windowSize.width < breakpoints.tablet;
-  const isDesktop = windowSize.width >= breakpoints.tablet;
+  const isMobile = windowWidth < breakpoints.mobile;
 
   return {
-    windowSize,
-    isMobile,
-    isTablet,
-    isDesktop
+    isMobile
   };
 }
 

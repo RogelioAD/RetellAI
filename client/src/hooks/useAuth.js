@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 /**
  * Custom hook for managing authentication state
@@ -30,13 +30,11 @@ export function useAuth() {
     setUser(null);
   };
 
-  const isAuthenticated = !!token;
   const isAdmin = user?.role === "admin";
 
   return {
     token,
     user,
-    isAuthenticated,
     isAdmin,
     login,
     logout
