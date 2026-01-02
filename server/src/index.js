@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import { hash } from "bcrypt";
 import { port, jwtSecret } from "./config.js";
 import db from "./models/indexModel.js";
 import authRoute from "./routes/authRoute.js";
@@ -83,6 +84,45 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
+// Temporary: Seed admin user on startup
+async function seedAdmin() {
+  try {
+    const { User } = db;
+    const adminUsername = process.env.ADMIN_USERNAME || "admin";
+    const adminPassword = process.env.ADMIN_PASSWORD;
+
+    if (!adminPassword) {
+      console.warn("⚠️  ADMIN_PASSWORD not set - skipping admin seed");
+      return;
+    }
+
+    console.log("🌱 Seeding admin user...");
+    const passwordHash = await hash(adminPassword, 10);
+
+    const [admin, created] = await User.findOrCreate({
+      where: { username: adminUsername },
+      defaults: {
+        username: adminUsername,
+        passwordHash,
+        role: "admin",
+      },
+    });
+
+    if (!created) {
+      // User already exists → update password
+      admin.passwordHash = passwordHash;
+      admin.role = "admin";
+      await admin.save();
+      console.log(`✅ Updated admin user "${adminUsername}"`);
+    } else {
+      console.log(`✅ Created admin user "${adminUsername}"`);
+    }
+  } catch (err) {
+    console.error("⚠️  Error seeding admin (non-fatal):", err.message);
+    // Don't exit - allow server to start even if seeding fails
+  }
+}
+
 // Initialize database and start server
 async function start() {
   try {
@@ -95,6 +135,9 @@ async function start() {
     console.log("🔄 Syncing database models...");
     await db.sequelize.sync({ alter: false });
     console.log("✅ Database models synced");
+
+    // Temporary: Seed admin user
+    await seedAdmin();
 
     // Start server
     app.listen(port, () => {
