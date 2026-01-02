@@ -121,6 +121,104 @@ router.post("/link-calls-by-agent", authMiddleware, adminMiddleware, async (req,
   }
 });
 
+// POST /admin/refresh-agent-names
+// Re-fetches all calls from RetellAI and updates agent names
+// Useful when agent names are changed in RetellAI
+router.post("/refresh-agent-names", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const { CallRecord } = await import("../models/index.js");
+    const retellClientModule = await import("../utils/retellClient.js");
+    const retellClient = retellClientModule.default;
+    const { listAllCallsPost } = retellClient;
+    
+    console.log("🔄 Refreshing agent names from RetellAI...");
+    
+    // Fetch all calls from RetellAI
+    const retellCalls = await listAllCallsPost({});
+    
+    // Extract calls array from response
+    let callsArray = [];
+    if (Array.isArray(retellCalls)) {
+      callsArray = retellCalls;
+    } else if (retellCalls.calls && Array.isArray(retellCalls.calls)) {
+      callsArray = retellCalls.calls;
+    } else if (retellCalls.data && Array.isArray(retellCalls.data)) {
+      callsArray = retellCalls.data;
+    }
+    
+    console.log(`📞 Found ${callsArray.length} calls in RetellAI`);
+    
+    let updatedCount = 0;
+    let linkedCount = 0;
+    const details = [];
+    
+    // Get all CallRecords
+    const allCallRecords = await CallRecord.findAll();
+    const callRecordMap = new Map();
+    allCallRecords.forEach(rec => {
+      callRecordMap.set(rec.retellCallId, rec);
+    });
+    
+    // Process each call from RetellAI
+    for (const call of callsArray) {
+      const callId = call.call_id || call.id || call.callId;
+      if (!callId) continue;
+      
+      const callRecord = callRecordMap.get(callId);
+      if (!callRecord) continue;
+      
+      // Extract agent name from fresh RetellAI data
+      const agentName = 
+        call.agent_name || 
+        call.agent?.name || 
+        call.agent_id ||
+        call.agent_name_id ||
+        (call.agent && typeof call.agent === 'string' ? call.agent : null);
+      
+      if (agentName) {
+        // Try to find user with matching username
+        const user = await User.findOne({
+          where: { username: agentName },
+        });
+        
+        if (user) {
+          // Update the call record's userId if it changed
+          if (callRecord.userId !== user.id) {
+            callRecord.userId = user.id;
+            await callRecord.save();
+            linkedCount++;
+            details.push({
+              callId: callId,
+              oldUserId: callRecord.userId,
+              newUserId: user.id,
+              agentName: agentName,
+              username: user.username
+            });
+          }
+          updatedCount++;
+        } else {
+          details.push({
+            callId: callId,
+            agentName: agentName,
+            note: "No user found with matching username"
+          });
+        }
+      }
+    }
+    
+    res.json({
+      message: `Refreshed ${updatedCount} calls. Re-linked ${linkedCount} calls to users.`,
+      updated: updatedCount,
+      reLinked: linkedCount,
+      total: callsArray.length,
+      details: details.slice(0, 50) // Return first 50 for debugging
+    });
+  } catch (err) {
+    console.error("Error refreshing agent names:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // POST /admin/create-customer
 // Creates a new customer user
 // Returns the password in the response (only available at creation time)

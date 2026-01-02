@@ -7,6 +7,8 @@ import CallList from "../components/calls/CallList";
 import DashboardHeader from "../components/admin/DashboardHeader";
 import UserManagement from "../components/admin/UserManagement";
 import PasswordChangeForm from "../components/admin/PasswordChangeForm";
+import Button from "../components/common/Button";
+import { refreshAgentNames } from "../services/api";
 import { layoutStyles } from "../constants/styles";
 
 /**
@@ -15,7 +17,7 @@ import { layoutStyles } from "../constants/styles";
 export default function Dashboard({ token, user, onLogout }) {
   const { isMobile } = useResponsive();
   const isAdmin = user?.role === "admin";
-  const { calls, loading, error } = useCalls(token, isAdmin);
+  const { calls, loading, error, refreshCalls } = useCalls(token, isAdmin);
   
   const [showUserManagement, setShowUserManagement] = useState(false);
   const { users, loading: loadingUsers, error: userError, refreshUsers } = useUsers(
@@ -25,6 +27,24 @@ export default function Dashboard({ token, user, onLogout }) {
   );
 
   const passwordChange = usePasswordChange(token);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefreshAgentNames = async () => {
+    if (!isAdmin) return;
+    setRefreshing(true);
+    try {
+      await refreshAgentNames(token);
+      // Refresh calls after updating agent names
+      if (refreshCalls) {
+        refreshCalls();
+      }
+      alert("Agent names refreshed successfully!");
+    } catch (err) {
+      alert(`Failed to refresh agent names: ${err.message}`);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   return (
     <div style={{
@@ -66,6 +86,17 @@ export default function Dashboard({ token, user, onLogout }) {
         />
       )}
 
+      {isAdmin && (
+        <div style={{ marginBottom: isMobile ? "12px" : "16px" }}>
+          <Button
+            onClick={handleRefreshAgentNames}
+            disabled={refreshing || loading}
+            style={{ fontSize: isMobile ? "14px" : "14px" }}
+          >
+            {refreshing ? "Refreshing..." : "🔄 Refresh Agent Names"}
+          </Button>
+        </div>
+      )}
       {loading && <div style={{ padding: isMobile ? "16px 0" : "20px 0" }}>Loading...</div>}
       {error && <div style={{ color: "red", padding: isMobile ? "16px 0" : "20px 0" }}>{error}</div>}
       {!loading && !error && <CallList items={calls} groupByAgent={isAdmin} />}

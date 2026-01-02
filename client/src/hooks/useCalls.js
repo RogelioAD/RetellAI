@@ -10,38 +10,40 @@ export function useCalls(token, isAdmin) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    let mounted = true;
+  const fetchCallsData = async () => {
     setLoading(true);
     setError(null);
 
-    const fetchCalls = isAdmin 
-      ? fetchAllCalls(token, {}) 
-      : fetchMyCalls(token);
+    try {
+      const data = isAdmin 
+        ? await fetchAllCalls(token, {}) 
+        : await fetchMyCalls(token);
+      
+      if (isAdmin) {
+        const transformedCalls = transformAdminCallData(data);
+        setCalls(transformedCalls);
+      } else {
+        setCalls(data);
+      }
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
 
-    fetchCalls
-      .then((data) => {
-        if (!mounted) return;
-        
-        if (isAdmin) {
-          const transformedCalls = transformAdminCallData(data);
-          setCalls(transformedCalls);
-        } else {
-          setCalls(data);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        if (!mounted) return;
-        setError(err.message);
-        setLoading(false);
-      });
+  useEffect(() => {
+    let mounted = true;
+    
+    fetchCallsData().then(() => {
+      if (!mounted) return;
+    });
     
     return () => {
       mounted = false;
     };
   }, [token, isAdmin]);
 
-  return { calls, loading, error };
+  return { calls, loading, error, refreshCalls: fetchCallsData };
 }
 

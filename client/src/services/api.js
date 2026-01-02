@@ -121,6 +121,32 @@ export async function fetchAllUsers(token) {
   return res.json();
 }
 
+export async function refreshAgentNames(token) {
+  const res = await fetch(`${API_BASE}/admin/refresh-agent-names`, {
+    method: "POST",
+    headers: { 
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json" 
+    },
+  });
+  if (!res.ok) {
+    let errorMessage = "Failed to refresh agent names";
+    try {
+      const text = await res.text();
+      try {
+        const errorData = JSON.parse(text);
+        errorMessage = errorData.error || errorMessage;
+      } catch {
+        errorMessage = text || errorMessage;
+      }
+    } catch {
+      errorMessage = "Failed to refresh agent names";
+    }
+    throw new Error(errorMessage);
+  }
+  return res.json();
+}
+
 export async function createCustomer(token, { username, password, email }) {
   const res = await fetch(`${API_BASE}/admin/create-customer`, {
     method: "POST",
