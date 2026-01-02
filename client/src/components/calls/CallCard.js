@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import { 
-  extractCallId, 
   extractCreatedAt, 
   extractTranscriptData,
   extractPhoneNumber,
@@ -23,7 +22,6 @@ export default function CallCard({
   createdAt, 
   hasError = false, 
   errorMessage = null, 
-  callId, 
   isAdmin = false, 
   isDeleted = false 
 }) {
