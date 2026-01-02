@@ -12,17 +12,44 @@ const app = express();
 
 // Security: CORS configuration - restrict to specific origins in production
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
-  ? process.env.ALLOWED_ORIGINS.split(',')
+  ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim()).filter(origin => origin)
   : ['http://localhost:3000', 'http://localhost:3001'];
+
+// Log allowed origins for debugging
+console.log('🌐 CORS Configuration:');
+console.log('  ALLOWED_ORIGINS:', allowedOrigins);
+console.log('  NODE_ENV:', process.env.NODE_ENV);
 
 app.use(cors({
   origin: function (origin, callback) {
+    // Log the incoming origin for debugging
+    console.log('🔍 CORS Check - Origin:', origin);
+    
     // Allow requests with no origin (mobile apps, Postman, etc.) in development
-    if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+    if (!origin) {
+      console.log('✅ Allowing request with no origin');
       callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+      return;
     }
+    
+    // Check if origin is in allowed list
+    if (allowedOrigins.includes(origin)) {
+      console.log('✅ Origin allowed:', origin);
+      callback(null, true);
+      return;
+    }
+    
+    // In development, allow all origins
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('✅ Development mode - allowing origin');
+      callback(null, true);
+      return;
+    }
+    
+    // Reject in production if not in allowed list
+    console.log('❌ Origin not allowed:', origin);
+    console.log('   Allowed origins:', allowedOrigins);
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true
 }));
