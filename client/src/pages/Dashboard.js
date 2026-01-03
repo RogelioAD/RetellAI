@@ -34,9 +34,9 @@ export default function Dashboard({ token, user, onLogout }) {
     setRefreshing(true);
     try {
       await refreshAgentNames(token);
-      // Refresh calls after updating agent names
+      // Refresh calls after updating agent names - wait for it to complete
       if (refreshCalls) {
-        refreshCalls();
+        await refreshCalls();
       }
       alert("Agent names refreshed successfully!");
     } catch (err) {

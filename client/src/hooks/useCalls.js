@@ -16,7 +16,7 @@ export function useCalls(token, isAdmin) {
 
     try {
       const data = isAdmin 
-        ? await fetchAllCalls(token, {}) 
+        ? await fetchAllCalls(token, { fetchAll: true }) 
         : await fetchMyCalls(token);
       
       if (isAdmin) {
