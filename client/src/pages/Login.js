@@ -119,31 +119,37 @@ export default function Login({ onLogin }) {
       ...layoutStyles.login,
       ...(isMobile && layoutStyles.loginMobile)
     }}>
-      <h2 style={{ fontSize: isMobile ? "1.5em" : "1.8em", marginTop: 0 }}>
+      <h2 style={{ 
+        fontSize: isMobile ? "1.5em" : "1.8em", 
+        marginTop: 0,
+        color: "#f4f4f5",
+        fontWeight: 600
+      }}>
         Customer Login
       </h2>
       {isLockedOut && (
         <div style={{
-          backgroundColor: "#fff3cd",
-          border: "1px solid #ffc107",
-          borderRadius: "4px",
-          padding: isMobile ? "12px" : "16px",
+          background: "rgba(244, 67, 54, 0.1)",
+          border: "1px solid rgba(244, 67, 54, 0.3)",
+          borderRadius: "12px",
+          padding: isMobile ? "16px" : "20px",
           marginBottom: "20px",
-          color: "#856404",
+          color: "#ffcdd2",
           fontSize: isMobile ? "14px" : "15px",
-          textAlign: "center"
+          textAlign: "center",
+          backdropFilter: "blur(10px)"
         }}>
-          <div style={{ fontWeight: "bold", marginBottom: "8px" }}>
+          <div style={{ fontWeight: 600, marginBottom: "8px", color: "#fca5a5" }}>
             Account Temporarily Locked
           </div>
-          <div>
+          <div style={{ color: "#d4d4d8", marginBottom: "12px" }}>
             Password has been incorrect multiple times. Please try again after:
           </div>
           <div style={{
             fontSize: isMobile ? "20px" : "24px",
-            fontWeight: "bold",
+            fontWeight: "600",
             marginTop: "8px",
-            color: "#d9534f"
+            color: "#ffcdd2"
           }}>
             {formatTime(timeRemaining)}
           </div>
@@ -174,9 +180,13 @@ export default function Login({ onLogin }) {
         </Button>
         {error && (
           <div style={{ 
-            color: "red", 
+            color: "#fca5a5", 
             marginTop: 12,
-            fontSize: isMobile ? "14px" : "14px"
+            fontSize: isMobile ? "14px" : "14px",
+            padding: "12px",
+            background: "rgba(239, 68, 68, 0.08)",
+            border: "1px solid rgba(239, 68, 68, 0.2)",
+            borderRadius: 8
           }}>
             {error}
           </div>
