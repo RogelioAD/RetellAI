@@ -39,8 +39,26 @@ export function useCalls(token, isAdmin) {
       if (!mounted) return;
     });
     
+    // Auto-refresh every 30 seconds
+    const refreshInterval = setInterval(() => {
+      if (mounted) {
+        fetchCallsData();
+      }
+    }, 30000); // 30 seconds
+    
+    // Also refresh when the page becomes visible (user switches back to tab)
+    const handleVisibilityChange = () => {
+      if (!document.hidden && mounted) {
+        fetchCallsData();
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
     return () => {
       mounted = false;
+      clearInterval(refreshInterval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [fetchCallsData]);
 
