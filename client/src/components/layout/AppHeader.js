@@ -72,8 +72,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-end",
+            alignItems: "center",
             marginRight: isMobile ? 0 : "12px",
           }}
         >
@@ -86,17 +85,6 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
           >
             {user?.username || "User"}
           </span>
-          {user?.email && (
-            <span
-              style={{
-                fontSize: "0.8em",
-                color: "#71717a",
-                marginTop: "2px",
-              }}
-            >
-              {user.email}
-            </span>
-          )}
         </div>
         <Button onClick={onLogout} style={{ fontSize: isMobile ? "13px" : "14px" }}>
           Logout
