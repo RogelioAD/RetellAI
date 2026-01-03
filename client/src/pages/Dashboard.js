@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useCalls } from "../hooks/useCalls";
 import { useUsers } from "../hooks/useUsers";
 import { usePasswordChange } from "../hooks/usePasswordChange";
@@ -7,6 +7,8 @@ import CallList from "../components/calls/CallList";
 import DashboardHeader from "../components/admin/DashboardHeader";
 import UserManagement from "../components/admin/UserManagement";
 import PasswordChangeForm from "../components/admin/PasswordChangeForm";
+import DateFilter, { getDateRange } from "../components/common/DateFilter";
+import { extractCreatedAt } from "../utils/callDataTransformers";
 import { layoutStyles } from "../constants/styles";
 
 /**
@@ -25,6 +27,42 @@ export default function Dashboard({ token, user, onLogout }) {
   );
 
   const passwordChange = usePasswordChange(token);
+  const [selectedDateRange, setSelectedDateRange] = useState("all");
+  const [customDate, setCustomDate] = useState(null);
+
+  // Filter calls based on selected date range
+  const filteredCalls = useMemo(() => {
+    if (selectedDateRange === "all") {
+      return calls;
+    }
+
+    const { startDate, endDate } = getDateRange(selectedDateRange, customDate);
+    
+    if (!startDate && !endDate) {
+      return calls;
+    }
+
+    return calls.filter((item) => {
+      const mapping = item.mapping || {};
+      const call = item.call || item;
+      const callDate = new Date(extractCreatedAt(call, mapping));
+      
+      if (startDate && endDate) {
+        return callDate >= startDate && callDate <= endDate;
+      } else if (startDate) {
+        return callDate >= startDate;
+      } else if (endDate) {
+        return callDate <= endDate;
+      }
+      
+      return true;
+    });
+  }, [calls, selectedDateRange, customDate]);
+
+  const handleDateRangeChange = (range, customDateValue) => {
+    setSelectedDateRange(range);
+    setCustomDate(customDateValue);
+  };
 
   return (
     <div style={{
@@ -66,9 +104,17 @@ export default function Dashboard({ token, user, onLogout }) {
         />
       )}
 
+      {/* Date Filter */}
+      <DateFilter
+        onDateRangeChange={handleDateRangeChange}
+        selectedRange={selectedDateRange}
+      />
+
       {loading && <div style={{ padding: isMobile ? "16px 0" : "20px 0" }}>Loading...</div>}
       {error && <div style={{ color: "red", padding: isMobile ? "16px 0" : "20px 0" }}>{error}</div>}
-      {!loading && !error && <CallList items={calls} groupByAgent={isAdmin} />}
+      {!loading && !error && (
+        <CallList items={filteredCalls} groupByAgent={isAdmin} />
+      )}
     </div>
   );
 }
