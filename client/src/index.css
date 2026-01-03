@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html {
+  color-scheme: dark;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -15,6 +19,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #e4e4e7;
+  color-scheme: dark;
 }
 
 input {
@@ -32,11 +37,20 @@ input::placeholder {
 
 /* Date input styling for dark theme */
 input[type="date"] {
-  color-scheme: dark;
-  background: rgba(255, 255, 255, 0.05);
-  color: #e4e4e7;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color-scheme: dark !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #e4e4e7 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* iOS Safari specific date input styling */
+@supports (-webkit-touch-callout: none) {
+  input[type="date"] {
+    color-scheme: dark;
+  }
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {

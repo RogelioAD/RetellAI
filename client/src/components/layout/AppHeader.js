@@ -29,7 +29,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "12px",
+            gap: "8px",
           }}
         >
           <img

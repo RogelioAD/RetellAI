@@ -143,8 +143,11 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
               WebkitBackdropFilter: "blur(20px)",
               color: "#e4e4e7",
               colorScheme: "dark",
+              WebkitColorScheme: "dark",
               transition: "all 0.2s ease",
-              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset"
+              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
+              WebkitAppearance: "none",
+              appearance: "none"
             }}
             onFocus={(e) => {
               e.target.style.borderColor = "#667eea";
