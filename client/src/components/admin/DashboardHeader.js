@@ -31,20 +31,17 @@ export default function DashboardHeader({
         margin: 0,
         fontSize: isMobile ? "1.5em" : "1.75em",
         wordBreak: "break-word",
-        fontWeight: 700,
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-        backgroundClip: "text"
+        fontWeight: 600,
+        color: "#f4f4f5"
       }}>
         Dashboard — {user?.username || "User"}
         {isAdmin && (
           <span style={{ 
             marginLeft: 8, 
             fontSize: isMobile ? "0.65em" : "0.7em", 
-            color: "#6b7280",
+            color: "#71717a",
             display: isMobile ? "block" : "inline",
-            fontWeight: 500
+            fontWeight: 400
           }}>
             (Admin)
           </span>

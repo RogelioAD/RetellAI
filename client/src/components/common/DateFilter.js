@@ -42,11 +42,11 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
     <div style={{
       marginBottom: isMobile ? "20px" : "24px",
       padding: isMobile ? "16px" : "20px",
-      background: gradients.card,
+      background: "rgba(255, 255, 255, 0.03)",
       backdropFilter: "blur(20px)",
-      borderRadius: "16px",
-      border: "1px solid rgba(255, 255, 255, 0.2)",
-      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)"
+      borderRadius: "12px",
+      border: "1px solid rgba(255, 255, 255, 0.08)",
+      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05) inset"
     }}>
       <div style={{
         display: "flex",
@@ -62,30 +62,30 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
             style={{
               padding: isMobile ? "10px 16px" : "12px 20px",
               fontSize: isMobile ? "13px" : "14px",
-              border: selectedRange === range.value ? "none" : "1px solid rgba(0, 0, 0, 0.1)",
-              background: selectedRange === range.value ? gradients.button : "rgba(255, 255, 255, 0.8)",
-              color: selectedRange === range.value ? "#fff" : "#374151",
-              borderRadius: "10px",
+              border: selectedRange === range.value ? "none" : "1px solid rgba(255, 255, 255, 0.1)",
+              background: selectedRange === range.value ? gradients.button : "rgba(255, 255, 255, 0.05)",
+              color: selectedRange === range.value ? "#fff" : "#d4d4d8",
+              borderRadius: "8px",
               cursor: "pointer",
-              fontWeight: selectedRange === range.value ? 600 : 500,
+              fontWeight: selectedRange === range.value ? 500 : 400,
               transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
               whiteSpace: "nowrap",
-              boxShadow: selectedRange === range.value ? "0 4px 12px rgba(102, 126, 234, 0.3)" : "0 2px 4px rgba(0, 0, 0, 0.05)"
+              boxShadow: selectedRange === range.value ? "0 4px 12px rgba(102, 126, 234, 0.25)" : "none"
             }}
             onMouseOver={(e) => {
               if (selectedRange !== range.value) {
-                e.target.style.background = "rgba(255, 255, 255, 0.95)";
-                e.target.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+                e.target.style.background = "rgba(255, 255, 255, 0.08)";
+                e.target.style.borderColor = "rgba(255, 255, 255, 0.15)";
               } else {
-                e.target.style.boxShadow = "0 6px 16px rgba(102, 126, 234, 0.4)";
+                e.target.style.boxShadow = "0 6px 16px rgba(102, 126, 234, 0.3)";
               }
             }}
             onMouseOut={(e) => {
               if (selectedRange !== range.value) {
-                e.target.style.background = "rgba(255, 255, 255, 0.8)";
-                e.target.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.05)";
+                e.target.style.background = "rgba(255, 255, 255, 0.05)";
+                e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
               } else {
-                e.target.style.boxShadow = "0 4px 12px rgba(102, 126, 234, 0.3)";
+                e.target.style.boxShadow = "0 4px 12px rgba(102, 126, 234, 0.25)";
               }
             }}
           >
@@ -98,17 +98,16 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
         <div style={{
           marginTop: "16px",
           padding: "16px",
-          background: "rgba(255, 255, 255, 0.6)",
-          borderRadius: "12px",
-          border: "1px solid rgba(255, 255, 255, 0.3)",
-          backdropFilter: "blur(10px)"
+          background: "rgba(255, 255, 255, 0.04)",
+          borderRadius: "10px",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
         }}>
           <label style={{
             display: "block",
             marginBottom: "10px",
             fontSize: isMobile ? "13px" : "14px",
-            fontWeight: 600,
-            color: "#374151"
+            fontWeight: 500,
+            color: "#a1a1aa"
           }}>
             Select Date:
           </label>
@@ -120,20 +119,23 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
             style={{
               padding: "12px 16px",
               fontSize: isMobile ? "14px" : "15px",
-              border: "1px solid rgba(0, 0, 0, 0.1)",
-              borderRadius: "10px",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              borderRadius: "8px",
               width: isMobile ? "100%" : "220px",
               cursor: "pointer",
-              background: "rgba(255, 255, 255, 0.9)",
+              background: "rgba(255, 255, 255, 0.05)",
+              color: "#e4e4e7",
               transition: "all 0.2s ease"
             }}
             onFocus={(e) => {
               e.target.style.borderColor = "#667eea";
-              e.target.style.boxShadow = "0 0 0 3px rgba(102, 126, 234, 0.1)";
+              e.target.style.boxShadow = "0 0 0 3px rgba(102, 126, 234, 0.15)";
+              e.target.style.background = "rgba(255, 255, 255, 0.08)";
             }}
             onBlur={(e) => {
-              e.target.style.borderColor = "rgba(0, 0, 0, 0.1)";
+              e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
               e.target.style.boxShadow = "none";
+              e.target.style.background = "rgba(255, 255, 255, 0.05)";
             }}
           />
         </div>

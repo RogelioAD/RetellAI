@@ -10,8 +10,7 @@ export default function TranscriptView({ utterances }) {
 
   return (
     <div style={{ 
-      backgroundColor: "#f9f9f9",
-      borderRadius: 4,
+      borderRadius: 8,
       padding: isMobile ? 12 : 16
     }}>
       {utterances.map((utterance, index) => {
@@ -27,10 +26,11 @@ export default function TranscriptView({ utterances }) {
             key={index}
             style={{
               marginBottom: isMobile ? 12 : 16,
-              padding: isMobile ? 10 : 12,
-              backgroundColor: isAgent ? "#e3f2fd" : "#f5f5f5",
-              borderRadius: 6,
-              borderLeft: `4px solid ${isAgent ? "#2196f3" : "#757575"}`
+              padding: isMobile ? 12 : 14,
+              background: isAgent ? "rgba(102, 126, 234, 0.08)" : "rgba(255, 255, 255, 0.03)",
+              borderRadius: 8,
+              borderLeft: `3px solid ${isAgent ? "#667eea" : "#71717a"}`,
+              border: "1px solid rgba(255, 255, 255, 0.06)"
             }}
           >
             <div style={{
@@ -42,8 +42,8 @@ export default function TranscriptView({ utterances }) {
               gap: isMobile ? 4 : 0
             }}>
               <div style={{
-                fontWeight: "bold",
-                color: isAgent ? "#1976d2" : "#424242",
+                fontWeight: 500,
+                color: isAgent ? "#818cf8" : "#d4d4d8",
                 fontSize: isMobile ? "0.9em" : "0.95em"
               }}>
                 {speaker}
@@ -51,14 +51,14 @@ export default function TranscriptView({ utterances }) {
               {timestamp && (
                 <div style={{
                   fontSize: isMobile ? "0.75em" : "0.8em",
-                  color: "#666"
+                  color: "#71717a"
                 }}>
                   {formatTime(timestamp)}
                 </div>
               )}
             </div>
             <div style={{
-              color: "#333",
+              color: "#e4e4e7",
               lineHeight: "1.6",
               whiteSpace: "pre-wrap",
               wordBreak: "break-word",

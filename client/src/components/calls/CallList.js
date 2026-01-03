@@ -16,7 +16,16 @@ export default function CallList({ items, groupByAgent = false }) {
   }, [items, groupByAgent]);
 
   if (!items || items.length === 0) {
-    return <div>No calls yet.</div>;
+    return (
+      <div style={{
+        textAlign: "center",
+        padding: "48px 24px",
+        color: "#71717a",
+        fontSize: "15px"
+      }}>
+        No calls yet.
+      </div>
+    );
   }
 
   // If grouping is enabled, render grouped view

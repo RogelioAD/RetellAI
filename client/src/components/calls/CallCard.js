@@ -61,16 +61,14 @@ export default function CallCard({
       }}
       onMouseEnter={(e) => {
         if (!hasError) {
-          e.currentTarget.style.background = gradients.cardHover;
-          e.currentTarget.style.transform = "translateY(-2px)";
-          e.currentTarget.style.boxShadow = "0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08)";
+          e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.12)";
         }
       }}
       onMouseLeave={(e) => {
         if (!hasError) {
-          e.currentTarget.style.background = gradients.card;
-          e.currentTarget.style.transform = "translateY(0)";
-          e.currentTarget.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)";
+          e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)";
+          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.08)";
         }
       }}
     >
@@ -79,12 +77,12 @@ export default function CallCard({
         onClick={() => setIsExpanded(!isExpanded)}
         style={{
           padding: isMobile ? "16px 20px" : "20px 24px",
-          background: isExpanded ? "rgba(102, 126, 234, 0.05)" : "transparent",
+          background: isExpanded ? "rgba(102, 126, 234, 0.08)" : "transparent",
           cursor: "pointer",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          borderBottom: isExpanded ? "1px solid rgba(102, 126, 234, 0.1)" : "none",
+          borderBottom: isExpanded ? "1px solid rgba(255, 255, 255, 0.08)" : "none",
           userSelect: "none",
           minHeight: "44px",
           touchAction: "manipulation",
@@ -94,7 +92,7 @@ export default function CallCard({
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ 
             fontSize: isMobile ? "0.75em" : "0.8em", 
-            color: "#6b7280", 
+            color: "#71717a", 
             marginBottom: 6,
             fontWeight: 500,
             textTransform: "uppercase",
@@ -104,8 +102,8 @@ export default function CallCard({
           </div>
           <div style={{ 
             fontSize: isMobile ? "1em" : "1.15em", 
-            fontWeight: 600,
-            color: "#111827",
+            fontWeight: 500,
+            color: "#f4f4f5",
             wordBreak: "break-word"
           }}>
             {formatFullDate(finalCreatedAt)}
@@ -113,7 +111,7 @@ export default function CallCard({
           {(phoneNumber || durationSeconds !== null) && (
             <div style={{ 
               fontSize: isMobile ? "0.8em" : "0.85em", 
-              color: "#6b7280", 
+              color: "#a1a1aa", 
               marginTop: 8,
               display: "flex",
               flexWrap: "wrap",
@@ -154,8 +152,8 @@ export default function CallCard({
             <div style={{ 
               marginBottom: isMobile ? 16 : 20,
               padding: isMobile ? 14 : 16,
-              background: "linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%)",
-              borderRadius: 12,
+              background: "rgba(102, 126, 234, 0.06)",
+              borderRadius: 10,
               border: "1px solid rgba(102, 126, 234, 0.15)",
               display: "flex",
               flexDirection: isMobile ? "column" : "row",
@@ -167,13 +165,14 @@ export default function CallCard({
                 display: "flex",
                 flexDirection: isMobile ? "column" : "row",
                 gap: isMobile ? "4px" : "12px",
-                fontSize: isMobile ? "0.85em" : "0.9em"
+                fontSize: isMobile ? "0.85em" : "0.9em",
+                color: "#d4d4d8"
               }}>
                 <div>
-                  <strong style={{ color: "#666" }}>Phone:</strong> {phoneNumber || "N/A"}
+                  <strong style={{ color: "#a1a1aa" }}>Phone:</strong> {phoneNumber || "N/A"}
                 </div>
                 <div>
-                  <strong style={{ color: "#666" }}>Duration:</strong> {durationSeconds !== null && durationSeconds !== undefined ? formatDuration(durationSeconds) : "N/A"}
+                  <strong style={{ color: "#a1a1aa" }}>Duration:</strong> {durationSeconds !== null && durationSeconds !== undefined ? formatDuration(durationSeconds) : "N/A"}
                 </div>
               </div>
               {recordingUrl ? (
@@ -192,7 +191,7 @@ export default function CallCard({
                   🎵 Play Recording
                 </Button>
               ) : (
-                <span style={{ fontSize: isMobile ? "0.85em" : "0.9em", color: "#999" }}>
+                <span style={{ fontSize: isMobile ? "0.85em" : "0.9em", color: "#71717a" }}>
                   No recording available
                 </span>
               )}
@@ -201,16 +200,17 @@ export default function CallCard({
           
           {hasError && (
             <div style={{ 
-              color: "#856404", 
-              padding: isMobile ? 10 : 12, 
-              backgroundColor: "#fff3cd",
-              borderRadius: 4,
+              color: "#fca5a5", 
+              padding: isMobile ? 12 : 14, 
+              background: "rgba(239, 68, 68, 0.08)",
+              borderRadius: 8,
+              border: "1px solid rgba(239, 68, 68, 0.2)",
               marginBottom: isMobile ? 12 : 16,
               fontSize: isMobile ? "0.9em" : "1em"
             }}>
               <strong>⚠️ Status:</strong> {errorMessage}
               {(isDeleted || (errorMessage && errorMessage.includes("404"))) && (
-                <div style={{ fontSize: isMobile ? "0.85em" : "0.9em", marginTop: 4 }}>
+                <div style={{ fontSize: isMobile ? "0.85em" : "0.9em", marginTop: 4, color: "#a1a1aa" }}>
                   This call may have been deleted from Retell or the call ID is invalid.
                 </div>
               )}
@@ -226,7 +226,7 @@ export default function CallCard({
                 <div style={{ 
                   whiteSpace: "pre-wrap", 
                   lineHeight: "1.6",
-                  color: "#333",
+                  color: "#d4d4d8",
                   fontSize: isMobile ? "0.9em" : "1em",
                   wordBreak: "break-word"
                 }}>
@@ -234,7 +234,7 @@ export default function CallCard({
                 </div>
               ) : (
                 <div style={{ 
-                  color: "#666", 
+                  color: "#71717a", 
                   fontStyle: "italic",
                   padding: isMobile ? 16 : 20,
                   textAlign: "center",
@@ -248,7 +248,7 @@ export default function CallCard({
 
           {!call && !hasError && (
             <div style={{ 
-              color: "#666", 
+              color: "#71717a", 
               fontStyle: "italic", 
               padding: isMobile ? 16 : 20,
               textAlign: "center",
@@ -264,25 +264,28 @@ export default function CallCard({
               <summary style={{ 
                 cursor: "pointer", 
                 padding: isMobile ? "10px 12px" : "8px 12px",
-                backgroundColor: "#f9f9f9",
-                borderRadius: 4,
-                fontWeight: "bold",
-                color: "#555",
+                background: "rgba(255, 255, 255, 0.04)",
+                borderRadius: 8,
+                fontWeight: 500,
+                color: "#a1a1aa",
                 fontSize: isMobile ? "0.9em" : "1em",
-                touchAction: "manipulation"
+                touchAction: "manipulation",
+                border: "1px solid rgba(255, 255, 255, 0.08)"
               }}>
                 View Full Call Data (JSON)
               </summary>
               <pre style={{ 
                 whiteSpace: "pre-wrap", 
                 fontSize: isMobile ? "0.75em" : "0.85em",
-                backgroundColor: "#f5f5f5",
+                background: "rgba(0, 0, 0, 0.3)",
+                color: "#d4d4d8",
                 padding: isMobile ? 10 : 12,
-                borderRadius: 4,
+                borderRadius: 8,
                 marginTop: 8,
                 maxHeight: isMobile ? "300px" : "400px",
                 overflow: "auto",
-                wordBreak: "break-word"
+                wordBreak: "break-word",
+                border: "1px solid rgba(255, 255, 255, 0.08)"
               }}>
                 {JSON.stringify(call, null, 2)}
               </pre>

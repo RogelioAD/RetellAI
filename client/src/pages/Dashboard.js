@@ -114,24 +114,24 @@ export default function Dashboard({ token, user, onLogout }) {
         <div style={{ 
           padding: isMobile ? "32px 0" : "40px 0",
           textAlign: "center",
-          color: "#6b7280",
+          color: "#71717a",
           fontSize: isMobile ? "15px" : "16px",
-          fontWeight: 500
+          fontWeight: 400
         }}>
           Loading...
         </div>
       )}
       {error && (
         <div style={{ 
-          color: "#ef4444", 
+          color: "#fca5a5", 
           padding: isMobile ? "20px" : "24px",
-          background: "linear-gradient(135deg, rgba(254, 242, 242, 0.9) 0%, rgba(254, 226, 226, 0.9) 100%)",
+          background: "rgba(239, 68, 68, 0.08)",
           backdropFilter: "blur(20px)",
-          borderRadius: 16,
-          border: "1px solid rgba(239, 68, 68, 0.3)",
+          borderRadius: 12,
+          border: "1px solid rgba(239, 68, 68, 0.2)",
           marginBottom: 20,
           fontSize: isMobile ? "14px" : "15px",
-          fontWeight: 500
+          fontWeight: 400
         }}>
           {error}
         </div>

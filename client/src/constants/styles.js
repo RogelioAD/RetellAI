@@ -1,33 +1,33 @@
-// Modern gradient colors
+// Modern dark theme with subtle gradient accents (Linear-inspired with Horizon UI colors)
 export const gradients = {
   primary: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-  secondary: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-  accent: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-  card: "linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%)",
-  cardHover: "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)",
+  accent: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+  card: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.03) 100%)",
+  cardHover: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
   button: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
   buttonHover: "linear-gradient(135deg, #764ba2 0%, #667eea 100%)",
+  textGradient: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
 };
 
-// Shared style constants with modern design
+// Shared style constants with modern dark glass design
 export const cardStyles = {
   container: {
-    border: "1px solid rgba(255, 255, 255, 0.2)",
-    borderRadius: 16,
+    border: "1px solid rgba(255, 255, 255, 0.08)",
+    borderRadius: 12,
     marginBottom: 16,
-    background: gradients.card,
+    background: "rgba(255, 255, 255, 0.03)",
     backdropFilter: "blur(20px)",
-    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)",
+    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
     overflow: "hidden",
-    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
   },
   error: {
-    border: "1px solid rgba(239, 68, 68, 0.3)",
-    borderRadius: 16,
+    border: "1px solid rgba(239, 68, 68, 0.2)",
+    borderRadius: 12,
     marginBottom: 16,
-    background: "linear-gradient(135deg, rgba(254, 242, 242, 0.9) 0%, rgba(254, 226, 226, 0.9) 100%)",
+    background: "rgba(239, 68, 68, 0.05)",
     backdropFilter: "blur(20px)",
-    boxShadow: "0 8px 32px rgba(239, 68, 68, 0.1), 0 2px 8px rgba(239, 68, 68, 0.05)",
+    boxShadow: "0 8px 32px rgba(239, 68, 68, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
     overflow: "hidden",
   }
 };
@@ -37,15 +37,15 @@ export const buttonStyles = {
     padding: "10px 20px",
     cursor: "pointer",
     border: "none",
-    borderRadius: 10,
+    borderRadius: 8,
     background: gradients.button,
     color: "#fff",
     fontSize: "14px",
-    fontWeight: 600,
+    fontWeight: 500,
     minHeight: "44px",
     touchAction: "manipulation",
     transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
-    boxShadow: "0 4px 12px rgba(102, 126, 234, 0.3)",
+    boxShadow: "0 4px 12px rgba(102, 126, 234, 0.25)",
   },
   fullWidth: {
     width: "100%",
@@ -58,14 +58,14 @@ export const buttonStyles = {
 
 export const formStyles = {
   container: {
-    border: "1px solid rgba(255, 255, 255, 0.2)",
-    borderRadius: 16,
+    border: "1px solid rgba(255, 255, 255, 0.08)",
+    borderRadius: 12,
     padding: 24,
     marginTop: 20,
     marginBottom: 20,
-    background: gradients.card,
+    background: "rgba(255, 255, 255, 0.03)",
     backdropFilter: "blur(20px)",
-    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
   },
   containerMobile: {
     padding: 20,
@@ -77,9 +77,10 @@ export const formStyles = {
     padding: "12px 16px",
     boxSizing: "border-box",
     fontSize: "16px",
-    border: "1px solid rgba(0, 0, 0, 0.1)",
-    borderRadius: 10,
-    background: "rgba(255, 255, 255, 0.8)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    borderRadius: 8,
+    background: "rgba(255, 255, 255, 0.05)",
+    color: "#e4e4e7",
     transition: "all 0.2s ease",
   },
   inputMobile: {
@@ -92,7 +93,7 @@ export const formStyles = {
     marginBottom: 8,
     fontSize: "14px",
     fontWeight: 500,
-    color: "#1f2937"
+    color: "#a1a1aa"
   }
 };
 
@@ -110,11 +111,11 @@ export const layoutStyles = {
     maxWidth: 420,
     margin: "6rem auto",
     padding: 32,
-    border: "1px solid rgba(255, 255, 255, 0.2)",
-    borderRadius: 24,
-    background: gradients.card,
+    border: "1px solid rgba(255, 255, 255, 0.08)",
+    borderRadius: 16,
+    background: "rgba(255, 255, 255, 0.03)",
     backdropFilter: "blur(20px)",
-    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.2)",
+    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
   },
   loginMobile: {
     margin: "2rem auto",
