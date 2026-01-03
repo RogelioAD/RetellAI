@@ -33,45 +33,62 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
           boxShadow: "0 -4px 24px rgba(0, 0, 0, 0.4)",
         }}
       >
-        {sections.map((section) => (
-          <button
-            key={section.id}
-            onClick={() => onSectionChange(section.id)}
-            style={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "4px",
-              padding: "8px 12px",
-              background: "transparent",
-              border: "none",
-              color: currentSection === section.id ? "#ffffff" : "#71717a",
-              fontSize: "10px",
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-            }}
-          >
-            <span style={{ fontSize: "20px" }}>{section.icon}</span>
-            <span style={{ fontWeight: currentSection === section.id ? 500 : 400 }}>
-              {section.label}
-            </span>
-            {currentSection === section.id && (
-              <div
+        {sections.map((section) => {
+          const isActive = currentSection === section.id;
+          return (
+            <button
+              key={section.id}
+              onClick={() => onSectionChange(section.id)}
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "4px",
+                padding: "8px 12px",
+                background: "transparent",
+                border: "none",
+                color: isActive ? "#ffffff" : "#71717a",
+                fontSize: "10px",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                position: "relative",
+              }}
+            >
+              {isActive && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "64px",
+                    height: "64px",
+                    borderRadius: "20px",
+                    background: "linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)",
+                    backdropFilter: "blur(20px)",
+                    border: "1px solid rgba(102, 126, 234, 0.3)",
+                    boxShadow: "0 8px 32px rgba(102, 126, 234, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset",
+                    zIndex: -1,
+                    transition: "all 0.3s ease",
+                  }}
+                />
+              )}
+              <span style={{ fontSize: "20px", position: "relative", zIndex: 1 }}>
+                {section.icon}
+              </span>
+              <span
                 style={{
-                  position: "absolute",
-                  top: 0,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: "40px",
-                  height: "2px",
-                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                  borderRadius: "0 0 2px 2px",
+                  fontWeight: isActive ? 500 : 400,
+                  position: "relative",
+                  zIndex: 1,
                 }}
-              />
-            )}
-          </button>
-        ))}
+              >
+                {section.label}
+              </span>
+            </button>
+          );
+        })}
       </nav>
     );
   }

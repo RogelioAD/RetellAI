@@ -58,7 +58,7 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
           minWidth: 0,
           color: "#f4f4f5"
         }}>
-          📁 {agentName} ({calls.length} {calls.length === 1 ? 'call' : 'calls'})
+          {agentName} ({calls.length} {calls.length === 1 ? 'call' : 'calls'})
         </span>
         <span style={{ 
           fontSize: isMobile ? "1em" : "1.1em", 

@@ -60,22 +60,6 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
             Retell AI
           </h1>
         </div>
-        {isAdmin && (
-          <span
-            style={{
-              padding: "4px 10px",
-              borderRadius: 6,
-              fontSize: "0.75em",
-              background: "linear-gradient(135deg, rgba(244, 67, 54, 0.2) 0%, rgba(211, 47, 47, 0.2) 100%)",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(244, 67, 54, 0.3)",
-              color: "#ffcdd2",
-              fontWeight: 500,
-            }}
-          >
-            Admin
-          </span>
-        )}
       </div>
 
       <div
