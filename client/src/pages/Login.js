@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useResponsive } from "../hooks/useResponsive";
 import { login } from "../services/api";
 import Input from "../components/common/Input";
@@ -19,6 +19,7 @@ export default function Login({ onLogin }) {
   const [loading, setLoading] = useState(false);
   const [isLockedOut, setIsLockedOut] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(0);
+  const logoRef = useRef(null);
 
   // Check lockout status on mount and set up timer
   useEffect(() => {
@@ -56,6 +57,37 @@ export default function Login({ onLogin }) {
 
     return () => clearInterval(interval);
   }, [isLockedOut]);
+
+  // Random glare effect for logo
+  useEffect(() => {
+    if (!logoRef.current) return;
+
+    const triggerGlare = () => {
+      const logo = logoRef.current;
+      if (!logo) return;
+      
+      logo.classList.remove('glare-active');
+      // Force reflow to restart animation
+      void logo.offsetWidth;
+      logo.classList.add('glare-active');
+    };
+
+    const scheduleGlare = () => {
+      // Random delay between 3-8 seconds
+      const delay = Math.random() * 5000 + 3000;
+      setTimeout(() => {
+        triggerGlare();
+        scheduleGlare(); // Schedule next glare
+      }, delay);
+    };
+
+    // Initial delay before first glare
+    const initialDelay = Math.random() * 3000 + 2000;
+    setTimeout(() => {
+      triggerGlare();
+      scheduleGlare();
+    }, initialDelay);
+  }, []);
 
   const formatTime = (ms) => {
     const minutes = Math.floor(ms / 60000);
@@ -117,16 +149,45 @@ export default function Login({ onLogin }) {
   return (
     <div style={{
       ...layoutStyles.login,
-      ...(isMobile && layoutStyles.loginMobile)
+      ...(isMobile && layoutStyles.loginMobile),
+      position: "relative",
+      overflow: "hidden"
     }}>
-      <h2 style={{ 
-        fontSize: isMobile ? "1.5em" : "1.8em", 
-        marginTop: 0,
-        color: "#f4f4f5",
-        fontWeight: 600
-      }}>
-        Customer Login
-      </h2>
+      {/* Static background logo with glare effect */}
+      <div
+        ref={logoRef}
+        className="login-logo"
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: isMobile ? "600px" : "800px",
+          height: isMobile ? "600px" : "800px",
+          opacity: 0.05,
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+      >
+        <img
+          src="/logo.png"
+          alt=""
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain"
+          }}
+        />
+      </div>
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <h2 style={{ 
+          fontSize: isMobile ? "1.5em" : "1.8em", 
+          marginTop: 0,
+          color: "#f4f4f5",
+          fontWeight: 600
+        }}>
+          Customer Login
+        </h2>
       {isLockedOut && (
         <div style={{
           background: "rgba(244, 67, 54, 0.1)",
@@ -192,6 +253,7 @@ export default function Login({ onLogin }) {
           </div>
         )}
       </form>
+      </div>
     </div>
   );
 }
