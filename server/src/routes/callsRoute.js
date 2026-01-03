@@ -2,7 +2,7 @@ import { Router } from "express";
 import { CallRecord } from "../models/index.js";
 import authMiddleware from "../utils/authMiddleware.js";
 import retellClient from "../utils/retellClient.js";
-const { getCall, listCallsPost, listAllCallsPost } = retellClient;
+const { getCall, listCallsPost, listAllCallsPost, listAgents } = retellClient;
 
 const router = Router();
 
@@ -242,20 +242,93 @@ router.get("/my-calls", authMiddleware, async (req, res) => {
 // POST /api/list-calls
 // Proxy to Retell AI's list-calls endpoint
 // Supports pagination: set fetchAll=true in body to get all calls across all pages
+// Filters out calls from deleted agents
 router.post("/list-calls", authMiddleware, async (req, res) => {
   try {
     const filters = req.body || {};
     const { fetchAll, ...apiFilters } = filters;
     
+    let callsResult;
     // If fetchAll is true, use the pagination-aware function
     if (fetchAll === true || fetchAll === "true") {
       console.log("📋 Fetching all calls with pagination support...");
-      const allCalls = await listAllCallsPost(apiFilters);
-      res.json(allCalls);
+      callsResult = await listAllCallsPost(apiFilters);
     } else {
       // Otherwise, use the regular function (single page)
-      const result = await listCallsPost(apiFilters);
-      res.json(result);
+      callsResult = await listCallsPost(apiFilters);
+    }
+
+    // Extract calls array from response
+    let callsArray = [];
+    if (Array.isArray(callsResult)) {
+      callsArray = callsResult;
+    } else if (callsResult.calls && Array.isArray(callsResult.calls)) {
+      callsArray = callsResult.calls;
+    } else if (callsResult.data && Array.isArray(callsResult.data)) {
+      callsArray = callsResult.data;
+    } else {
+      // If structure is unknown, return as-is
+      res.json(callsResult);
+      return;
+    }
+
+    // Fetch active agents to filter out calls from deleted agents
+    try {
+      const activeAgents = await listAgents();
+      if (activeAgents && activeAgents.length > 0) {
+        // Create a set of active agent IDs and names for quick lookup
+        const activeAgentIds = new Set();
+        const activeAgentNames = new Set();
+        
+        activeAgents.forEach(agent => {
+          const agentId = agent.agent_id || agent.id || agent.agentId;
+          const agentName = agent.agent_name || agent.name || agent.agentName;
+          if (agentId) activeAgentIds.add(String(agentId));
+          if (agentName) activeAgentNames.add(String(agentName));
+        });
+
+        // Filter calls to only include those with active agents
+        const filteredCalls = callsArray.filter(call => {
+          const callAgentId = call.agent_id || call.agent?.id || call.agentId;
+          const callAgentName = call.agent_name || call.agent?.name || call.agentName;
+          
+          // If we have agent ID, check if it's in active agents
+          if (callAgentId && activeAgentIds.has(String(callAgentId))) {
+            return true;
+          }
+          // If we have agent name, check if it's in active agents
+          if (callAgentName && activeAgentNames.has(String(callAgentName))) {
+            return true;
+          }
+          // If no agent ID or name, include it (might be old format)
+          if (!callAgentId && !callAgentName) {
+            return true;
+          }
+          // Otherwise, exclude (agent is deleted)
+          return false;
+        });
+
+        console.log(`🔍 Filtered ${callsArray.length} calls to ${filteredCalls.length} (removed ${callsArray.length - filteredCalls.length} calls from deleted agents)`);
+        
+        // Return filtered calls in the same structure
+        if (Array.isArray(callsResult)) {
+          res.json(filteredCalls);
+        } else if (callsResult.calls) {
+          res.json({ ...callsResult, calls: filteredCalls });
+        } else if (callsResult.data) {
+          res.json({ ...callsResult, data: filteredCalls });
+        } else {
+          res.json(filteredCalls);
+        }
+      } else {
+        // No agents list available, return all calls (graceful degradation)
+        console.log("⚠️  Could not fetch agents list, returning all calls without filtering");
+        res.json(callsResult);
+      }
+    } catch (agentErr) {
+      // If fetching agents fails, log but don't fail the request
+      console.warn("⚠️  Could not fetch agents list to filter deleted agents:", agentErr.message);
+      res.json(callsResult);
     }
   } catch (err) {
     console.error("Error listing calls from Retell:", {

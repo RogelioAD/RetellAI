@@ -166,4 +166,51 @@ async function listAllCallsPost(filters = {}) {
   return allCalls;
 }
 
-export default { getCall, listCalls, listCallsPost, listAllCallsPost };
+async function listAgents() {
+  // GET endpoint to get all active agents
+  // Try multiple endpoint patterns since Retell API structure may vary
+  if (!retell.apiKey) {
+    throw new Error("RETELL_API_KEY is not configured");
+  }
+  if (!retell.baseUrl) {
+    throw new Error("RETELL_BASE_URL is not configured");
+  }
+  
+  // Try common endpoint patterns
+  const endpointsToTry = [
+    "/v2/list-agents",
+    "/list-agents",
+    "/agents",
+    "/v2/agents"
+  ];
+  
+  for (const endpoint of endpointsToTry) {
+    try {
+      const res = await client.get(endpoint);
+      const data = res.data;
+      
+      let agents = [];
+      if (Array.isArray(data)) {
+        agents = data;
+      } else if (data.agents && Array.isArray(data.agents)) {
+        agents = data.agents;
+      } else if (data.data && Array.isArray(data.data)) {
+        agents = data.data;
+      }
+      
+      if (agents.length > 0) {
+        console.log(`✅ Found ${agents.length} agents from ${endpoint}`);
+        return agents;
+      }
+    } catch (err) {
+      // Continue to next endpoint
+      continue;
+    }
+  }
+  
+  // If all endpoints failed, return empty array (filtering will be skipped)
+  console.warn("⚠️  Could not fetch agents list from Retell API. Tried endpoints:", endpointsToTry.join(", "));
+  return [];
+}
+
+export default { getCall, listCalls, listCallsPost, listAllCallsPost, listAgents };
