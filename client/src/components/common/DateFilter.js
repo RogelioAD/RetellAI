@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useResponsive } from "../../hooks/useResponsive";
+import { gradients } from "../../constants/styles";
 
 /**
  * Date filter component with predefined ranges and calendar selection
@@ -39,43 +40,52 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
 
   return (
     <div style={{
-      marginBottom: isMobile ? "16px" : "20px",
-      padding: isMobile ? "12px" : "16px",
-      backgroundColor: "#f9f9f9",
-      borderRadius: "8px",
-      border: "1px solid #e0e0e0"
+      marginBottom: isMobile ? "20px" : "24px",
+      padding: isMobile ? "16px" : "20px",
+      background: gradients.card,
+      backdropFilter: "blur(20px)",
+      borderRadius: "16px",
+      border: "1px solid rgba(255, 255, 255, 0.2)",
+      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)"
     }}>
       <div style={{
         display: "flex",
         flexWrap: "wrap",
-        gap: isMobile ? "8px" : "10px",
+        gap: isMobile ? "10px" : "12px",
         alignItems: "center",
-        marginBottom: showCalendar ? "12px" : "0"
+        marginBottom: showCalendar ? "16px" : "0"
       }}>
         {predefinedRanges.map((range) => (
           <button
             key={range.value}
             onClick={() => handleRangeChange(range.value)}
             style={{
-              padding: isMobile ? "8px 12px" : "10px 16px",
+              padding: isMobile ? "10px 16px" : "12px 20px",
               fontSize: isMobile ? "13px" : "14px",
-              border: selectedRange === range.value ? "2px solid #007bff" : "1px solid #ccc",
-              backgroundColor: selectedRange === range.value ? "#007bff" : "#fff",
-              color: selectedRange === range.value ? "#fff" : "#333",
-              borderRadius: "6px",
+              border: selectedRange === range.value ? "none" : "1px solid rgba(0, 0, 0, 0.1)",
+              background: selectedRange === range.value ? gradients.button : "rgba(255, 255, 255, 0.8)",
+              color: selectedRange === range.value ? "#fff" : "#374151",
+              borderRadius: "10px",
               cursor: "pointer",
-              fontWeight: selectedRange === range.value ? "600" : "400",
-              transition: "all 0.2s",
-              whiteSpace: "nowrap"
+              fontWeight: selectedRange === range.value ? 600 : 500,
+              transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+              whiteSpace: "nowrap",
+              boxShadow: selectedRange === range.value ? "0 4px 12px rgba(102, 126, 234, 0.3)" : "0 2px 4px rgba(0, 0, 0, 0.05)"
             }}
             onMouseOver={(e) => {
               if (selectedRange !== range.value) {
-                e.target.style.backgroundColor = "#f0f0f0";
+                e.target.style.background = "rgba(255, 255, 255, 0.95)";
+                e.target.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+              } else {
+                e.target.style.boxShadow = "0 6px 16px rgba(102, 126, 234, 0.4)";
               }
             }}
             onMouseOut={(e) => {
               if (selectedRange !== range.value) {
-                e.target.style.backgroundColor = "#fff";
+                e.target.style.background = "rgba(255, 255, 255, 0.8)";
+                e.target.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.05)";
+              } else {
+                e.target.style.boxShadow = "0 4px 12px rgba(102, 126, 234, 0.3)";
               }
             }}
           >
@@ -86,18 +96,19 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
 
       {showCalendar && (
         <div style={{
-          marginTop: "12px",
-          padding: "12px",
-          backgroundColor: "#fff",
-          borderRadius: "6px",
-          border: "1px solid #ddd"
+          marginTop: "16px",
+          padding: "16px",
+          background: "rgba(255, 255, 255, 0.6)",
+          borderRadius: "12px",
+          border: "1px solid rgba(255, 255, 255, 0.3)",
+          backdropFilter: "blur(10px)"
         }}>
           <label style={{
             display: "block",
-            marginBottom: "8px",
+            marginBottom: "10px",
             fontSize: isMobile ? "13px" : "14px",
-            fontWeight: "500",
-            color: "#333"
+            fontWeight: 600,
+            color: "#374151"
           }}>
             Select Date:
           </label>
@@ -107,12 +118,22 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
             onChange={(e) => handleCustomDateChange(e.target.value)}
             max={new Date().toISOString().split('T')[0]}
             style={{
-              padding: "8px 12px",
+              padding: "12px 16px",
               fontSize: isMobile ? "14px" : "15px",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-              width: isMobile ? "100%" : "200px",
-              cursor: "pointer"
+              border: "1px solid rgba(0, 0, 0, 0.1)",
+              borderRadius: "10px",
+              width: isMobile ? "100%" : "220px",
+              cursor: "pointer",
+              background: "rgba(255, 255, 255, 0.9)",
+              transition: "all 0.2s ease"
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = "#667eea";
+              e.target.style.boxShadow = "0 0 0 3px rgba(102, 126, 234, 0.1)";
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = "rgba(0, 0, 0, 0.1)";
+              e.target.style.boxShadow = "none";
             }}
           />
         </div>

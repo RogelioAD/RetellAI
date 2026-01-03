@@ -11,7 +11,7 @@ import {
 import { formatFullDate } from "../../utils/dateFormatters";
 import TranscriptView from "./TranscriptView";
 import Button from "../common/Button";
-import { cardStyles } from "../../constants/styles";
+import { cardStyles, gradients } from "../../constants/styles";
 
 /**
  * Card component for displaying a single call transcript with responsive design
@@ -59,62 +59,88 @@ export default function CallCard({
         ...(hasError ? cardStyles.error : cardStyles.container),
         marginBottom: isMobile ? 12 : 16
       }}
+      onMouseEnter={(e) => {
+        if (!hasError) {
+          e.currentTarget.style.background = gradients.cardHover;
+          e.currentTarget.style.transform = "translateY(-2px)";
+          e.currentTarget.style.boxShadow = "0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08)";
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!hasError) {
+          e.currentTarget.style.background = gradients.card;
+          e.currentTarget.style.transform = "translateY(0)";
+          e.currentTarget.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)";
+        }
+      }}
     >
       {/* Collapsible Header */}
       <div
         onClick={() => setIsExpanded(!isExpanded)}
         style={{
-          padding: isMobile ? "12px 16px" : "16px 20px",
-          backgroundColor: isExpanded ? "#f5f5f5" : "#fafafa",
+          padding: isMobile ? "16px 20px" : "20px 24px",
+          background: isExpanded ? "rgba(102, 126, 234, 0.05)" : "transparent",
           cursor: "pointer",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          borderBottom: isExpanded ? "2px solid #e0e0e0" : "none",
+          borderBottom: isExpanded ? "1px solid rgba(102, 126, 234, 0.1)" : "none",
           userSelect: "none",
-          minHeight: "44px", // Touch-friendly
-          touchAction: "manipulation" // Prevent double-tap zoom
+          minHeight: "44px",
+          touchAction: "manipulation",
+          transition: "all 0.2s ease"
         }}
       >
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ 
-            fontSize: isMobile ? "0.8em" : "0.85em", 
-            color: "#666", 
-            marginBottom: 4 
+            fontSize: isMobile ? "0.75em" : "0.8em", 
+            color: "#6b7280", 
+            marginBottom: 6,
+            fontWeight: 500,
+            textTransform: "uppercase",
+            letterSpacing: "0.5px"
           }}>
             Call Transcript
           </div>
           <div style={{ 
-            fontSize: isMobile ? "0.95em" : "1.1em", 
-            fontWeight: "bold",
-            color: "#333",
+            fontSize: isMobile ? "1em" : "1.15em", 
+            fontWeight: 600,
+            color: "#111827",
             wordBreak: "break-word"
           }}>
             {formatFullDate(finalCreatedAt)}
           </div>
           {(phoneNumber || durationSeconds !== null) && (
             <div style={{ 
-              fontSize: isMobile ? "0.75em" : "0.8em", 
-              color: "#666", 
-              marginTop: 4,
+              fontSize: isMobile ? "0.8em" : "0.85em", 
+              color: "#6b7280", 
+              marginTop: 8,
               display: "flex",
               flexWrap: "wrap",
-              gap: isMobile ? "8px" : "12px"
+              gap: isMobile ? "12px" : "16px"
             }}>
               {phoneNumber && (
-                <span>📞 {phoneNumber}</span>
+                <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <span style={{ opacity: 0.7 }}>📞</span> {phoneNumber}
+                </span>
               )}
               {durationSeconds !== null && (
-                <span>⏱️ {formatDuration(durationSeconds)}</span>
+                <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <span style={{ opacity: 0.7 }}>⏱️</span> {formatDuration(durationSeconds)}
+                </span>
               )}
             </div>
           )}
         </div>
         <div style={{ 
-          fontSize: isMobile ? "1em" : "1.2em", 
-          color: "#666",
-          marginLeft: isMobile ? 8 : 16,
-          flexShrink: 0
+          fontSize: isMobile ? "1.1em" : "1.3em", 
+          background: gradients.button,
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+          marginLeft: isMobile ? 12 : 20,
+          flexShrink: 0,
+          transition: "transform 0.2s ease"
         }}>
           {isExpanded ? "▼" : "▶"}
         </div>
@@ -126,15 +152,16 @@ export default function CallCard({
           {/* Call Info and Recording Button */}
           {call && !hasError && (
             <div style={{ 
-              marginBottom: isMobile ? 12 : 16,
-              padding: isMobile ? 10 : 12,
-              backgroundColor: "#f0f7ff",
-              borderRadius: 4,
+              marginBottom: isMobile ? 16 : 20,
+              padding: isMobile ? 14 : 16,
+              background: "linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%)",
+              borderRadius: 12,
+              border: "1px solid rgba(102, 126, 234, 0.15)",
               display: "flex",
               flexDirection: isMobile ? "column" : "row",
               justifyContent: "space-between",
               alignItems: isMobile ? "flex-start" : "center",
-              gap: isMobile ? "8px" : "12px"
+              gap: isMobile ? "12px" : "16px"
             }}>
               <div style={{ 
                 display: "flex",
@@ -153,11 +180,13 @@ export default function CallCard({
                 <Button
                   onClick={handleRecordingClick}
                   style={{
-                    backgroundColor: "#4CAF50",
+                    background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
                     color: "#fff",
                     border: "none",
                     fontSize: isMobile ? "0.85em" : "0.9em",
-                    padding: isMobile ? "8px 12px" : "8px 16px"
+                    padding: isMobile ? "10px 16px" : "10px 20px",
+                    fontWeight: 600,
+                    boxShadow: "0 4px 12px rgba(79, 172, 254, 0.3)"
                   }}
                 >
                   🎵 Play Recording

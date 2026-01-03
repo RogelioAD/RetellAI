@@ -110,8 +110,32 @@ export default function Dashboard({ token, user, onLogout }) {
         selectedRange={selectedDateRange}
       />
 
-      {loading && <div style={{ padding: isMobile ? "16px 0" : "20px 0" }}>Loading...</div>}
-      {error && <div style={{ color: "red", padding: isMobile ? "16px 0" : "20px 0" }}>{error}</div>}
+      {loading && (
+        <div style={{ 
+          padding: isMobile ? "32px 0" : "40px 0",
+          textAlign: "center",
+          color: "#6b7280",
+          fontSize: isMobile ? "15px" : "16px",
+          fontWeight: 500
+        }}>
+          Loading...
+        </div>
+      )}
+      {error && (
+        <div style={{ 
+          color: "#ef4444", 
+          padding: isMobile ? "20px" : "24px",
+          background: "linear-gradient(135deg, rgba(254, 242, 242, 0.9) 0%, rgba(254, 226, 226, 0.9) 100%)",
+          backdropFilter: "blur(20px)",
+          borderRadius: 16,
+          border: "1px solid rgba(239, 68, 68, 0.3)",
+          marginBottom: 20,
+          fontSize: isMobile ? "14px" : "15px",
+          fontWeight: 500
+        }}>
+          {error}
+        </div>
+      )}
       {!loading && !error && (
         <CallList items={filteredCalls} groupByAgent={isAdmin} />
       )}

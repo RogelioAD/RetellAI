@@ -29,16 +29,22 @@ export default function DashboardHeader({
     >
       <h2 style={{ 
         margin: 0,
-        fontSize: isMobile ? "1.3em" : "1.5em",
-        wordBreak: "break-word"
+        fontSize: isMobile ? "1.5em" : "1.75em",
+        wordBreak: "break-word",
+        fontWeight: 700,
+        background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        backgroundClip: "text"
       }}>
         Dashboard — {user?.username || "User"}
         {isAdmin && (
           <span style={{ 
             marginLeft: 8, 
-            fontSize: isMobile ? "0.7em" : "0.8em", 
-            color: "#666",
-            display: isMobile ? "block" : "inline"
+            fontSize: isMobile ? "0.65em" : "0.7em", 
+            color: "#6b7280",
+            display: isMobile ? "block" : "inline",
+            fontWeight: 500
           }}>
             (Admin)
           </span>
