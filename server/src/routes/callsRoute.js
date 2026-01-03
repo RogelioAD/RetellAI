@@ -169,21 +169,15 @@ router.get("/my-calls", authMiddleware, async (req, res) => {
         });
 
         // Match calls from Retell with our CallRecords
+        // Since CallRecords are already linked to this user, include all matched calls
         for (const call of callsArray) {
           const callId = call.call_id || call.id || call.callId;
           if (!callId) continue;
 
           const callRecord = callRecordMap.get(callId);
           if (callRecord) {
-            const agentName = 
-              call.agent_name || 
-              call.agent?.name || 
-              call.agent_id ||
-              call.agent_name_id;
-            
-            if (agentName === user.username) {
-              results.push({ mapping: callRecord, call });
-            }
+            // CallRecord is already linked to this user, so include it
+            results.push({ mapping: callRecord, call });
           }
         }
 
