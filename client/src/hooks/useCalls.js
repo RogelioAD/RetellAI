@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { fetchMyCalls, fetchAllCalls } from "../services/api";
 import { transformAdminCallData } from "../utils/callDataTransformers";
 
@@ -10,7 +10,7 @@ export function useCalls(token, isAdmin) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchCallsData = async () => {
+  const fetchCallsData = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -30,7 +30,7 @@ export function useCalls(token, isAdmin) {
       setError(err.message);
       setLoading(false);
     }
-  };
+  }, [token, isAdmin]);
 
   useEffect(() => {
     let mounted = true;
@@ -42,7 +42,7 @@ export function useCalls(token, isAdmin) {
     return () => {
       mounted = false;
     };
-  }, [token, isAdmin]);
+  }, [fetchCallsData]);
 
   return { calls, loading, error, refreshCalls: fetchCallsData };
 }
