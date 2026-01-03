@@ -1,7 +1,6 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import Button from "../common/Button";
-import AtomIcon from "../common/AtomIcon";
 
 /**
  * Sticky header component for the application
@@ -33,22 +32,15 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
             gap: "12px",
           }}
         >
-          <div
+          <img
+            src="/logo.png"
+            alt="Quantum Consulting Logo"
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: isMobile ? "32px" : "36px",
-              height: isMobile ? "32px" : "36px",
-              borderRadius: "8px",
-              background: "linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%)",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(102, 126, 234, 0.2)",
-              padding: "6px",
+              width: isMobile ? "50px" : "58px",
+              height: isMobile ? "50px" : "58px",
+              objectFit: "contain",
             }}
-          >
-            <AtomIcon size={isMobile ? 20 : 24} color="#667eea" />
-          </div>
+          />
           <h1
             style={{
               margin: 0,

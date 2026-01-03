@@ -139,17 +139,21 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
               width: isMobile ? "100%" : "220px",
               cursor: "pointer",
               background: "rgba(255, 255, 255, 0.05)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
               color: "#e4e4e7",
-              transition: "all 0.2s ease"
+              colorScheme: "dark",
+              transition: "all 0.2s ease",
+              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset"
             }}
             onFocus={(e) => {
               e.target.style.borderColor = "#667eea";
-              e.target.style.boxShadow = "0 0 0 3px rgba(102, 126, 234, 0.15)";
+              e.target.style.boxShadow = "0 0 0 3px rgba(102, 126, 234, 0.15), 0 4px 16px rgba(0, 0, 0, 0.2)";
               e.target.style.background = "rgba(255, 255, 255, 0.08)";
             }}
             onBlur={(e) => {
               e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
-              e.target.style.boxShadow = "none";
+              e.target.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset";
               e.target.style.background = "rgba(255, 255, 255, 0.05)";
             }}
           />
