@@ -1,6 +1,6 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
-import { buttonStyles, gradients } from "../../constants/styles";
+import { buttonStyles } from "../../constants/styles";
 
 /**
  * Reusable Button component with responsive design

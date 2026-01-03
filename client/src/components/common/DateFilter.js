@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useResponsive } from "../../hooks/useResponsive";
-import { gradients } from "../../constants/styles";
 
 /**
  * Date filter component with predefined ranges and calendar selection
