@@ -81,6 +81,14 @@ export default function PasswordChangeForm({
             onClick={onCancel} 
             disabled={changing}
             fullWidth={isMobile}
+            style={{
+              background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              border: "1px solid rgba(255, 255, 255, 0.15)",
+              color: "#d4d4d8",
+              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset"
+            }}
           >
             Cancel
           </Button>

@@ -23,9 +23,10 @@ export default function Input({
       {label && (
         <label style={{ 
           ...formStyles.label,
-          fontSize: isMobile ? "16px" : "14px"
+          fontSize: isMobile ? "16px" : "14px",
+          color: "#a1a1aa"
         }}>
-          {label} {required && <span style={{ color: "red" }}>*</span>}
+          {label} {required && <span style={{ color: "#fca5a5" }}>*</span>}
         </label>
       )}
       <input
@@ -43,7 +44,15 @@ export default function Input({
         {...props}
       />
       {error && (
-        <div style={{ color: "red", fontSize: isMobile ? "14px" : "0.9em", marginTop: 4 }}>
+        <div style={{ 
+          color: "#fca5a5", 
+          fontSize: isMobile ? "14px" : "0.9em", 
+          marginTop: 4,
+          padding: "8px",
+          background: "rgba(239, 68, 68, 0.08)",
+          border: "1px solid rgba(239, 68, 68, 0.2)",
+          borderRadius: 6
+        }}>
           {error}
         </div>
       )}

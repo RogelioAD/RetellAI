@@ -179,13 +179,15 @@ export default function CallCard({
                 <Button
                   onClick={handleRecordingClick}
                   style={{
-                    background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+                    background: "linear-gradient(135deg, rgba(79, 172, 254, 0.2) 0%, rgba(0, 242, 254, 0.2) 100%)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    border: "1px solid rgba(79, 172, 254, 0.3)",
                     color: "#fff",
-                    border: "none",
                     fontSize: isMobile ? "0.85em" : "0.9em",
                     padding: isMobile ? "10px 16px" : "10px 20px",
-                    fontWeight: 600,
-                    boxShadow: "0 4px 12px rgba(79, 172, 254, 0.3)"
+                    fontWeight: 500,
+                    boxShadow: "0 8px 32px rgba(79, 172, 254, 0.25), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
                   }}
                 >
                   🎵 Play Recording

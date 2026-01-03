@@ -62,30 +62,46 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
             style={{
               padding: isMobile ? "10px 16px" : "12px 20px",
               fontSize: isMobile ? "13px" : "14px",
-              border: selectedRange === range.value ? "none" : "1px solid rgba(255, 255, 255, 0.1)",
-              background: selectedRange === range.value ? gradients.button : "rgba(255, 255, 255, 0.05)",
+              border: selectedRange === range.value 
+                ? "1px solid rgba(255, 255, 255, 0.25)" 
+                : "1px solid rgba(255, 255, 255, 0.1)",
+              background: selectedRange === range.value 
+                ? "linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 50%, rgba(240, 147, 251, 0.2) 100%)"
+                : "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
               color: selectedRange === range.value ? "#fff" : "#d4d4d8",
-              borderRadius: "8px",
+              borderRadius: "12px",
               cursor: "pointer",
               fontWeight: selectedRange === range.value ? 500 : 400,
-              transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
               whiteSpace: "nowrap",
-              boxShadow: selectedRange === range.value ? "0 4px 12px rgba(102, 126, 234, 0.25)" : "none"
+              boxShadow: selectedRange === range.value 
+                ? "0 8px 32px rgba(102, 126, 234, 0.3), 0 1px 0 rgba(255, 255, 255, 0.15) inset"
+                : "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
+              position: "relative",
+              overflow: "hidden"
             }}
             onMouseOver={(e) => {
               if (selectedRange !== range.value) {
-                e.target.style.background = "rgba(255, 255, 255, 0.08)";
-                e.target.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%)";
+                e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                e.target.style.transform = "translateY(-1px) scale(1.02)";
+                e.target.style.boxShadow = "0 8px 24px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1) inset";
               } else {
-                e.target.style.boxShadow = "0 6px 16px rgba(102, 126, 234, 0.3)";
+                e.target.style.transform = "translateY(-1px) scale(1.02)";
+                e.target.style.boxShadow = "0 12px 40px rgba(102, 126, 234, 0.35), 0 2px 0 rgba(255, 255, 255, 0.2) inset";
               }
             }}
             onMouseOut={(e) => {
               if (selectedRange !== range.value) {
-                e.target.style.background = "rgba(255, 255, 255, 0.05)";
+                e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)";
                 e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                e.target.style.transform = "translateY(0) scale(1)";
+                e.target.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset";
               } else {
-                e.target.style.boxShadow = "0 4px 12px rgba(102, 126, 234, 0.25)";
+                e.target.style.transform = "translateY(0) scale(1)";
+                e.target.style.boxShadow = "0 8px 32px rgba(102, 126, 234, 0.3), 0 1px 0 rgba(255, 255, 255, 0.15) inset";
               }
             }}
           >

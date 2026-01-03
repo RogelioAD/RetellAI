@@ -63,7 +63,9 @@ export default function UserManagement({ token, users, loading, error, onUserCre
     }}>
       <h3 style={{ 
         marginTop: 0,
-        fontSize: isMobile ? "1.2em" : "1.3em"
+        fontSize: isMobile ? "1.2em" : "1.3em",
+        color: "#f4f4f5",
+        fontWeight: 600
       }}>User Management</h3>
       
       <CreateUserForm
