@@ -57,7 +57,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
               color: "#f4f4f5",
             }}
           >
-            Retell AI
+            Quantum Consulting
           </h1>
         </div>
       </div>
