@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useResponsive } from "../hooks/useResponsive";
 import { login } from "../services/api";
 import Input from "../components/common/Input";
-import Button from "../components/common/Button";
 import { layoutStyles } from "../constants/styles";
 
 const MAX_ATTEMPTS = 3;
