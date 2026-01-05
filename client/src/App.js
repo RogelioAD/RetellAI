@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "./hooks/useAuth";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 
@@ -8,8 +9,15 @@ import Dashboard from "./pages/Dashboard";
  */
 export default function App() {
   const { token, user, login, logout } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
 
-  if (!token) {
+  // Show home page first if not logged in and login not requested
+  if (!token && !showLogin) {
+    return <Home onNavigateToLogin={() => setShowLogin(true)} />;
+  }
+
+  // Show login page when user clicks "View Transcripts"
+  if (!token && showLogin) {
     return <Login onLogin={login} />;
   }
 
