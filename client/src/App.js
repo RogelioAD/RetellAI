@@ -18,7 +18,7 @@ export default function App() {
 
   // Show login page when user clicks "View Transcripts"
   if (!token && showLogin) {
-    return <Login onLogin={login} />;
+    return <Login onLogin={login} onNavigateToHome={() => setShowLogin(false)} />;
   }
 
   return <Dashboard token={token} user={user} onLogout={logout} />;
