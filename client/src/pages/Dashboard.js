@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useCalls } from "../hooks/useCalls";
 import { useUsers } from "../hooks/useUsers";
 import { useResponsive } from "../hooks/useResponsive";
@@ -17,7 +17,7 @@ import { extractCreatedAt } from "../utils/callDataTransformers";
 export default function Dashboard({ token, user, onLogout }) {
   const { isMobile } = useResponsive();
   const isAdmin = user?.role === "admin";
-  const { calls, loading, error } = useCalls(token, isAdmin);
+  const { calls, loading, error, refreshCalls } = useCalls(token, isAdmin);
   
   const [currentSection, setCurrentSection] = useState("calls");
   const { users, loading: loadingUsers, error: userError, refreshUsers } = useUsers(
@@ -28,6 +28,15 @@ export default function Dashboard({ token, user, onLogout }) {
 
   const [selectedDateRange, setSelectedDateRange] = useState("all");
   const [customDate, setCustomDate] = useState(null);
+
+  // Refresh calls when switching to the calls section (to ensure fresh data)
+  const prevSectionRef = useRef(currentSection);
+  useEffect(() => {
+    if (currentSection === "calls" && prevSectionRef.current !== "calls") {
+      refreshCalls();
+    }
+    prevSectionRef.current = currentSection;
+  }, [currentSection, refreshCalls]);
 
   // Filter calls based on selected date range
   const filteredCalls = useMemo(() => {
