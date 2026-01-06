@@ -548,7 +548,6 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
               style={{
                 aspectRatio: "1",
                 padding: "4px",
-                border: "none",
                 background: isSelected
                   ? "linear-gradient(135deg, rgba(102, 126, 234, 0.4) 0%, rgba(118, 75, 162, 0.4) 100%)"
                   : isHighlighted
