@@ -8,7 +8,8 @@ import Settings from "./Settings";
 import Navigation from "../components/layout/Navigation";
 import AppHeader from "../components/layout/AppHeader";
 import QuickStats from "../components/layout/QuickStats";
-import DateFilter, { getDateRange } from "../components/common/DateFilter";
+import DateFilter from "../components/common/DateFilter";
+import { getDateRange } from "../components/common/DateFilterUtils";
 import { extractCreatedAt } from "../utils/callDataTransformers";
 
 /**
