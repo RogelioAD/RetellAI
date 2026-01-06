@@ -10,7 +10,6 @@ import {
 } from "../../utils/callDataTransformers";
 import { formatFullDate } from "../../utils/dateFormatters";
 import TranscriptView from "./TranscriptView";
-import Button from "../common/Button";
 import { cardStyles, gradients } from "../../constants/styles";
 
 /**
