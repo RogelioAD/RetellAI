@@ -218,29 +218,29 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
             borderRadius: "16px",
             border: "1px solid rgba(255, 255, 255, 0.1)",
             boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
-            maxWidth: isMobile ? "calc(100vw - 32px)" : "900px",
+            maxWidth: isMobile ? "calc(100vw - 32px)" : "750px",
             width: isMobile ? "calc(100vw - 32px)" : "max-content",
-            minWidth: isMobile ? "auto" : "800px",
-            maxHeight: "80vh",
+            minWidth: isMobile ? "auto" : "650px",
+            maxHeight: "75vh",
             overflow: "auto",
-            padding: isMobile ? "16px" : "24px",
+            padding: isMobile ? "12px" : "16px",
             zIndex: 1000
           }}
         >
             <div style={{
               display: "flex",
               flexDirection: isMobile ? "column" : "row",
-              gap: "24px"
+              gap: isMobile ? "12px" : "16px"
             }}>
               {/* Filter Buttons Sidebar */}
               <div style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: "8px",
-                minWidth: isMobile ? "100%" : "160px"
+                gap: "6px",
+                minWidth: isMobile ? "100%" : "140px"
               }}>
                 <div style={{
-                  fontSize: "12px",
+                  fontSize: "10px",
                   fontWeight: 600,
                   color: "#a1a1aa",
                   marginBottom: "4px",
@@ -254,8 +254,8 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                     key={range.value}
                     onClick={() => handleFilterClick(range.value)}
                     style={{
-                      padding: "8px 12px",
-                      fontSize: "12px",
+                      padding: isMobile ? "6px 10px" : "6px 10px",
+                      fontSize: "11px",
                       border: selectedRange === range.value 
                         ? "1px solid rgba(236, 72, 153, 0.5)" 
                         : "1px solid rgba(255, 255, 255, 0.1)",
@@ -265,7 +265,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       backdropFilter: "blur(10px)",
                       WebkitBackdropFilter: "blur(10px)",
                       color: selectedRange === range.value ? "#fff" : "#d4d4d8",
-                      borderRadius: "8px",
+                      borderRadius: "6px",
                       cursor: "pointer",
                       fontWeight: selectedRange === range.value ? 500 : 400,
                       transition: "all 0.2s ease",
@@ -279,10 +279,10 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                 
                 {/* Selection Mode Buttons */}
                 <div style={{
-                  fontSize: "12px",
+                  fontSize: "10px",
                   fontWeight: 600,
                   color: "#a1a1aa",
-                  marginTop: "16px",
+                  marginTop: "12px",
                   marginBottom: "4px",
                   textTransform: "uppercase",
                   letterSpacing: "0.5px"
@@ -292,8 +292,8 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                 <button
                   onClick={() => setSelectionMode("date")}
                   style={{
-                    padding: "8px 12px",
-                    fontSize: "12px",
+                    padding: isMobile ? "6px 10px" : "6px 10px",
+                    fontSize: "11px",
                     border: selectionMode === "date"
                       ? "1px solid rgba(102, 126, 234, 0.5)"
                       : "1px solid rgba(255, 255, 255, 0.1)",
@@ -301,7 +301,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       ? "linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)"
                       : "rgba(255, 255, 255, 0.03)",
                     color: selectionMode === "date" ? "#fff" : "#d4d4d8",
-                    borderRadius: "8px",
+                    borderRadius: "6px",
                     cursor: "pointer",
                     fontWeight: selectionMode === "date" ? 500 : 400,
                     transition: "all 0.2s ease",
@@ -314,8 +314,8 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                 <button
                   onClick={() => setSelectionMode("range")}
                   style={{
-                    padding: "8px 12px",
-                    fontSize: "12px",
+                    padding: isMobile ? "6px 10px" : "6px 10px",
+                    fontSize: "11px",
                     border: selectionMode === "range"
                       ? "1px solid rgba(102, 126, 234, 0.5)"
                       : "1px solid rgba(255, 255, 255, 0.1)",
@@ -323,7 +323,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       ? "linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)"
                       : "rgba(255, 255, 255, 0.03)",
                     color: selectionMode === "range" ? "#fff" : "#d4d4d8",
-                    borderRadius: "8px",
+                    borderRadius: "6px",
                     cursor: "pointer",
                     fontWeight: selectionMode === "range" ? 500 : 400,
                     transition: "all 0.2s ease",
@@ -336,8 +336,8 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                 <button
                   onClick={() => setSelectionMode("week")}
                   style={{
-                    padding: "8px 12px",
-                    fontSize: "12px",
+                    padding: isMobile ? "6px 10px" : "6px 10px",
+                    fontSize: "11px",
                     border: selectionMode === "week"
                       ? "1px solid rgba(102, 126, 234, 0.5)"
                       : "1px solid rgba(255, 255, 255, 0.1)",
@@ -345,7 +345,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       ? "linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)"
                       : "rgba(255, 255, 255, 0.03)",
                     color: selectionMode === "week" ? "#fff" : "#d4d4d8",
-                    borderRadius: "8px",
+                    borderRadius: "6px",
                     cursor: "pointer",
                     fontWeight: selectionMode === "week" ? 500 : 400,
                     transition: "all 0.2s ease",
@@ -358,7 +358,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
               </div>
 
               {/* Calendars Section */}
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}>
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: isMobile ? "10px" : "12px" }}>
                 {/* Navigation */}
                 <div style={{
                   display: "flex",
@@ -368,13 +368,13 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                   <button
                     onClick={() => navigateMonths(-1)}
                     style={{
-                      padding: "8px 12px",
+                      padding: isMobile ? "6px 10px" : "6px 10px",
                       background: "rgba(236, 72, 153, 0.1)",
                       border: "1px solid rgba(236, 72, 153, 0.3)",
-                      borderRadius: "8px",
+                      borderRadius: "6px",
                       color: "rgba(244, 114, 182, 0.9)",
                       cursor: "pointer",
-                      fontSize: "14px",
+                      fontSize: isMobile ? "11px" : "12px",
                       transition: "all 0.2s ease"
                     }}
                     onMouseEnter={(e) => {
@@ -393,13 +393,13 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                   <button
                     onClick={() => setIsOpen(false)}
                     style={{
-                      padding: "8px 12px",
+                      padding: isMobile ? "6px 10px" : "6px 10px",
                       background: "rgba(255, 255, 255, 0.05)",
                       border: "1px solid rgba(255, 255, 255, 0.1)",
-                      borderRadius: "8px",
+                      borderRadius: "6px",
                       color: "#d4d4d8",
                       cursor: "pointer",
-                      fontSize: "14px"
+                      fontSize: isMobile ? "11px" : "12px"
                     }}
                   >
                     ✕ Close
@@ -407,13 +407,13 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                   <button
                     onClick={() => navigateMonths(1)}
                     style={{
-                      padding: "8px 12px",
+                      padding: isMobile ? "6px 10px" : "6px 10px",
                       background: "rgba(236, 72, 153, 0.1)",
                       border: "1px solid rgba(236, 72, 153, 0.3)",
-                      borderRadius: "8px",
+                      borderRadius: "6px",
                       color: "rgba(244, 114, 182, 0.9)",
                       cursor: "pointer",
-                      fontSize: "14px",
+                      fontSize: isMobile ? "11px" : "12px",
                       transition: "all 0.2s ease"
                     }}
                     onMouseEnter={(e) => {
@@ -434,7 +434,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                 {/* Two Calendars */}
                 <div style={{
                   display: "flex",
-                  gap: "16px",
+                  gap: isMobile ? "10px" : "12px",
                   flexDirection: isMobile ? "column" : "row"
                 }}>
                   <Calendar
@@ -521,33 +521,33 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
     <div style={{
       flex: 1,
       background: "rgba(255, 255, 255, 0.04)",
-      borderRadius: "12px",
-      padding: "16px",
+      borderRadius: "10px",
+      padding: isMobile ? "10px" : "12px",
       border: "1px solid rgba(255, 255, 255, 0.1)",
       backdropFilter: "blur(10px)"
     }}>
       <div style={{
         textAlign: "center",
-        fontSize: "16px",
+        fontSize: isMobile ? "13px" : "14px",
         fontWeight: 600,
         color: "#ffffff",
-        marginBottom: "16px"
+        marginBottom: isMobile ? "10px" : "12px"
       }}>
         {monthNames[monthIndex]} {year}
       </div>
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(7, 1fr)",
-        gap: "4px",
-        marginBottom: "8px"
+        gap: isMobile ? "2px" : "3px",
+        marginBottom: isMobile ? "6px" : "8px"
       }}>
         {dayNames.map(day => (
           <div key={day} style={{
             textAlign: "center",
-            fontSize: "11px",
+            fontSize: isMobile ? "9px" : "10px",
             fontWeight: 600,
             color: "rgba(255, 255, 255, 0.7)",
-            padding: "8px 4px"
+            padding: isMobile ? "4px 2px" : "6px 3px"
           }}>
             {day}
           </div>
@@ -556,12 +556,12 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(7, 1fr)",
-        gap: "4px"
+        gap: isMobile ? "2px" : "3px"
       }}>
         {days.map((day, index) => {
           const dateStr = getDateString(day);
           if (!day) {
-            return <div key={`empty-${index}`} style={{ aspectRatio: "1", padding: "4px" }} />;
+            return <div key={`empty-${index}`} style={{ aspectRatio: "1", padding: isMobile ? "2px" : "3px" }} />;
           }
 
           const isToday = dateStr === todayStr;
@@ -578,16 +578,16 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
               onClick={() => onDateClick(dateStr)}
               style={{
                 aspectRatio: "1",
-                padding: "4px",
+                padding: isMobile ? "2px" : "3px",
                 background: isSelected
                   ? "rgba(236, 72, 153, 0.4)"
                   : isHighlighted
                   ? "rgba(236, 72, 153, 0.2)"
                   : "transparent",
                 color: isSelected ? "#fff" : isToday ? "rgba(244, 114, 182, 0.9)" : "#ffffff",
-                borderRadius: "6px",
+                borderRadius: "5px",
                 cursor: "pointer",
-                fontSize: "13px",
+                fontSize: isMobile ? "10px" : "11px",
                 fontWeight: isToday ? 600 : 400,
                 transition: "all 0.2s ease",
                 position: "relative",
