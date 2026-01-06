@@ -63,11 +63,6 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
   }, [isOpen]);
 
   const handleFilterClick = (range) => {
-    if (range === "custom" || range === "daterange") {
-      setSelectionMode(range === "custom" ? "date" : "range");
-      return;
-    }
-    
     setSelectedDate(null);
     setSelectedStartDate(null);
     setSelectedEndDate(null);
@@ -466,9 +461,12 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
     days.push(day);
   }
 
-  const isDateHighlighted = (dateStr) => {
-    return highlightedDates.includes(dateStr);
+  const getDateString = (day) => {
+    if (!day) return null;
+    return `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
   };
+
+  const isDateHighlighted = (dateStr) => highlightedDates.includes(dateStr);
 
   const isDateInRange = (dateStr) => {
     if (!selectedStartDate || !selectedEndDate) return false;
@@ -484,11 +482,6 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
     const start = new Date(selectedWeek.startDate);
     const end = new Date(selectedWeek.endDate);
     return date >= start && date <= end;
-  };
-
-  const getDateString = (day) => {
-    if (!day) return null;
-    return `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
   };
 
   const today = new Date();
