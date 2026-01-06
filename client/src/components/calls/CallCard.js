@@ -32,20 +32,6 @@ export default function CallCard({
   const phoneNumber = extractPhoneNumber(call);
   const durationSeconds = extractCallDuration(call);
   const recordingUrl = extractRecordingUrl(call);
-  
-  // Debug: Log call structure for first call (remove in production)
-  React.useEffect(() => {
-    if (call && isAdmin && Object.keys(call).length > 0) {
-      console.log('Call data structure:', {
-        phoneNumber,
-        durationSeconds,
-        recordingUrl,
-        callKeys: Object.keys(call),
-        sampleCall: call
-      });
-    }
-  }, [call, isAdmin, phoneNumber, durationSeconds, recordingUrl]);
-  
 
   return (
     <div
@@ -146,9 +132,11 @@ export default function CallCard({
                 <div style={{
                   marginBottom: isMobile ? 16 : 20,
                   padding: isMobile ? 14 : 16,
-                  background: "rgba(102, 126, 234, 0.06)",
+                  background: "rgba(236, 72, 153, 0.08)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
                   borderRadius: 12,
-                  border: "none",
+                  border: "1px solid rgba(236, 72, 153, 0.2)",
                   display: "flex",
                   flexDirection: isMobile ? "column" : "row",
                   justifyContent: "space-between",

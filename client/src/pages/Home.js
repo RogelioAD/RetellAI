@@ -16,7 +16,7 @@ export default function Home({ onNavigateToLogin }) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "#0a0a0a",
+        background: "#1a1b3a",
         padding: isMobile ? "32px 20px" : "48px",
       }}
     >

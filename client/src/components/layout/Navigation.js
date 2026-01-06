@@ -22,15 +22,15 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
           bottom: 0,
           left: 0,
           right: 0,
-          background: "rgba(255, 255, 255, 0.03)",
+          background: "rgba(255, 255, 255, 0.06)",
           backdropFilter: "blur(20px)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+          borderTop: "1px solid rgba(255, 255, 255, 0.1)",
           padding: "8px 0",
           display: "flex",
           justifyContent: "space-around",
           alignItems: "center",
           zIndex: 1000,
-          boxShadow: "0 -4px 24px rgba(0, 0, 0, 0.4)",
+          boxShadow: "0 -1px 4px rgba(0, 0, 0, 0.1)",
         }}
       >
         {sections.map((section) => {
@@ -48,7 +48,7 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
                 padding: "8px 12px",
                 background: "transparent",
                 border: "none",
-                color: isActive ? "#ffffff" : "#71717a",
+                color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.7)",
                 fontSize: "10px",
                 cursor: "pointer",
                 transition: "all 0.3s ease",
@@ -65,10 +65,10 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
                     width: "64px",
                     height: "64px",
                     borderRadius: "20px",
-                    background: "linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)",
+                    background: "rgba(236, 72, 153, 0.2)",
                     backdropFilter: "blur(20px)",
-                    border: "1px solid rgba(102, 126, 234, 0.3)",
-                    boxShadow: "0 8px 32px rgba(102, 126, 234, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset",
+                    border: "1px solid rgba(236, 72, 153, 0.4)",
+                    boxShadow: "0 2px 8px rgba(236, 72, 153, 0.2)",
                     zIndex: -1,
                     transition: "all 0.3s ease",
                   }}
@@ -99,9 +99,9 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
       style={{
         width: "200px",
         minWidth: "200px",
-        background: "rgba(255, 255, 255, 0.03)",
+        background: "rgba(255, 255, 255, 0.06)",
         backdropFilter: "blur(20px)",
-        borderRight: "1px solid rgba(255, 255, 255, 0.08)",
+        borderRight: "1px solid rgba(255, 255, 255, 0.1)",
         padding: "24px 0",
         display: "flex",
         flexDirection: "column",
@@ -120,14 +120,14 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
             gap: "12px",
             background:
               currentSection === section.id
-                ? "rgba(102, 126, 234, 0.15)"
+                ? "rgba(236, 72, 153, 0.15)"
                 : "transparent",
             border: "none",
             borderLeft:
               currentSection === section.id
-                ? "3px solid #667eea"
+                ? "3px solid rgba(236, 72, 153, 0.8)"
                 : "3px solid transparent",
-            color: currentSection === section.id ? "#ffffff" : "#a1a1aa",
+            color: currentSection === section.id ? "#ffffff" : "rgba(255, 255, 255, 0.7)",
             fontSize: "14px",
             fontWeight: currentSection === section.id ? 500 : 400,
             cursor: "pointer",
@@ -137,13 +137,13 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
           onMouseEnter={(e) => {
             if (currentSection !== section.id) {
               e.target.style.background = "rgba(255, 255, 255, 0.05)";
-              e.target.style.color = "#d4d4d8";
+              e.target.style.color = "rgba(255, 255, 255, 0.9)";
             }
           }}
           onMouseLeave={(e) => {
             if (currentSection !== section.id) {
               e.target.style.background = "transparent";
-              e.target.style.color = "#a1a1aa";
+              e.target.style.color = "rgba(255, 255, 255, 0.7)";
             }
           }}
         >

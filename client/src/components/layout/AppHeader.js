@@ -14,14 +14,14 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
         position: "sticky",
         top: 0,
         zIndex: 100,
-        background: "rgba(10, 10, 10, 0.8)",
+        background: "rgba(255, 255, 255, 0.06)",
         backdropFilter: "blur(20px)",
-        borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
         padding: isMobile ? "16px 20px" : "20px 32px",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        boxShadow: "0 4px 24px rgba(0, 0, 0, 0.3)",
+        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>

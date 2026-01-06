@@ -1,33 +1,34 @@
-// Modern dark theme with subtle gradient accents (Linear-inspired with Horizon UI colors)
+// Clean, modern flat design with glass effect
 export const gradients = {
-  primary: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-  accent: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-  card: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.03) 100%)",
-  cardHover: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
-  button: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-  buttonHover: "linear-gradient(135deg, #764ba2 0%, #667eea 100%)",
-  textGradient: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
+  primary: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+  accent: "linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)",
+  card: "rgba(255, 255, 255, 0.06)",
+  cardHover: "rgba(255, 255, 255, 0.08)",
+  button: "rgba(255, 255, 255, 0.08)",
+  buttonHover: "rgba(255, 255, 255, 0.12)",
+  textGradient: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+  background: "#1a1b3a",
 };
 
-// Shared style constants with modern dark glass design
+// Shared style constants with clean glass design
 export const cardStyles = {
   container: {
-    border: "1px solid rgba(255, 255, 255, 0.08)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     borderRadius: 12,
     marginBottom: 16,
-    background: "rgba(255, 255, 255, 0.03)",
+    background: "rgba(255, 255, 255, 0.06)",
     backdropFilter: "blur(20px)",
-    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
     overflow: "hidden",
     transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
   },
   error: {
-    border: "1px solid rgba(239, 68, 68, 0.2)",
+    border: "1px solid rgba(239, 68, 68, 0.3)",
     borderRadius: 12,
     marginBottom: 16,
-    background: "rgba(239, 68, 68, 0.05)",
+    background: "rgba(239, 68, 68, 0.1)",
     backdropFilter: "blur(20px)",
-    boxShadow: "0 8px 32px rgba(239, 68, 68, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
+    boxShadow: "0 2px 8px rgba(239, 68, 68, 0.15)",
     overflow: "hidden",
   }
 };
@@ -38,7 +39,7 @@ export const buttonStyles = {
     cursor: "pointer",
     border: "1px solid rgba(255, 255, 255, 0.1)",
     borderRadius: 12,
-    background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
+    background: "rgba(255, 255, 255, 0.08)",
     backdropFilter: "blur(20px)",
     WebkitBackdropFilter: "blur(20px)",
     color: "#ffffff",
@@ -46,31 +47,24 @@ export const buttonStyles = {
     fontWeight: 400,
     minHeight: "44px",
     touchAction: "manipulation",
-    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-    boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
+    transition: "all 0.2s ease",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
     position: "relative",
     overflow: "hidden",
     whiteSpace: "nowrap",
-  },
-  fullWidth: {
-    width: "100%",
-    padding: 12,
-    marginTop: 8,
-    cursor: "pointer",
-    minHeight: "44px"
   }
 };
 
 export const formStyles = {
   container: {
-    border: "1px solid rgba(255, 255, 255, 0.08)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     borderRadius: 12,
     padding: 24,
     marginTop: 20,
     marginBottom: 20,
-    background: "rgba(255, 255, 255, 0.03)",
+    background: "rgba(255, 255, 255, 0.06)",
     backdropFilter: "blur(20px)",
-    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4)",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
   },
   containerMobile: {
     padding: 20,
@@ -85,7 +79,8 @@ export const formStyles = {
     border: "1px solid rgba(255, 255, 255, 0.1)",
     borderRadius: 8,
     background: "rgba(255, 255, 255, 0.05)",
-    color: "#e4e4e7",
+    backdropFilter: "blur(10px)",
+    color: "#ffffff",
     transition: "all 0.2s ease",
   },
   inputMobile: {
@@ -98,29 +93,20 @@ export const formStyles = {
     marginBottom: 8,
     fontSize: "14px",
     fontWeight: 500,
-    color: "#a1a1aa"
+    color: "rgba(255, 255, 255, 0.9)"
   }
 };
 
 export const layoutStyles = {
-  dashboard: {
-    maxWidth: 1000,
-    margin: "3rem auto",
-    padding: "0 24px"
-  },
-  dashboardMobile: {
-    margin: "1.5rem auto",
-    padding: "0 16px"
-  },
   login: {
     maxWidth: 420,
     margin: "6rem auto",
     padding: 32,
-    border: "1px solid rgba(255, 255, 255, 0.08)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
     borderRadius: 16,
-    background: "rgba(255, 255, 255, 0.03)",
+    background: "rgba(255, 255, 255, 0.06)",
     backdropFilter: "blur(20px)",
-    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
+    boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
   },
   loginMobile: {
     margin: "2rem auto",

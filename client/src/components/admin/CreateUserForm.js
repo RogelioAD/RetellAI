@@ -75,15 +75,17 @@ export default function CreateUserForm({
           </div>
           <div style={{ 
             display: "flex", 
-            alignItems: isMobile ? "stretch" : "flex-end" 
+            alignItems: isMobile ? "stretch" : "flex-end",
+            justifyContent: isMobile ? "stretch" : "flex-start",
+            paddingTop: isMobile ? 0 : "24px"
           }}>
             <Button 
               type="submit" 
               disabled={creating}
               fullWidth={isMobile}
               style={{ 
-                padding: isMobile ? "12px 16px" : "8px 16px", 
-                height: isMobile ? "auto" : "fit-content" 
+                padding: isMobile ? "12px 16px" : "12px 20px", 
+                minHeight: "44px"
               }}
             >
               {creating ? "Creating..." : "Create User"}

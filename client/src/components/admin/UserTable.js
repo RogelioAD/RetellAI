@@ -92,13 +92,27 @@ export default function UserTable({ users, loading, onDeleteUser, currentUserId 
                       onClick={() => handleDelete(u.id, u.username)}
                       disabled={deletingUserId === u.id}
                       style={{
-                        background: "linear-gradient(135deg, rgba(244, 67, 54, 0.2) 0%, rgba(211, 47, 47, 0.2) 100%)",
+                        background: "rgba(255, 255, 255, 0.08)",
                         backdropFilter: "blur(20px)",
                         WebkitBackdropFilter: "blur(20px)",
-                        border: "1px solid rgba(244, 67, 54, 0.3)",
-                        color: "#ffcdd2",
+                        border: "1px solid rgba(255, 255, 255, 0.1)",
+                        color: "#ffffff",
                         width: "100%",
-                        boxShadow: "0 8px 32px rgba(244, 67, 54, 0.25), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
+                        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)"
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!deletingUserId) {
+                          e.target.style.background = "rgba(239, 68, 68, 0.2)";
+                          e.target.style.border = "1px solid rgba(239, 68, 68, 0.4)";
+                          e.target.style.color = "#ffcdd2";
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!deletingUserId) {
+                          e.target.style.background = "rgba(255, 255, 255, 0.08)";
+                          e.target.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                          e.target.style.color = "#ffffff";
+                        }
                       }}
                     >
                       {deletingUserId === u.id ? "Deleting..." : "🗑️ Delete User"}
@@ -170,14 +184,28 @@ export default function UserTable({ users, loading, onDeleteUser, currentUserId 
                         onClick={() => handleDelete(u.id, u.username)}
                         disabled={deletingUserId === u.id}
                         style={{
-                          background: "linear-gradient(135deg, rgba(244, 67, 54, 0.2) 0%, rgba(211, 47, 47, 0.2) 100%)",
+                          background: "rgba(255, 255, 255, 0.08)",
                           backdropFilter: "blur(20px)",
                           WebkitBackdropFilter: "blur(20px)",
-                          border: "1px solid rgba(244, 67, 54, 0.3)",
-                          color: "#ffcdd2",
+                          border: "1px solid rgba(255, 255, 255, 0.1)",
+                          color: "#ffffff",
                           fontSize: "0.85em",
                           padding: "6px 12px",
-                          boxShadow: "0 8px 32px rgba(244, 67, 54, 0.25), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
+                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)"
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!deletingUserId) {
+                            e.target.style.background = "rgba(239, 68, 68, 0.2)";
+                            e.target.style.border = "1px solid rgba(239, 68, 68, 0.4)";
+                            e.target.style.color = "#ffcdd2";
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!deletingUserId) {
+                            e.target.style.background = "rgba(255, 255, 255, 0.08)";
+                            e.target.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+                            e.target.style.color = "#ffffff";
+                          }
                         }}
                       >
                         {deletingUserId === u.id ? "Deleting..." : "Delete"}

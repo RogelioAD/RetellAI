@@ -27,10 +27,10 @@ export default function TranscriptView({ utterances }) {
             style={{
               marginBottom: isMobile ? 12 : 16,
               padding: isMobile ? 12 : 14,
-              background: isAgent ? "rgba(102, 126, 234, 0.08)" : "rgba(255, 255, 255, 0.03)",
+              background: isAgent ? "rgba(99, 102, 241, 0.1)" : "rgba(255, 255, 255, 0.04)",
               borderRadius: 8,
-              borderLeft: `3px solid ${isAgent ? "#667eea" : "#71717a"}`,
-              border: "1px solid rgba(255, 255, 255, 0.06)"
+              borderLeft: `3px solid ${isAgent ? "#6366f1" : "rgba(255, 255, 255, 0.2)"}`,
+              border: "1px solid rgba(255, 255, 255, 0.1)"
             }}
           >
             <div style={{
@@ -43,7 +43,7 @@ export default function TranscriptView({ utterances }) {
             }}>
               <div style={{
                 fontWeight: 500,
-                color: isAgent ? "#818cf8" : "#d4d4d8",
+                color: isAgent ? "#a5b4fc" : "rgba(255, 255, 255, 0.9)",
                 fontSize: isMobile ? "0.9em" : "0.95em"
               }}>
                 {speaker}
@@ -51,14 +51,14 @@ export default function TranscriptView({ utterances }) {
               {timestamp && (
                 <div style={{
                   fontSize: isMobile ? "0.75em" : "0.8em",
-                  color: "#71717a"
+                  color: "rgba(255, 255, 255, 0.6)"
                 }}>
                   {formatTime(timestamp)}
                 </div>
               )}
             </div>
             <div style={{
-              color: "#e4e4e7",
+              color: "#ffffff",
               lineHeight: "1.6",
               whiteSpace: "pre-wrap",
               wordBreak: "break-word",

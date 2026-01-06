@@ -10,15 +10,11 @@ export default function Button({
   onClick,
   type = "button",
   disabled = false,
-  variant = "primary",
   fullWidth = false,
   style: customStyle = {},
   ...props
 }) {
   const { isMobile } = useResponsive();
-
-  // Check if custom background is provided (don't override hover if it is)
-  const hasCustomBackground = customStyle?.background !== undefined;
   
   // Build base style - explicitly set all properties, then apply custom overrides
   const baseStyle = {
@@ -32,7 +28,7 @@ export default function Button({
     // Apply custom styles (for properties like fontSize that should be overridable)
     ...customStyle,
     // Explicitly re-set critical visual properties AFTER custom styles (so they can't be removed)
-    background: hasCustomBackground ? customStyle.background : (customStyle.background || buttonStyles.primary.background),
+    background: customStyle.background || buttonStyles.primary.background,
     border: customStyle.border || buttonStyles.primary.border,
     color: customStyle.color || buttonStyles.primary.color,
     backdropFilter: customStyle.backdropFilter || buttonStyles.primary.backdropFilter,
@@ -50,31 +46,21 @@ export default function Button({
   const handleMouseEnter = (e) => {
     if (disabled) return;
     
-    // Only apply hover effects if no custom background was provided
-    if (!hasCustomBackground) {
-      e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%)";
-      e.target.style.border = "1px solid rgba(255, 255, 255, 0.2)";
-      e.target.style.transform = "translateY(-1px) scale(1.02)";
-      e.target.style.boxShadow = "0 8px 24px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1) inset";
-    } else {
-      // Even with custom background, add subtle hover effect
-      e.target.style.transform = "translateY(-1px) scale(1.01)";
-    }
+    // Apply consistent hover effect to all buttons
+    e.target.style.background = "rgba(255, 255, 255, 0.12)";
+    e.target.style.border = "1px solid rgba(255, 255, 255, 0.2)";
+    e.target.style.transform = "translateY(-1px) scale(1.01)";
+    e.target.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
   };
 
   const handleMouseLeave = (e) => {
     if (disabled) return;
     
-    // Only reset hover effects if no custom background was provided
-    if (!hasCustomBackground) {
-      e.target.style.background = originalBackground;
-      e.target.style.border = originalBorder;
-      e.target.style.transform = originalTransform;
-      e.target.style.boxShadow = originalBoxShadow;
-    } else {
-      // Reset subtle hover effect
-      e.target.style.transform = originalTransform;
-    }
+    // Reset to original styles
+    e.target.style.background = originalBackground;
+    e.target.style.border = originalBorder;
+    e.target.style.transform = originalTransform;
+    e.target.style.boxShadow = originalBoxShadow;
   };
 
   return (

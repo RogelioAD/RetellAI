@@ -158,7 +158,7 @@ export default function Dashboard({ token, user, onLogout }) {
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
-        background: "#0a0a0a",
+        background: "transparent",
       }}
     >
       {/* Sticky Header */}

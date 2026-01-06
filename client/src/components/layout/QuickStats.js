@@ -54,11 +54,17 @@ export default function QuickStats({ calls, filteredCalls, isAdmin, selectedRang
           key={stat.icon}
           style={{
             padding: isMobile ? "16px" : "20px",
-            background: "rgba(255, 255, 255, 0.03)",
+            background: index === 0 
+              ? "rgba(236, 72, 153, 0.08)" 
+              : "rgba(255, 255, 255, 0.06)",
             backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
+            border: index === 0
+              ? "1px solid rgba(236, 72, 153, 0.2)"
+              : "1px solid rgba(255, 255, 255, 0.1)",
             borderRadius: 12,
-            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
+            boxShadow: index === 0
+              ? "0 2px 8px rgba(236, 72, 153, 0.15)"
+              : "0 2px 8px rgba(0, 0, 0, 0.1)",
           }}
         >
           <div
@@ -84,7 +90,7 @@ export default function QuickStats({ calls, filteredCalls, isAdmin, selectedRang
           <div
             style={{
               fontSize: isMobile ? "13px" : "14px",
-              color: "#a1a1aa",
+              color: "rgba(255, 255, 255, 0.8)",
               fontWeight: 400,
             }}
           >

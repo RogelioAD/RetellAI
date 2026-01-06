@@ -44,19 +44,19 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
   return (
     <div style={{ 
       marginBottom: isMobile ? 16 : 20, 
-      border: "1px solid rgba(255, 255, 255, 0.08)", 
+      border: "1px solid rgba(255, 255, 255, 0.1)", 
       borderRadius: 12, 
       overflow: "hidden",
-      background: "rgba(255, 255, 255, 0.03)",
+      background: "rgba(255, 255, 255, 0.06)",
       backdropFilter: "blur(20px)",
-      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
+      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
       transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)"
     }}>
       <div
         onClick={() => setIsOpen(!isOpen)}
         style={{
           padding: isMobile ? "14px 18px" : "18px 24px",
-          background: isOpen ? "rgba(102, 126, 234, 0.08)" : "transparent",
+          background: isOpen ? "rgba(255, 255, 255, 0.08)" : "transparent",
           cursor: "pointer",
           display: "flex",
           justifyContent: "space-between",
@@ -79,10 +79,10 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
         </span>
         <span style={{ 
           fontSize: isMobile ? "1em" : "1.1em", 
-          color: "#a1a1aa",
+          color: isOpen ? "rgba(244, 114, 182, 0.9)" : "rgba(244, 114, 182, 0.6)",
           marginLeft: isMobile ? 12 : 16,
           flexShrink: 0,
-          transition: "transform 0.2s ease"
+          transition: "all 0.2s ease"
         }}>
           {isOpen ? "▼" : "▶"}
         </span>

@@ -164,10 +164,10 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
             padding: isMobile ? "10px 16px" : "12px 20px",
             fontSize: isMobile ? "13px" : "14px",
             border: selectedRange !== "all" 
-              ? "1px solid rgba(255, 255, 255, 0.25)" 
+              ? "1px solid rgba(236, 72, 153, 0.4)" 
               : "1px solid rgba(255, 255, 255, 0.1)",
             background: selectedRange !== "all"
-              ? "linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 50%, rgba(240, 147, 251, 0.2) 100%)"
+              ? "rgba(236, 72, 153, 0.15)"
               : "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
@@ -178,20 +178,28 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
             whiteSpace: "nowrap",
             boxShadow: selectedRange !== "all"
-              ? "0 8px 32px rgba(102, 126, 234, 0.3), 0 1px 0 rgba(255, 255, 255, 0.15) inset"
+              ? "0 2px 8px rgba(236, 72, 153, 0.2)"
               : "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
           }}
           onMouseOver={(e) => {
             e.target.style.transform = "translateY(-1px) scale(1.02)";
             e.target.style.boxShadow = selectedRange !== "all"
-              ? "0 12px 40px rgba(102, 126, 234, 0.35), 0 2px 0 rgba(255, 255, 255, 0.2) inset"
-              : "0 8px 24px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1) inset";
+              ? "0 4px 12px rgba(236, 72, 153, 0.3)"
+              : "0 8px 24px rgba(236, 72, 153, 0.2), 0 1px 0 rgba(255, 255, 255, 0.1) inset";
+            if (selectedRange === "all") {
+              e.target.style.border = "1px solid rgba(236, 72, 153, 0.3)";
+              e.target.style.background = "rgba(236, 72, 153, 0.1)";
+            }
           }}
           onMouseOut={(e) => {
             e.target.style.transform = "translateY(0) scale(1)";
             e.target.style.boxShadow = selectedRange !== "all"
-              ? "0 8px 32px rgba(102, 126, 234, 0.3), 0 1px 0 rgba(255, 255, 255, 0.15) inset"
+              ? "0 2px 8px rgba(236, 72, 153, 0.2)"
               : "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset";
+            if (selectedRange === "all") {
+              e.target.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+              e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)";
+            }
           }}
         >
           Date Range
@@ -205,11 +213,11 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
             top: "100%",
             left: 0,
             marginTop: "12px",
-            background: "rgba(255, 255, 255, 0.05)",
+            background: "rgba(255, 255, 255, 0.06)",
             backdropFilter: "blur(20px)",
             borderRadius: "16px",
             border: "1px solid rgba(255, 255, 255, 0.1)",
-            boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.1) inset",
+            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
             maxWidth: isMobile ? "calc(100vw - 32px)" : "900px",
             width: isMobile ? "calc(100vw - 32px)" : "max-content",
             minWidth: isMobile ? "auto" : "800px",
@@ -249,10 +257,10 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       padding: "8px 12px",
                       fontSize: "12px",
                       border: selectedRange === range.value 
-                        ? "1px solid rgba(102, 126, 234, 0.5)" 
+                        ? "1px solid rgba(236, 72, 153, 0.5)" 
                         : "1px solid rgba(255, 255, 255, 0.1)",
                       background: selectedRange === range.value
-                        ? "linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)"
+                        ? "rgba(236, 72, 153, 0.15)"
                         : "rgba(255, 255, 255, 0.03)",
                       backdropFilter: "blur(10px)",
                       WebkitBackdropFilter: "blur(10px)",
@@ -361,12 +369,23 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                     onClick={() => navigateMonths(-1)}
                     style={{
                       padding: "8px 12px",
-                      background: "rgba(255, 255, 255, 0.05)",
-                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                      background: "rgba(236, 72, 153, 0.1)",
+                      border: "1px solid rgba(236, 72, 153, 0.3)",
                       borderRadius: "8px",
-                      color: "#d4d4d8",
+                      color: "rgba(244, 114, 182, 0.9)",
                       cursor: "pointer",
-                      fontSize: "14px"
+                      fontSize: "14px",
+                      transition: "all 0.2s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = "rgba(236, 72, 153, 0.2)";
+                      e.target.style.borderColor = "rgba(236, 72, 153, 0.5)";
+                      e.target.style.color = "#ffffff";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = "rgba(236, 72, 153, 0.1)";
+                      e.target.style.borderColor = "rgba(236, 72, 153, 0.3)";
+                      e.target.style.color = "rgba(244, 114, 182, 0.9)";
                     }}
                   >
                     ← Previous
@@ -389,12 +408,23 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                     onClick={() => navigateMonths(1)}
                     style={{
                       padding: "8px 12px",
-                      background: "rgba(255, 255, 255, 0.05)",
-                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                      background: "rgba(236, 72, 153, 0.1)",
+                      border: "1px solid rgba(236, 72, 153, 0.3)",
                       borderRadius: "8px",
-                      color: "#d4d4d8",
+                      color: "rgba(244, 114, 182, 0.9)",
                       cursor: "pointer",
-                      fontSize: "14px"
+                      fontSize: "14px",
+                      transition: "all 0.2s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = "rgba(236, 72, 153, 0.2)";
+                      e.target.style.borderColor = "rgba(236, 72, 153, 0.5)";
+                      e.target.style.color = "#ffffff";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = "rgba(236, 72, 153, 0.1)";
+                      e.target.style.borderColor = "rgba(236, 72, 153, 0.3)";
+                      e.target.style.color = "rgba(244, 114, 182, 0.9)";
                     }}
                   >
                     Next →
@@ -490,16 +520,17 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
   return (
     <div style={{
       flex: 1,
-      background: "rgba(255, 255, 255, 0.03)",
+      background: "rgba(255, 255, 255, 0.04)",
       borderRadius: "12px",
       padding: "16px",
-      border: "1px solid rgba(255, 255, 255, 0.08)"
+      border: "1px solid rgba(255, 255, 255, 0.1)",
+      backdropFilter: "blur(10px)"
     }}>
       <div style={{
         textAlign: "center",
         fontSize: "16px",
         fontWeight: 600,
-        color: "#e4e4e7",
+        color: "#ffffff",
         marginBottom: "16px"
       }}>
         {monthNames[monthIndex]} {year}
@@ -515,7 +546,7 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
             textAlign: "center",
             fontSize: "11px",
             fontWeight: 600,
-            color: "#71717a",
+            color: "rgba(255, 255, 255, 0.7)",
             padding: "8px 4px"
           }}>
             {day}
@@ -549,27 +580,27 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
                 aspectRatio: "1",
                 padding: "4px",
                 background: isSelected
-                  ? "linear-gradient(135deg, rgba(102, 126, 234, 0.4) 0%, rgba(118, 75, 162, 0.4) 100%)"
+                  ? "rgba(236, 72, 153, 0.4)"
                   : isHighlighted
-                  ? "rgba(102, 126, 234, 0.15)"
+                  ? "rgba(236, 72, 153, 0.2)"
                   : "transparent",
-                color: isSelected ? "#fff" : isToday ? "#667eea" : "#e4e4e7",
+                color: isSelected ? "#fff" : isToday ? "rgba(244, 114, 182, 0.9)" : "#ffffff",
                 borderRadius: "6px",
                 cursor: "pointer",
                 fontSize: "13px",
                 fontWeight: isToday ? 600 : 400,
                 transition: "all 0.2s ease",
                 position: "relative",
-                border: isStart || isEnd ? "2px solid rgba(102, 126, 234, 0.8)" : "1px solid transparent"
+                border: isStart || isEnd ? "2px solid rgba(236, 72, 153, 0.8)" : "1px solid transparent"
               }}
               onMouseOver={(e) => {
                 if (!isSelected) {
-                  e.target.style.background = "rgba(255, 255, 255, 0.1)";
+                  e.target.style.background = "rgba(236, 72, 153, 0.15)";
                 }
               }}
               onMouseOut={(e) => {
                 if (!isSelected) {
-                  e.target.style.background = isHighlighted ? "rgba(102, 126, 234, 0.15)" : "transparent";
+                  e.target.style.background = isHighlighted ? "rgba(236, 72, 153, 0.2)" : "transparent";
                 }
               }}
             >

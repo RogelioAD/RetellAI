@@ -12,13 +12,13 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     Arial, sans-serif;
-  background: #0a0a0a;
+  background: #1a1b3a;
   margin: 0;
   padding: 0;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #e4e4e7;
+  color: #ffffff;
   color-scheme: dark;
 }
 
@@ -28,18 +28,20 @@ input {
   border-radius: 8px;
   font-size: 16px; /* Prevents zoom on iOS */
   background: rgba(255, 255, 255, 0.05);
-  color: #e4e4e7;
+  backdrop-filter: blur(10px);
+  color: #ffffff;
 }
 
 input::placeholder {
-  color: #71717a;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Date input styling for dark theme */
 input[type="date"] {
   color-scheme: dark !important;
   background: rgba(255, 255, 255, 0.05) !important;
-  color: #e4e4e7 !important;
+  backdrop-filter: blur(10px) !important;
+  color: #ffffff !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 8px;
   -webkit-appearance: none;
@@ -66,14 +68,14 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 input[type="date"]::-webkit-datetime-edit-text {
-  color: #e4e4e7;
+  color: #ffffff;
   padding: 0 4px;
 }
 
 input[type="date"]::-webkit-datetime-edit-month-field,
 input[type="date"]::-webkit-datetime-edit-day-field,
 input[type="date"]::-webkit-datetime-edit-year-field {
-  color: #e4e4e7;
+  color: #ffffff;
 }
 
 input[type="date"]::-webkit-inner-spin-button,
@@ -92,13 +94,14 @@ button {
 }
 
 pre {
-  background: rgba(0, 0, 0, 0.3);
-  color: #d4d4d8;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
   padding: 8px;
   border-radius: 8px;
   overflow-x: auto;
   word-wrap: break-word;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Mobile optimizations */
@@ -176,7 +179,7 @@ audio:focus {
 }
 
 audio::-webkit-media-controls-panel {
-  background-color: rgba(79, 172, 254, 0.15) !important;
+  background-color: rgba(236, 72, 153, 0.15) !important;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 12px;
