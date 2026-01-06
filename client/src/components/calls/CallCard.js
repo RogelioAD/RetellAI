@@ -132,11 +132,11 @@ export default function CallCard({
                 <div style={{
                   marginBottom: isMobile ? 16 : 20,
                   padding: isMobile ? 14 : 16,
-                  background: "rgba(236, 72, 153, 0.08)",
+                  background: "rgba(255, 20, 147, 0.12)",
                   backdropFilter: "blur(20px)",
                   WebkitBackdropFilter: "blur(20px)",
                   borderRadius: 12,
-                  border: "1px solid rgba(236, 72, 153, 0.2)",
+                  border: "1px solid rgba(255, 20, 147, 0.3)",
                   display: "flex",
                   flexDirection: isMobile ? "column" : "row",
                   justifyContent: "space-between",

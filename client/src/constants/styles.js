@@ -82,6 +82,7 @@ export const formStyles = {
     backdropFilter: "blur(10px)",
     color: "#ffffff",
     transition: "all 0.2s ease",
+    outline: "none",
   },
   inputMobile: {
     padding: 14,

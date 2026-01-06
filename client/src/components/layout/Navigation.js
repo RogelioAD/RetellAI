@@ -65,10 +65,10 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
                     width: "64px",
                     height: "64px",
                     borderRadius: "20px",
-                    background: "rgba(236, 72, 153, 0.2)",
+                    background: "rgba(255, 20, 147, 0.25)",
                     backdropFilter: "blur(20px)",
-                    border: "1px solid rgba(236, 72, 153, 0.4)",
-                    boxShadow: "0 2px 8px rgba(236, 72, 153, 0.2)",
+                    border: "1px solid rgba(255, 20, 147, 0.5)",
+                    boxShadow: "0 2px 8px rgba(255, 20, 147, 0.3)",
                     zIndex: -1,
                     transition: "all 0.3s ease",
                   }}
@@ -109,31 +109,33 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
       }}
     >
       {sections.map((section) => (
-        <button
-          key={section.id}
-          onClick={() => onSectionChange(section.id)}
-          style={{
-            width: "100%",
-            padding: "12px 24px",
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
+          <button
+            key={section.id}
+            onClick={() => onSectionChange(section.id)}
+            style={{
+              width: "100%",
+              padding: "12px 24px",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
             background:
               currentSection === section.id
-                ? "rgba(236, 72, 153, 0.15)"
+                ? "rgba(255, 20, 147, 0.2)"
                 : "transparent",
             border: "none",
             borderLeft:
               currentSection === section.id
-                ? "3px solid rgba(236, 72, 153, 0.8)"
+                ? "3px solid rgba(255, 20, 147, 1)"
                 : "3px solid transparent",
-            color: currentSection === section.id ? "#ffffff" : "rgba(255, 255, 255, 0.7)",
-            fontSize: "14px",
-            fontWeight: currentSection === section.id ? 500 : 400,
-            cursor: "pointer",
-            transition: "all 0.2s ease",
-            textAlign: "left",
-          }}
+              color: currentSection === section.id ? "#ffffff" : "rgba(255, 255, 255, 0.7)",
+              fontSize: "14px",
+              fontWeight: currentSection === section.id ? 500 : 400,
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              textAlign: "left",
+              boxShadow: "none",
+              outline: "none"
+            }}
           onMouseEnter={(e) => {
             if (currentSection !== section.id) {
               e.target.style.background = "rgba(255, 255, 255, 0.05)";

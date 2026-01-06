@@ -29,7 +29,10 @@ export default function Home({ onNavigateToLogin }) {
           marginBottom: isMobile ? "3rem" : "4rem",
           textAlign: "center",
           letterSpacing: "-0.02em",
-          lineHeight: 1.1,
+          lineHeight: 1.2,
+          paddingTop: "0.2em",
+          paddingBottom: "0.2em",
+          overflow: "visible",
         }}
       >
         Quantum Consulting

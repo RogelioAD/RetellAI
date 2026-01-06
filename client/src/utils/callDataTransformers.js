@@ -185,21 +185,28 @@ export function extractTranscriptData(call) {
 
 /**
  * Transform admin call data to unified format
+ * Preserves metadata like total_count, fetched_count if present
  */
-export function transformAdminCallData(data) {
+export function transformAdminCallData(data, metadata = {}) {
   let callsArray = [];
   
   if (Array.isArray(data)) {
     callsArray = data;
   } else if (data.calls && Array.isArray(data.calls)) {
     callsArray = data.calls;
+    // Preserve metadata from data object
+    if (data.total_count !== undefined) metadata.total_count = data.total_count;
+    if (data.fetched_count !== undefined) metadata.fetched_count = data.fetched_count;
   } else if (data.data && Array.isArray(data.data)) {
     callsArray = data.data;
+    // Preserve metadata from data object
+    if (data.total_count !== undefined) metadata.total_count = data.total_count;
+    if (data.fetched_count !== undefined) metadata.fetched_count = data.fetched_count;
   } else {
     callsArray = Object.values(data).find(val => Array.isArray(val)) || [];
   }
   
-  return callsArray.map(call => ({
+  const transformed = callsArray.map(call => ({
     mapping: {
       id: call.call_id || call.id || call.callId,
       retellCallId: call.call_id || call.id || call.callId,
@@ -208,6 +215,13 @@ export function transformAdminCallData(data) {
     },
     call
   }));
+  
+  // Attach metadata to the array if present
+  if (metadata.total_count !== undefined || metadata.fetched_count !== undefined) {
+    transformed._metadata = metadata;
+  }
+  
+  return transformed;
 }
 
 /**

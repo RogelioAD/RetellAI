@@ -37,7 +37,15 @@ export default function UserTable({ users, loading, onDeleteUser, currentUserId 
   if (isMobile) {
     return (
       <div>
-        <h4 style={{ fontSize: "1.1em", marginBottom: 12, color: "#f4f4f5", fontWeight: 500 }}>All Users ({users.length})</h4>
+        <h4 style={{ 
+          fontSize: "1.1em", 
+          marginBottom: 12, 
+          color: "#f4f4f5", 
+          fontWeight: 500,
+          background: "transparent",
+          border: "none",
+          padding: 0
+        }}>All Users ({users.length})</h4>
         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           {users.filter(u => u && u.id).map((u) => {
             const canDelete = u.role !== "admin" && u.id !== currentUserId;
@@ -130,7 +138,15 @@ export default function UserTable({ users, loading, onDeleteUser, currentUserId 
   // Desktop table view
   return (
     <div>
-      <h4 style={{ fontSize: "1.2em", color: "#f4f4f5", fontWeight: 500, marginBottom: 16 }}>All Users ({users.length})</h4>
+      <h4 style={{ 
+        fontSize: "1.2em", 
+        color: "#f4f4f5", 
+        fontWeight: 500, 
+        marginBottom: 16,
+        background: "transparent",
+        border: "none",
+        padding: 0
+      }}>All Users ({users.length})</h4>
       <div style={{ 
         maxHeight: "400px", 
         overflowY: "auto", 

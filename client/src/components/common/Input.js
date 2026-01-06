@@ -24,9 +24,9 @@ export default function Input({
         <label style={{ 
           ...formStyles.label,
           fontSize: isMobile ? "16px" : "14px",
-          color: "#a1a1aa"
+          color: "#ffffff"
         }}>
-          {label} {required && <span style={{ color: "#fca5a5" }}>*</span>}
+          {label} {required && <span style={{ color: "#ffffff" }}>*</span>}
         </label>
       )}
       <input
@@ -40,6 +40,16 @@ export default function Input({
           ...formStyles.input,
           ...(isMobile && formStyles.inputMobile),
           ...props.style
+        }}
+        onFocus={(e) => {
+          e.target.style.border = "1px solid rgba(255, 255, 255, 0.5)";
+          e.target.style.boxShadow = "0 0 0 2px rgba(255, 255, 255, 0.2)";
+          if (props.onFocus) props.onFocus(e);
+        }}
+        onBlur={(e) => {
+          e.target.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+          e.target.style.boxShadow = "none";
+          if (props.onBlur) props.onBlur(e);
         }}
         {...props}
       />

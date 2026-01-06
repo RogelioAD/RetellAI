@@ -77,6 +77,7 @@ async function listAllCallsPost(filters = {}) {
   let hasMore = true;
   let cursor = null;
   let page = 0;
+  let totalCount = null; // Store total count from API if available
   const maxPages = 100; // Safety limit to prevent infinite loops
   
   // Set a reasonable limit per page if not specified (Retell API typically supports up to 100)
@@ -104,28 +105,57 @@ async function listAllCallsPost(filters = {}) {
         requestBody.offset = page * limit;
       }
       
-      console.log(`📞 Fetching calls page ${page + 1}${cursor ? ` (cursor: ${cursor})` : ''}`);
+      console.log(`📞 Fetching calls page ${page + 1}${cursor ? ` (cursor: ${cursor})` : ''}${page > 0 ? ` (offset: ${page * limit})` : ''}`);
       const res = await client.post("/v2/list-calls", requestBody);
       const data = res.data;
       
-      // Extract calls array from response
+      // Extract calls array and metadata from response
       let callsArray = [];
+      let pageTotalCount = null;
       if (Array.isArray(data)) {
         callsArray = data;
         hasMore = false; // If it's a direct array, assume no pagination
       } else if (data.calls && Array.isArray(data.calls)) {
         callsArray = data.calls;
-        // Check for pagination indicators
+        // Extract total count if available (only from first page)
+        pageTotalCount = data.total_count !== undefined ? data.total_count : 
+                    data.totalCount !== undefined ? data.totalCount :
+                    data.total !== undefined ? data.total : null;
+        // Only update totalCount if we don't have one yet (preserve from first page)
+        if (totalCount === null && pageTotalCount !== null) {
+          totalCount = pageTotalCount;
+        }
+        // Check for pagination indicators - prioritize explicit pagination flags
+        const explicitHasMore = data.has_more !== undefined ? data.has_more : 
+                                 data.hasMore !== undefined ? data.hasMore : null;
         cursor = data.next_cursor || data.cursor || data.next || null;
-        // If we got exactly the limit, assume there might be more pages
-        // Try to continue even without explicit cursor (some APIs don't provide cursors but use offset-based pagination)
-        hasMore = callsArray.length === limit;
+        
+        // If explicit has_more flag exists, use it; otherwise, check if we got exactly the limit
+        if (explicitHasMore !== null) {
+          hasMore = explicitHasMore === true;
+        } else {
+          // If we got exactly the limit, assume there might be more pages
+          // This handles cases where API doesn't provide explicit pagination flags
+          hasMore = callsArray.length === limit;
+        }
       } else if (data.data && Array.isArray(data.data)) {
         callsArray = data.data;
+        pageTotalCount = data.total_count !== undefined ? data.total_count : 
+                    data.totalCount !== undefined ? data.totalCount :
+                    data.total !== undefined ? data.total : null;
+        // Only update totalCount if we don't have one yet (preserve from first page)
+        if (totalCount === null && pageTotalCount !== null) {
+          totalCount = pageTotalCount;
+        }
+        const explicitHasMore = data.has_more !== undefined ? data.has_more : 
+                                 data.hasMore !== undefined ? data.hasMore : null;
         cursor = data.next_cursor || data.cursor || data.next || null;
-        // If we got exactly the limit, assume there might be more pages
-        // Try to continue even without explicit cursor (some APIs don't provide cursors but use offset-based pagination)
-        hasMore = callsArray.length === limit;
+        
+        if (explicitHasMore !== null) {
+          hasMore = explicitHasMore === true;
+        } else {
+          hasMore = callsArray.length === limit;
+        }
       } else {
         // If response structure is unexpected, try to extract any array
         const keys = Object.keys(data);
@@ -138,9 +168,14 @@ async function listAllCallsPost(filters = {}) {
         hasMore = false; // Unknown structure, assume no more pages
       }
       
+      // Store total count from first page if available
+      if (page === 0 && totalCount !== null) {
+        console.log(`📊 Total calls available: ${totalCount}`);
+      }
+      
       allCalls.push(...callsArray);
       console.log(`✅ Fetched ${callsArray.length} calls (total: ${allCalls.length})`);
-      console.log(`   Pagination state: hasMore=${hasMore}, cursor=${cursor ? 'present' : 'null'}, has_more=${data.has_more}`);
+      console.log(`   Pagination state: hasMore=${hasMore}, cursor=${cursor ? 'present' : 'null'}, has_more=${data.has_more !== undefined ? data.has_more : 'not provided'}`);
       
       // If we got fewer results than the limit, we've reached the end
       if (callsArray.length < limit) {
@@ -150,6 +185,13 @@ async function listAllCallsPost(filters = {}) {
         // If we got 0 results on a subsequent page, we've reached the end
         console.log(`   Stopping pagination: received 0 calls on page ${page + 1}`);
         hasMore = false;
+      }
+      
+      // Additional check: if we don't have a cursor and we've tried offset-based pagination,
+      // and we get the same number of calls, we might be stuck. Try to continue anyway if we got exactly the limit.
+      if (!cursor && page > 0 && callsArray.length === limit) {
+        // Continue trying with offset-based pagination
+        console.log(`   No cursor available, using offset-based pagination (offset: ${page * limit})`);
       }
       
       page++;
@@ -169,9 +211,20 @@ async function listAllCallsPost(filters = {}) {
   
   console.log(`✅ Total calls fetched: ${allCalls.length} across ${page} page(s)`);
   
-  // Return in the same format as the original API response
-  // Try to preserve the original structure if possible
-  return allCalls;
+  // Check if we might have missed some calls
+  // If totalCount was provided and we fetched fewer, log a warning
+  if (totalCount !== null && allCalls.length < totalCount) {
+    console.log(`⚠️  Warning: Fetched ${allCalls.length} calls but API indicates ${totalCount} total. Some calls may be missing.`);
+  }
+  
+  // Always return an object with metadata to ensure we can track total counts
+  // Use fetched_count as total_count if API didn't provide it (since we fetched all pages)
+  return {
+    calls: allCalls,
+    total_count: totalCount !== null ? totalCount : allCalls.length,
+    fetched_count: allCalls.length,
+    has_more: totalCount !== null ? allCalls.length < totalCount : false
+  };
 }
 
 async function listAgents() {

@@ -30,6 +30,13 @@ input {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   color: #ffffff;
+  outline: none;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
 input::placeholder {
@@ -142,7 +149,7 @@ pre {
     90deg,
     #3b82f6 0%,
     #8b5cf6 25%,
-    #ec4899 50%,
+    #ff1493 50%,
     #8b5cf6 75%,
     #3b82f6 100%
   );
@@ -179,7 +186,7 @@ audio:focus {
 }
 
 audio::-webkit-media-controls-panel {
-  background-color: rgba(236, 72, 153, 0.15) !important;
+  background-color: rgba(255, 20, 147, 0.2) !important;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 12px;

@@ -14,11 +14,9 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
     next.setMonth(next.getMonth() + 1);
     return next;
   });
-  const [selectionMode, setSelectionMode] = useState("date"); // "date", "range", "week"
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
-  const [selectedWeek, setSelectedWeek] = useState(null);
   const modalRef = useRef(null);
 
   const predefinedRanges = [
@@ -66,57 +64,64 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
     setSelectedDate(null);
     setSelectedStartDate(null);
     setSelectedEndDate(null);
-    setSelectedWeek(null);
     onDateRangeChange(range, null);
     setIsOpen(false);
   };
 
   const handleDateClick = (dateStr) => {
-    if (selectionMode === "date") {
+    // If no date is selected yet, select single date
+    if (!selectedDate && !selectedStartDate) {
       setSelectedDate(dateStr);
       setSelectedStartDate(null);
       setSelectedEndDate(null);
-      setSelectedWeek(null);
       onDateRangeChange("custom", dateStr);
-    } else if (selectionMode === "range") {
-      if (!selectedStartDate || (selectedStartDate && selectedEndDate)) {
-        setSelectedStartDate(dateStr);
-        setSelectedEndDate(null);
-      } else if (selectedStartDate && !selectedEndDate) {
-        const start = new Date(selectedStartDate);
-        const end = new Date(dateStr);
-        if (end < start) {
-          setSelectedEndDate(selectedStartDate);
-          setSelectedStartDate(dateStr);
-        } else {
-          setSelectedEndDate(dateStr);
-        }
-        onDateRangeChange("daterange", {
-          startDate: end < start ? dateStr : selectedStartDate,
-          endDate: end < start ? selectedStartDate : dateStr
-        });
+    }
+    // If a single date is selected, start a range
+    else if (selectedDate && !selectedStartDate) {
+      // If clicking the same date, keep it as single date
+      if (selectedDate === dateStr) {
+        return; // Keep the single date selection
       }
-    } else if (selectionMode === "week") {
-      const date = new Date(dateStr);
-      const weekStart = new Date(date);
-      const dayOfWeek = weekStart.getDay();
-      weekStart.setDate(weekStart.getDate() - dayOfWeek);
-      weekStart.setHours(0, 0, 0, 0);
+      // Otherwise, convert to date range
+      const start = new Date(selectedDate);
+      const end = new Date(dateStr);
+      const startDate = end < start ? dateStr : selectedDate;
+      const endDate = end < start ? selectedDate : dateStr;
       
-      const weekEnd = new Date(weekStart);
-      weekEnd.setDate(weekEnd.getDate() + 6);
-      weekEnd.setHours(23, 59, 59, 999);
-      
-      const weekRange = {
-        startDate: weekStart.toISOString().split('T')[0],
-        endDate: weekEnd.toISOString().split('T')[0]
-      };
-      
-      setSelectedWeek(weekRange);
       setSelectedDate(null);
+      setSelectedStartDate(startDate);
+      setSelectedEndDate(endDate);
+      onDateRangeChange("daterange", {
+        startDate: startDate,
+        endDate: endDate
+      });
+    }
+    // If a range is already selected, start a new selection
+    else if (selectedStartDate && selectedEndDate) {
+      // Start a new single date selection
+      setSelectedDate(dateStr);
       setSelectedStartDate(null);
       setSelectedEndDate(null);
-      onDateRangeChange("daterange", weekRange);
+      onDateRangeChange("custom", dateStr);
+    }
+    // If only start date is selected (shouldn't happen with new logic, but handle it)
+    else if (selectedStartDate && !selectedEndDate) {
+      const start = new Date(selectedStartDate);
+      const end = new Date(dateStr);
+      if (end < start) {
+        setSelectedEndDate(selectedStartDate);
+        setSelectedStartDate(dateStr);
+        onDateRangeChange("daterange", {
+          startDate: dateStr,
+          endDate: selectedStartDate
+        });
+      } else {
+        setSelectedEndDate(dateStr);
+        onDateRangeChange("daterange", {
+          startDate: selectedStartDate,
+          endDate: dateStr
+        });
+      }
     }
   };
 
@@ -164,10 +169,10 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
             padding: isMobile ? "10px 16px" : "12px 20px",
             fontSize: isMobile ? "13px" : "14px",
             border: selectedRange !== "all" 
-              ? "1px solid rgba(236, 72, 153, 0.4)" 
+              ? "1px solid rgba(255, 20, 147, 0.5)" 
               : "1px solid rgba(255, 255, 255, 0.1)",
             background: selectedRange !== "all"
-              ? "rgba(236, 72, 153, 0.15)"
+              ? "rgba(255, 20, 147, 0.2)"
               : "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
@@ -178,23 +183,23 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
             whiteSpace: "nowrap",
             boxShadow: selectedRange !== "all"
-              ? "0 2px 8px rgba(236, 72, 153, 0.2)"
+              ? "0 2px 8px rgba(255, 20, 147, 0.3)"
               : "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
           }}
           onMouseOver={(e) => {
             e.target.style.transform = "translateY(-1px) scale(1.02)";
             e.target.style.boxShadow = selectedRange !== "all"
-              ? "0 4px 12px rgba(236, 72, 153, 0.3)"
-              : "0 8px 24px rgba(236, 72, 153, 0.2), 0 1px 0 rgba(255, 255, 255, 0.1) inset";
+              ? "0 4px 12px rgba(255, 20, 147, 0.4)"
+              : "0 8px 24px rgba(255, 20, 147, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1) inset";
             if (selectedRange === "all") {
-              e.target.style.border = "1px solid rgba(236, 72, 153, 0.3)";
-              e.target.style.background = "rgba(236, 72, 153, 0.1)";
+              e.target.style.border = "1px solid rgba(255, 20, 147, 0.4)";
+              e.target.style.background = "rgba(255, 20, 147, 0.15)";
             }
           }}
           onMouseOut={(e) => {
             e.target.style.transform = "translateY(0) scale(1)";
             e.target.style.boxShadow = selectedRange !== "all"
-              ? "0 2px 8px rgba(236, 72, 153, 0.2)"
+              ? "0 2px 8px rgba(255, 20, 147, 0.3)"
               : "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset";
             if (selectedRange === "all") {
               e.target.style.border = "1px solid rgba(255, 255, 255, 0.1)";
@@ -257,10 +262,10 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       padding: isMobile ? "6px 10px" : "6px 10px",
                       fontSize: "11px",
                       border: selectedRange === range.value 
-                        ? "1px solid rgba(236, 72, 153, 0.5)" 
+                        ? "1px solid rgba(255, 20, 147, 0.6)" 
                         : "1px solid rgba(255, 255, 255, 0.1)",
                       background: selectedRange === range.value
-                        ? "rgba(236, 72, 153, 0.15)"
+                        ? "rgba(255, 20, 147, 0.2)"
                         : "rgba(255, 255, 255, 0.03)",
                       backdropFilter: "blur(10px)",
                       WebkitBackdropFilter: "blur(10px)",
@@ -276,85 +281,6 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                     {range.label}
                   </button>
                 ))}
-                
-                {/* Selection Mode Buttons */}
-                <div style={{
-                  fontSize: "10px",
-                  fontWeight: 600,
-                  color: "#a1a1aa",
-                  marginTop: "12px",
-                  marginBottom: "4px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.5px"
-                }}>
-                  Select Mode
-                </div>
-                <button
-                  onClick={() => setSelectionMode("date")}
-                  style={{
-                    padding: isMobile ? "6px 10px" : "6px 10px",
-                    fontSize: "11px",
-                    border: selectionMode === "date"
-                      ? "1px solid rgba(102, 126, 234, 0.5)"
-                      : "1px solid rgba(255, 255, 255, 0.1)",
-                    background: selectionMode === "date"
-                      ? "linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)"
-                      : "rgba(255, 255, 255, 0.03)",
-                    color: selectionMode === "date" ? "#fff" : "#d4d4d8",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontWeight: selectionMode === "date" ? 500 : 400,
-                    transition: "all 0.2s ease",
-                    textAlign: "left",
-                    width: "100%"
-                  }}
-                >
-                  Single Date
-                </button>
-                <button
-                  onClick={() => setSelectionMode("range")}
-                  style={{
-                    padding: isMobile ? "6px 10px" : "6px 10px",
-                    fontSize: "11px",
-                    border: selectionMode === "range"
-                      ? "1px solid rgba(102, 126, 234, 0.5)"
-                      : "1px solid rgba(255, 255, 255, 0.1)",
-                    background: selectionMode === "range"
-                      ? "linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)"
-                      : "rgba(255, 255, 255, 0.03)",
-                    color: selectionMode === "range" ? "#fff" : "#d4d4d8",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontWeight: selectionMode === "range" ? 500 : 400,
-                    transition: "all 0.2s ease",
-                    textAlign: "left",
-                    width: "100%"
-                  }}
-                >
-                  Date Range
-                </button>
-                <button
-                  onClick={() => setSelectionMode("week")}
-                  style={{
-                    padding: isMobile ? "6px 10px" : "6px 10px",
-                    fontSize: "11px",
-                    border: selectionMode === "week"
-                      ? "1px solid rgba(102, 126, 234, 0.5)"
-                      : "1px solid rgba(255, 255, 255, 0.1)",
-                    background: selectionMode === "week"
-                      ? "linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)"
-                      : "rgba(255, 255, 255, 0.03)",
-                    color: selectionMode === "week" ? "#fff" : "#d4d4d8",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    fontWeight: selectionMode === "week" ? 500 : 400,
-                    transition: "all 0.2s ease",
-                    textAlign: "left",
-                    width: "100%"
-                  }}
-                >
-                  Week Range
-                </button>
               </div>
 
               {/* Calendars Section */}
@@ -378,14 +304,14 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       transition: "all 0.2s ease"
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.background = "rgba(236, 72, 153, 0.2)";
-                      e.target.style.borderColor = "rgba(236, 72, 153, 0.5)";
+                      e.target.style.background = "rgba(255, 20, 147, 0.25)";
+                      e.target.style.borderColor = "rgba(255, 20, 147, 0.6)";
                       e.target.style.color = "#ffffff";
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.background = "rgba(236, 72, 153, 0.1)";
-                      e.target.style.borderColor = "rgba(236, 72, 153, 0.3)";
-                      e.target.style.color = "rgba(244, 114, 182, 0.9)";
+                      e.target.style.background = "rgba(255, 20, 147, 0.15)";
+                      e.target.style.borderColor = "rgba(255, 20, 147, 0.4)";
+                      e.target.style.color = "rgba(255, 105, 180, 1)";
                     }}
                   >
                     ← Previous
@@ -417,14 +343,14 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       transition: "all 0.2s ease"
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.background = "rgba(236, 72, 153, 0.2)";
-                      e.target.style.borderColor = "rgba(236, 72, 153, 0.5)";
+                      e.target.style.background = "rgba(255, 20, 147, 0.25)";
+                      e.target.style.borderColor = "rgba(255, 20, 147, 0.6)";
                       e.target.style.color = "#ffffff";
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.background = "rgba(236, 72, 153, 0.1)";
-                      e.target.style.borderColor = "rgba(236, 72, 153, 0.3)";
-                      e.target.style.color = "rgba(244, 114, 182, 0.9)";
+                      e.target.style.background = "rgba(255, 20, 147, 0.15)";
+                      e.target.style.borderColor = "rgba(255, 20, 147, 0.4)";
+                      e.target.style.color = "rgba(255, 105, 180, 1)";
                     }}
                   >
                     Next →
@@ -443,8 +369,6 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                     selectedDate={selectedDate}
                     selectedStartDate={selectedStartDate}
                     selectedEndDate={selectedEndDate}
-                    selectedWeek={selectedWeek}
-                    selectionMode={selectionMode}
                     onDateClick={handleDateClick}
                     isMobile={isMobile}
                   />
@@ -454,8 +378,6 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                     selectedDate={selectedDate}
                     selectedStartDate={selectedStartDate}
                     selectedEndDate={selectedEndDate}
-                    selectedWeek={selectedWeek}
-                    selectionMode={selectionMode}
                     onDateClick={handleDateClick}
                     isMobile={isMobile}
                   />
@@ -469,7 +391,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
 }
 
 // Calendar Component
-function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, selectedEndDate, selectedWeek, selectionMode, onDateClick, isMobile }) {
+function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, selectedEndDate, onDateClick, isMobile }) {
   const year = month.getFullYear();
   const monthIndex = month.getMonth();
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -506,13 +428,6 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
     return date >= start && date <= end;
   };
 
-  const isDateInWeek = (dateStr) => {
-    if (!selectedWeek) return false;
-    const date = new Date(dateStr);
-    const start = new Date(selectedWeek.startDate);
-    const end = new Date(selectedWeek.endDate);
-    return date >= start && date <= end;
-  };
 
   const today = new Date();
   const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
@@ -569,9 +484,7 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
           }
 
           const isToday = dateStr === todayStr;
-          const isSelected = selectedDate === dateStr || 
-                           (selectionMode === "range" && isDateInRange(dateStr)) ||
-                           (selectionMode === "week" && isDateInWeek(dateStr));
+          const isSelected = selectedDate === dateStr || isDateInRange(dateStr);
           const isHighlighted = isDateHighlighted(dateStr);
           const isStart = selectedStartDate === dateStr;
           const isEnd = selectedEndDate === dateStr;
@@ -589,11 +502,11 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
                 alignItems: "center",
                 justifyContent: "center",
                 background: isSelected
-                  ? "rgba(236, 72, 153, 0.4)"
+                  ? "rgba(255, 20, 147, 0.5)"
                   : isHighlighted
-                  ? "rgba(236, 72, 153, 0.2)"
+                  ? "rgba(255, 20, 147, 0.25)"
                   : "transparent",
-                color: isSelected ? "#fff" : isToday ? "rgba(244, 114, 182, 0.9)" : "#ffffff",
+                color: isSelected ? "#fff" : isToday ? "rgba(255, 105, 180, 1)" : "#ffffff",
                 borderRadius: isMobile ? "4px" : "5px",
                 cursor: "pointer",
                 fontSize: isMobile ? "9px" : "11px",
@@ -601,7 +514,7 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
                 transition: "all 0.2s ease",
                 position: "relative",
                 border: isStart || isEnd 
-                  ? (isMobile ? "1px solid rgba(236, 72, 153, 0.8)" : "2px solid rgba(236, 72, 153, 0.8)")
+                  ? (isMobile ? "1px solid rgba(255, 20, 147, 1)" : "2px solid rgba(255, 20, 147, 1)")
                   : "1px solid transparent",
                 boxSizing: "border-box",
                 overflow: "hidden",
@@ -610,12 +523,12 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
               }}
               onMouseOver={(e) => {
                 if (!isSelected) {
-                  e.target.style.background = "rgba(236, 72, 153, 0.15)";
+                  e.target.style.background = "rgba(255, 20, 147, 0.2)";
                 }
               }}
               onMouseOut={(e) => {
                 if (!isSelected) {
-                  e.target.style.background = isHighlighted ? "rgba(236, 72, 153, 0.2)" : "transparent";
+                  e.target.style.background = isHighlighted ? "rgba(255, 20, 147, 0.25)" : "transparent";
                 }
               }}
             >

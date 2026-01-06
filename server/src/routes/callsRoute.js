@@ -244,19 +244,29 @@ router.post("/list-calls", authMiddleware, async (req, res) => {
       callsResult = await listCallsPost(apiFilters);
     }
 
-    // Extract calls array from response
+    // Extract calls array and metadata from response
     let callsArray = [];
+    let totalCount = null;
+    let fetchedCount = null;
     if (Array.isArray(callsResult)) {
       callsArray = callsResult;
+      fetchedCount = callsResult.length;
     } else if (callsResult.calls && Array.isArray(callsResult.calls)) {
       callsArray = callsResult.calls;
+      totalCount = callsResult.total_count;
+      fetchedCount = callsResult.fetched_count || callsResult.calls.length;
     } else if (callsResult.data && Array.isArray(callsResult.data)) {
       callsArray = callsResult.data;
+      totalCount = callsResult.total_count;
+      fetchedCount = callsResult.fetched_count || callsResult.data.length;
     } else {
       // If structure is unknown, return as-is
       res.json(callsResult);
       return;
     }
+    
+    // Store original counts before filtering
+    const originalCount = callsArray.length;
 
     // Fetch active agents to filter out calls from deleted agents
     try {
@@ -296,20 +306,22 @@ router.post("/list-calls", authMiddleware, async (req, res) => {
 
         console.log(`🔍 Filtered ${callsArray.length} calls to ${filteredCalls.length} (removed ${callsArray.length - filteredCalls.length} calls from deleted agents)`);
         
-        // Return filtered calls in the same structure
-        if (Array.isArray(callsResult)) {
-          res.json(filteredCalls);
-        } else if (callsResult.calls) {
-          res.json({ ...callsResult, calls: filteredCalls });
-        } else if (callsResult.data) {
-          res.json({ ...callsResult, data: filteredCalls });
-        } else {
-          res.json(filteredCalls);
-        }
+        // Return filtered calls in the same structure, preserving total count
+        const response = {
+          calls: filteredCalls,
+          ...(totalCount !== null && { total_count: totalCount }),
+          ...(fetchedCount !== null && { fetched_count: fetchedCount })
+        };
+        res.json(response);
       } else {
         // No agents list available, return all calls (graceful degradation)
         console.log("⚠️  Could not fetch agents list, returning all calls without filtering");
-        res.json(callsResult);
+        const response = {
+          calls: callsArray,
+          ...(totalCount !== null && { total_count: totalCount }),
+          ...(fetchedCount !== null && { fetched_count: fetchedCount })
+        };
+        res.json(response);
       }
     } catch (agentErr) {
       // If fetching agents fails, log but don't fail the request

@@ -79,7 +79,7 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
         </span>
         <span style={{ 
           fontSize: isMobile ? "1em" : "1.1em", 
-          color: isOpen ? "rgba(244, 114, 182, 0.9)" : "rgba(244, 114, 182, 0.6)",
+          color: isOpen ? "rgba(255, 105, 180, 1)" : "rgba(255, 105, 180, 0.7)",
           marginLeft: isMobile ? 12 : 16,
           flexShrink: 0,
           transition: "all 0.2s ease"

@@ -115,13 +115,31 @@ export default function Login({ onLogin, onNavigateToHome }) {
 
   return (
     <div style={{
-      ...layoutStyles.login,
-      ...(isMobile && layoutStyles.loginMobile)
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundImage: "url('/colorful.png')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "fixed",
+      padding: isMobile ? "20px" : "40px",
+      position: "relative"
     }}>
+      <div style={{
+        ...layoutStyles.login,
+        ...(isMobile && layoutStyles.loginMobile),
+        background: "rgba(255, 255, 255, 0.08)",
+        backdropFilter: "blur(30px)",
+        WebkitBackdropFilter: "blur(30px)",
+        border: "1px solid rgba(255, 255, 255, 0.2)",
+        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
+      }}>
       <h2 style={{ 
         fontSize: isMobile ? "1.5em" : "1.8em", 
         marginTop: 0,
-        color: "#f4f4f5",
+        color: "#ffffff",
         fontWeight: 600
       }}>
         Customer Login
@@ -188,7 +206,7 @@ export default function Login({ onLogin, onNavigateToHome }) {
                 background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
                 backdropFilter: "blur(20px)",
                 WebkitBackdropFilter: "blur(20px)",
-                color: "#d4d4d8",
+                color: "#ffffff",
                 borderRadius: "12px",
                 cursor: loading || isLockedOut ? "not-allowed" : "pointer",
                 fontWeight: 400,
@@ -203,6 +221,7 @@ export default function Login({ onLogin, onNavigateToHome }) {
                 if (!loading && !isLockedOut) {
                   e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%)";
                   e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                  e.target.style.color = "#ffffff";
                   e.target.style.transform = "translateY(-1px) scale(1.02)";
                   e.target.style.boxShadow = "0 8px 24px rgba(0, 0, 0, 0.3)";
                 }
@@ -211,6 +230,7 @@ export default function Login({ onLogin, onNavigateToHome }) {
                 if (!loading && !isLockedOut) {
                   e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)";
                   e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                  e.target.style.color = "#ffffff";
                   e.target.style.transform = "translateY(0) scale(1)";
                   e.target.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.2)";
                 }
@@ -230,7 +250,7 @@ export default function Login({ onLogin, onNavigateToHome }) {
               background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
               backdropFilter: "blur(20px)",
               WebkitBackdropFilter: "blur(20px)",
-              color: "#d4d4d8",
+              color: "#ffffff",
               borderRadius: "12px",
               cursor: loading || isLockedOut ? "not-allowed" : "pointer",
               fontWeight: 400,
@@ -245,7 +265,7 @@ export default function Login({ onLogin, onNavigateToHome }) {
               if (!loading && !isLockedOut) {
                 e.target.style.background = "linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 50%, rgba(240, 147, 251, 0.2) 100%)";
                 e.target.style.borderColor = "rgba(255, 255, 255, 0.25)";
-                e.target.style.color = "#fff";
+                e.target.style.color = "#ffffff";
                 e.target.style.fontWeight = 500;
                 e.target.style.transform = "translateY(-1px) scale(1.02)";
                 e.target.style.boxShadow = "0 12px 40px rgba(102, 126, 234, 0.35)";
@@ -255,7 +275,7 @@ export default function Login({ onLogin, onNavigateToHome }) {
               if (!loading && !isLockedOut) {
                 e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)";
                 e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
-                e.target.style.color = "#d4d4d8";
+                e.target.style.color = "#ffffff";
                 e.target.style.fontWeight = 400;
                 e.target.style.transform = "translateY(0) scale(1)";
                 e.target.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.2)";
@@ -279,6 +299,7 @@ export default function Login({ onLogin, onNavigateToHome }) {
           </div>
         )}
       </form>
+      </div>
     </div>
   );
 }

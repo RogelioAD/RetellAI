@@ -65,7 +65,11 @@ export default function UserManagement({ token, users, loading, error, onUserCre
         marginTop: 0,
         fontSize: isMobile ? "1.2em" : "1.3em",
         color: "#f4f4f5",
-        fontWeight: 600
+        fontWeight: 600,
+        background: "transparent",
+        border: "none",
+        padding: 0,
+        marginBottom: isMobile ? 12 : 16
       }}>User Management</h3>
       
       <CreateUserForm

@@ -14,9 +14,15 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
         position: "sticky",
         top: 0,
         zIndex: 100,
-        background: "rgba(255, 255, 255, 0.06)",
-        backdropFilter: "blur(20px)",
-        borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+        backgroundImage: "url('/colorful.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        backgroundColor: "rgba(255, 255, 255, 0.08)",
+        backdropFilter: "blur(30px)",
+        WebkitBackdropFilter: "blur(30px)",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
         padding: isMobile ? "16px 20px" : "20px 32px",
         display: "flex",
         justifyContent: "space-between",
@@ -78,7 +84,30 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
             {user?.username || "User"}
           </span>
         </div>
-        <Button onClick={onLogout} style={{ fontSize: isMobile ? "13px" : "14px" }}>
+        <Button 
+          onClick={onLogout} 
+          style={{ 
+            fontSize: isMobile ? "13px" : "14px",
+            background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
+            color: "#ffffff"
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = "linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 50%, rgba(240, 147, 251, 0.2) 100%)";
+            e.target.style.borderColor = "rgba(255, 255, 255, 0.25)";
+            e.target.style.color = "#ffffff";
+            e.target.style.fontWeight = 500;
+            e.target.style.transform = "translateY(-1px) scale(1.02)";
+            e.target.style.boxShadow = "0 12px 40px rgba(102, 126, 234, 0.35)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)";
+            e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
+            e.target.style.color = "#ffffff";
+            e.target.style.fontWeight = 400;
+            e.target.style.transform = "translateY(0) scale(1)";
+            e.target.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.2)";
+          }}
+        >
           Logout
         </Button>
       </div>

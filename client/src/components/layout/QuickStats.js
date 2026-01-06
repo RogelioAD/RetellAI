@@ -6,11 +6,14 @@ import { formatDateRangeLabel } from "../../utils/dateFormatters";
 /**
  * Quick stats component showing overview metrics
  */
-export default function QuickStats({ calls, filteredCalls, isAdmin, selectedRange = "all", customDate = null }) {
+export default function QuickStats({ calls, filteredCalls, isAdmin, selectedRange = "all", customDate = null, totalCount = null }) {
   const { isMobile } = useResponsive();
 
-  // Calculate stats - use filteredCalls for total count, but all calls for Today/This Week
-  const totalCalls = filteredCalls ? filteredCalls.length : calls.length;
+  // Calculate stats - use totalCount from API if available (for unfiltered), otherwise use filteredCalls.length
+  // For "All Time" range, show totalCount; for filtered ranges, show filteredCalls.length
+  const totalCalls = selectedRange === "all" && totalCount !== null 
+    ? totalCount 
+    : (filteredCalls ? filteredCalls.length : calls.length);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const todayCalls = calls.filter((item) => {
@@ -55,15 +58,15 @@ export default function QuickStats({ calls, filteredCalls, isAdmin, selectedRang
           style={{
             padding: isMobile ? "16px" : "20px",
             background: index === 0 
-              ? "rgba(236, 72, 153, 0.08)" 
+              ? "rgba(255, 20, 147, 0.12)" 
               : "rgba(255, 255, 255, 0.06)",
             backdropFilter: "blur(20px)",
             border: index === 0
-              ? "1px solid rgba(236, 72, 153, 0.2)"
+              ? "1px solid rgba(255, 20, 147, 0.3)"
               : "1px solid rgba(255, 255, 255, 0.1)",
             borderRadius: 12,
             boxShadow: index === 0
-              ? "0 2px 8px rgba(236, 72, 153, 0.15)"
+              ? "0 2px 8px rgba(255, 20, 147, 0.2)"
               : "0 2px 8px rgba(0, 0, 0, 0.1)",
           }}
         >

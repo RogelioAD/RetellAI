@@ -18,7 +18,7 @@ import { extractCreatedAt } from "../utils/callDataTransformers";
 export default function Dashboard({ token, user, onLogout }) {
   const { isMobile } = useResponsive();
   const isAdmin = user?.role === "admin";
-  const { calls, loading, error, refreshCalls } = useCalls(token, isAdmin);
+  const { calls, loading, error, totalCount, refreshCalls } = useCalls(token, isAdmin);
   
   const [currentSection, setCurrentSection] = useState("calls");
   const { users, loading: loadingUsers, error: userError, refreshUsers } = useUsers(
@@ -104,6 +104,7 @@ export default function Dashboard({ token, user, onLogout }) {
                 isAdmin={isAdmin}
                 selectedRange={selectedDateRange}
                 customDate={customDate}
+                totalCount={totalCount}
               />
             )}
 
