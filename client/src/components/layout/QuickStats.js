@@ -1,15 +1,16 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import { extractCreatedAt } from "../../utils/callDataTransformers";
+import { formatDateRangeLabel } from "../../utils/dateFormatters";
 
 /**
  * Quick stats component showing overview metrics
  */
-export default function QuickStats({ calls, isAdmin }) {
+export default function QuickStats({ calls, filteredCalls, isAdmin, selectedRange = "all", customDate = null }) {
   const { isMobile } = useResponsive();
 
-  // Calculate stats
-  const totalCalls = calls.length;
+  // Calculate stats - use filteredCalls for total count, but all calls for Today/This Week
+  const totalCalls = filteredCalls ? filteredCalls.length : calls.length;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const todayCalls = calls.filter((item) => {
@@ -30,8 +31,11 @@ export default function QuickStats({ calls, isAdmin }) {
     return callDate >= thisWeek;
   }).length;
 
+  // Get dynamic label for total calls card
+  const totalCallsLabel = formatDateRangeLabel(selectedRange, customDate);
+
   const stats = [
-    { label: "Total Calls", value: totalCalls, icon: "📞" },
+    { label: totalCallsLabel, value: totalCalls, icon: "📞" },
     { label: "Today", value: todayCalls, icon: "📅" },
     { label: "This Week", value: weekCalls, icon: "📆" },
   ];
@@ -45,9 +49,9 @@ export default function QuickStats({ calls, isAdmin }) {
         marginBottom: isMobile ? "20px" : "24px",
       }}
     >
-      {stats.map((stat) => (
+      {stats.map((stat, index) => (
         <div
-          key={stat.label}
+          key={stat.icon}
           style={{
             padding: isMobile ? "16px" : "20px",
             background: "rgba(255, 255, 255, 0.03)",

@@ -99,6 +99,9 @@ async function listAllCallsPost(filters = {}) {
         if (!requestBody.next_cursor) {
           requestBody.offset = cursor;
         }
+      } else if (page > 0) {
+        // If no cursor but we're past page 1, try offset-based pagination
+        requestBody.offset = page * limit;
       }
       
       console.log(`📞 Fetching calls page ${page + 1}${cursor ? ` (cursor: ${cursor})` : ''}`);
@@ -114,11 +117,15 @@ async function listAllCallsPost(filters = {}) {
         callsArray = data.calls;
         // Check for pagination indicators
         cursor = data.next_cursor || data.cursor || data.next || null;
-        hasMore = data.has_more !== false && cursor !== null && callsArray.length === limit;
+        // If we got exactly the limit, assume there might be more pages
+        // Try to continue even without explicit cursor (some APIs don't provide cursors but use offset-based pagination)
+        hasMore = callsArray.length === limit;
       } else if (data.data && Array.isArray(data.data)) {
         callsArray = data.data;
         cursor = data.next_cursor || data.cursor || data.next || null;
-        hasMore = data.has_more !== false && cursor !== null && callsArray.length === limit;
+        // If we got exactly the limit, assume there might be more pages
+        // Try to continue even without explicit cursor (some APIs don't provide cursors but use offset-based pagination)
+        hasMore = callsArray.length === limit;
       } else {
         // If response structure is unexpected, try to extract any array
         const keys = Object.keys(data);
@@ -133,14 +140,15 @@ async function listAllCallsPost(filters = {}) {
       
       allCalls.push(...callsArray);
       console.log(`✅ Fetched ${callsArray.length} calls (total: ${allCalls.length})`);
+      console.log(`   Pagination state: hasMore=${hasMore}, cursor=${cursor ? 'present' : 'null'}, has_more=${data.has_more}`);
       
       // If we got fewer results than the limit, we've reached the end
       if (callsArray.length < limit) {
+        console.log(`   Stopping pagination: received ${callsArray.length} calls (less than limit of ${limit})`);
         hasMore = false;
-      }
-      
-      // If no cursor and no has_more flag, assume we're done
-      if (!cursor && hasMore) {
+      } else if (callsArray.length === 0 && page > 0) {
+        // If we got 0 results on a subsequent page, we've reached the end
+        console.log(`   Stopping pagination: received 0 calls on page ${page + 1}`);
         hasMore = false;
       }
       

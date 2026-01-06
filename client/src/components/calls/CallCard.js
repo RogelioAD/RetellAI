@@ -47,11 +47,6 @@ export default function CallCard({
     }
   }, [call, isAdmin, phoneNumber, durationSeconds, recordingUrl]);
   
-  const handleRecordingClick = () => {
-    if (recordingUrl) {
-      window.open(recordingUrl, '_blank', 'noopener,noreferrer');
-    }
-  };
 
   return (
     <div
@@ -153,7 +148,7 @@ export default function CallCard({
               marginBottom: isMobile ? 16 : 20,
               padding: isMobile ? 14 : 16,
               background: "rgba(102, 126, 234, 0.06)",
-              borderRadius: 10,
+              borderRadius: 12,
               border: "1px solid rgba(102, 126, 234, 0.15)",
               display: "flex",
               flexDirection: isMobile ? "column" : "row",
@@ -176,22 +171,23 @@ export default function CallCard({
                 </div>
               </div>
               {recordingUrl ? (
-                <Button
-                  onClick={handleRecordingClick}
-                  style={{
-                    background: "linear-gradient(135deg, rgba(79, 172, 254, 0.2) 0%, rgba(0, 242, 254, 0.2) 100%)",
-                    backdropFilter: "blur(20px)",
-                    WebkitBackdropFilter: "blur(20px)",
-                    border: "1px solid rgba(79, 172, 254, 0.3)",
-                    color: "#fff",
-                    fontSize: isMobile ? "0.85em" : "0.9em",
-                    padding: isMobile ? "10px 16px" : "10px 20px",
-                    fontWeight: 500,
-                    boxShadow: "0 8px 32px rgba(79, 172, 254, 0.25), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
-                  }}
-                >
-                  🎵 Play Recording
-                </Button>
+                <div style={{
+                  width: isMobile ? "100%" : "auto",
+                  minWidth: isMobile ? "100%" : "300px"
+                }}>
+                  <audio
+                    controls
+                    src={recordingUrl}
+                    style={{
+                      width: "100%",
+                      height: isMobile ? "36px" : "40px",
+                      outline: "none"
+                    }}
+                    preload="metadata"
+                  >
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
               ) : (
                 <span style={{ fontSize: isMobile ? "0.85em" : "0.9em", color: "#71717a" }}>
                   No recording available

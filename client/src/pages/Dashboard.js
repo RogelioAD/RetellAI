@@ -97,13 +97,20 @@ export default function Dashboard({ token, user, onLogout }) {
           <>
             {/* Quick Stats */}
             {!loading && !error && calls.length > 0 && (
-              <QuickStats calls={calls} isAdmin={isAdmin} />
+              <QuickStats 
+                calls={calls}
+                filteredCalls={filteredCalls}
+                isAdmin={isAdmin}
+                selectedRange={selectedDateRange}
+                customDate={customDate}
+              />
             )}
 
             {/* Date Filter */}
             <DateFilter
               onDateRangeChange={handleDateRangeChange}
               selectedRange={selectedDateRange}
+              customDateValue={customDate}
             />
 
             {loading && (

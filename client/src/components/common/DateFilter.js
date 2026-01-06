@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 
 /**
  * Date filter component with predefined ranges and calendar selection
  */
-export default function DateFilter({ onDateRangeChange, selectedRange = "all" }) {
+export default function DateFilter({ onDateRangeChange, selectedRange = "all", customDateValue = null }) {
   const { isMobile } = useResponsive();
   const [customDate, setCustomDate] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const showCalendar = selectedRange === "custom";
+  const showRangeCalendar = selectedRange === "daterange";
+
+  // Initialize date values from props if available
+  useEffect(() => {
+    if (customDateValue && typeof customDateValue === 'string') {
+      setCustomDate(customDateValue);
+    } else if (customDateValue && customDateValue.startDate && customDateValue.endDate) {
+      setStartDate(customDateValue.startDate);
+      setEndDate(customDateValue.endDate);
+    }
+  }, [customDateValue]);
 
   const predefinedRanges = [
     { value: "all", label: "All Time" },
@@ -19,13 +32,18 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
     { value: "last3months", label: "Last 3 Months" },
     { value: "last4months", label: "Last 4 Months" },
     { value: "custom", label: "Select Date" },
+    { value: "daterange", label: "Select Range" },
   ];
 
   const handleRangeChange = (range) => {
     if (range === "custom") {
       onDateRangeChange(range, customDate || null);
+    } else if (range === "daterange") {
+      onDateRangeChange(range, { startDate, endDate });
     } else {
       setCustomDate("");
+      setStartDate("");
+      setEndDate("");
       onDateRangeChange(range, null);
     }
   };
@@ -34,6 +52,24 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
     setCustomDate(date);
     if (date) {
       onDateRangeChange("custom", date);
+    }
+  };
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+    if (date && endDate) {
+      onDateRangeChange("daterange", { startDate: date, endDate });
+    } else if (date) {
+      onDateRangeChange("daterange", { startDate: date, endDate: "" });
+    }
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+    if (date && startDate) {
+      onDateRangeChange("daterange", { startDate, endDate: date });
+    } else if (date) {
+      onDateRangeChange("daterange", { startDate: "", endDate: date });
     }
   };
 
@@ -52,7 +88,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
         flexWrap: "wrap",
         gap: isMobile ? "10px" : "12px",
         alignItems: "center",
-        marginBottom: showCalendar ? "16px" : "0"
+        marginBottom: (showCalendar || showRangeCalendar) ? "16px" : "0"
       }}>
         {predefinedRanges.map((range) => (
           <button
@@ -162,6 +198,114 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all" })
           />
         </div>
       )}
+
+      {showRangeCalendar && (
+        <div style={{
+          marginTop: "16px",
+          padding: "16px",
+          background: "rgba(255, 255, 255, 0.04)",
+          borderRadius: "10px",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+        }}>
+          <div style={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            gap: "16px",
+          }}>
+            <div style={{ flex: 1 }}>
+              <label style={{
+                display: "block",
+                marginBottom: "10px",
+                fontSize: isMobile ? "13px" : "14px",
+                fontWeight: 500,
+                color: "#a1a1aa"
+              }}>
+                Start Date:
+              </label>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => handleStartDateChange(e.target.value)}
+                max={endDate || new Date().toISOString().split('T')[0]}
+                style={{
+                  padding: "12px 16px",
+                  fontSize: isMobile ? "14px" : "15px",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  borderRadius: "8px",
+                  width: "100%",
+                  cursor: "pointer",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                  color: "#e4e4e7",
+                  colorScheme: "dark",
+                  WebkitColorScheme: "dark",
+                  transition: "all 0.2s ease",
+                  boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
+                  WebkitAppearance: "none",
+                  appearance: "none"
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = "#667eea";
+                  e.target.style.boxShadow = "0 0 0 3px rgba(102, 126, 234, 0.15), 0 4px 16px rgba(0, 0, 0, 0.2)";
+                  e.target.style.background = "rgba(255, 255, 255, 0.08)";
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                  e.target.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset";
+                  e.target.style.background = "rgba(255, 255, 255, 0.05)";
+                }}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{
+                display: "block",
+                marginBottom: "10px",
+                fontSize: isMobile ? "13px" : "14px",
+                fontWeight: 500,
+                color: "#a1a1aa"
+              }}>
+                End Date:
+              </label>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => handleEndDateChange(e.target.value)}
+                min={startDate}
+                max={new Date().toISOString().split('T')[0]}
+                style={{
+                  padding: "12px 16px",
+                  fontSize: isMobile ? "14px" : "15px",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  borderRadius: "8px",
+                  width: "100%",
+                  cursor: "pointer",
+                  background: "rgba(255, 255, 255, 0.05)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                  color: "#e4e4e7",
+                  colorScheme: "dark",
+                  WebkitColorScheme: "dark",
+                  transition: "all 0.2s ease",
+                  boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
+                  WebkitAppearance: "none",
+                  appearance: "none"
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = "#667eea";
+                  e.target.style.boxShadow = "0 0 0 3px rgba(102, 126, 234, 0.15), 0 4px 16px rgba(0, 0, 0, 0.2)";
+                  e.target.style.background = "rgba(255, 255, 255, 0.08)";
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                  e.target.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset";
+                  e.target.style.background = "rgba(255, 255, 255, 0.05)";
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -223,6 +367,21 @@ export function getDateRange(range, customDateValue = null) {
         startDate = new Date(customDateValue);
         startDate.setHours(0, 0, 0, 0);
         endDate = new Date(customDateValue);
+        endDate.setHours(23, 59, 59, 999);
+      }
+      break;
+    
+    case "daterange":
+      if (customDateValue && customDateValue.startDate && customDateValue.endDate) {
+        startDate = new Date(customDateValue.startDate);
+        startDate.setHours(0, 0, 0, 0);
+        endDate = new Date(customDateValue.endDate);
+        endDate.setHours(23, 59, 59, 999);
+      } else if (customDateValue && customDateValue.startDate) {
+        startDate = new Date(customDateValue.startDate);
+        startDate.setHours(0, 0, 0, 0);
+      } else if (customDateValue && customDateValue.endDate) {
+        endDate = new Date(customDateValue.endDate);
         endDate.setHours(23, 59, 59, 999);
       }
       break;

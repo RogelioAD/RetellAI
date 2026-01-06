@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import CallCard from "./CallCard";
 import { extractCallId, extractCreatedAt } from "../../utils/callDataTransformers";
@@ -9,6 +9,15 @@ import { extractCallId, extractCreatedAt } from "../../utils/callDataTransformer
 export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
   const { isMobile } = useResponsive();
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const [displayLimit, setDisplayLimit] = useState(20); // Show first 20 calls initially
+  
+  const INITIAL_DISPLAY_LIMIT = 20;
+  const LOAD_MORE_INCREMENT = 20;
+
+  // Reset display limit when calls change (e.g., when filters change)
+  useEffect(() => {
+    setDisplayLimit(INITIAL_DISPLAY_LIMIT);
+  }, [calls.length]);
 
   const sortedCalls = useMemo(() => {
     return [...calls].sort((a, b) => {
@@ -23,6 +32,14 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
       return dateB - dateA;
     });
   }, [calls]);
+
+  const displayedCalls = sortedCalls.slice(0, displayLimit);
+  const hasMoreCalls = sortedCalls.length > displayLimit;
+  const remainingCount = sortedCalls.length - displayLimit;
+
+  const handleLoadMore = () => {
+    setDisplayLimit(prev => prev + LOAD_MORE_INCREMENT);
+  };
 
   return (
     <div style={{ 
@@ -73,7 +90,7 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
       
       {isOpen && (
         <div style={{ padding: isMobile ? "4px" : "8px" }}>
-          {sortedCalls.map((item, index) => {
+          {displayedCalls.map((item, index) => {
             const mapping = item.mapping || {};
             const call = item.call || item;
             const callId = extractCallId(call, mapping, index);
@@ -96,6 +113,46 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
               />
             );
           })}
+          
+          {hasMoreCalls && (
+            <button
+              onClick={handleLoadMore}
+              style={{
+                width: "100%",
+                padding: isMobile ? "12px 16px" : "14px 20px",
+                marginTop: "8px",
+                fontSize: isMobile ? "13px" : "14px",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                color: "#d4d4d8",
+                borderRadius: "10px",
+                cursor: "pointer",
+                fontWeight: 400,
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
+              }}
+              onMouseOver={(e) => {
+                e.target.style.background = "linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 50%, rgba(240, 147, 251, 0.2) 100%)";
+                e.target.style.borderColor = "rgba(255, 255, 255, 0.25)";
+                e.target.style.color = "#fff";
+                e.target.style.fontWeight = 500;
+                e.target.style.transform = "translateY(-1px) scale(1.01)";
+                e.target.style.boxShadow = "0 8px 24px rgba(102, 126, 234, 0.3)";
+              }}
+              onMouseOut={(e) => {
+                e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)";
+                e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                e.target.style.color = "#d4d4d8";
+                e.target.style.fontWeight = 400;
+                e.target.style.transform = "translateY(0) scale(1)";
+                e.target.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.2)";
+              }}
+            >
+              Load More ({remainingCount} more {remainingCount === 1 ? 'call' : 'calls'})
+            </button>
+          )}
         </div>
       )}
     </div>
