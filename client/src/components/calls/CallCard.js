@@ -142,19 +142,19 @@ export default function CallCard({
       {isExpanded && (
         <div style={{ padding: isMobile ? "12px" : "20px" }}>
           {/* Call Info and Recording Button */}
-          {call && !hasError && (
-            <div style={{ 
-              marginBottom: isMobile ? 16 : 20,
-              padding: isMobile ? 14 : 16,
-              background: "rgba(102, 126, 234, 0.06)",
-              borderRadius: 12,
-              border: "1px solid rgba(102, 126, 234, 0.15)",
-              display: "flex",
-              flexDirection: isMobile ? "column" : "row",
-              justifyContent: "space-between",
-              alignItems: isMobile ? "flex-start" : "center",
-              gap: isMobile ? "12px" : "16px"
-            }}>
+              {call && !hasError && (
+                <div style={{
+                  marginBottom: isMobile ? 16 : 20,
+                  padding: isMobile ? 14 : 16,
+                  background: "rgba(102, 126, 234, 0.06)",
+                  borderRadius: 12,
+                  border: "none",
+                  display: "flex",
+                  flexDirection: isMobile ? "column" : "row",
+                  justifyContent: "space-between",
+                  alignItems: isMobile ? "flex-start" : "center",
+                  gap: isMobile ? "12px" : "16px"
+                }}>
               <div style={{ 
                 display: "flex",
                 flexDirection: isMobile ? "column" : "row",
@@ -180,7 +180,10 @@ export default function CallCard({
                     style={{
                       width: "100%",
                       height: isMobile ? "36px" : "40px",
-                      outline: "none"
+                      outline: "none",
+                      border: "none",
+                      borderRadius: "12px",
+                      overflow: "hidden"
                     }}
                     preload="metadata"
                   >

@@ -48,7 +48,9 @@ export function formatDateRangeLabel(selectedRange, customDate) {
   };
 
   if (selectedRange === "custom" && customDate) {
-    const date = new Date(customDate);
+    // Parse date string (YYYY-MM-DD) to avoid timezone issues
+    const [year, month, day] = customDate.split('-').map(Number);
+    const date = new Date(year, month - 1, day); // month is 0-indexed
     return date.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -59,8 +61,11 @@ export function formatDateRangeLabel(selectedRange, customDate) {
   if (selectedRange === "daterange" && customDate) {
     const { startDate, endDate } = customDate;
     if (startDate && endDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
+      // Parse date strings to avoid timezone issues
+      const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
+      const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
+      const start = new Date(startYear, startMonth - 1, startDay);
+      const end = new Date(endYear, endMonth - 1, endDay);
       const startFormatted = start.toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
@@ -73,14 +78,16 @@ export function formatDateRangeLabel(selectedRange, customDate) {
       });
       return `${startFormatted} - ${endFormatted}`;
     } else if (startDate) {
-      const start = new Date(startDate);
+      const [year, month, day] = startDate.split('-').map(Number);
+      const start = new Date(year, month - 1, day);
       return `From ${start.toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
         year: 'numeric'
       })}`;
     } else if (endDate) {
-      const end = new Date(endDate);
+      const [year, month, day] = endDate.split('-').map(Number);
+      const end = new Date(year, month - 1, day);
       return `Until ${end.toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',

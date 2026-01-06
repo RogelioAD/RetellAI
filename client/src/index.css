@@ -162,9 +162,17 @@ pre {
 /* Audio player styling for dark theme */
 audio {
   width: 100%;
-  outline: none;
+  outline: none !important;
+  border: none !important;
   border-radius: 12px;
   overflow: hidden;
+  background: transparent;
+}
+
+audio:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 audio::-webkit-media-controls-panel {
@@ -172,33 +180,153 @@ audio::-webkit-media-controls-panel {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 12px;
-  border: 1px solid rgba(79, 172, 254, 0.3);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+audio::-webkit-media-controls-enclosure {
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  border-radius: 12px;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
 }
 
 audio::-webkit-media-controls-play-button,
 audio::-webkit-media-controls-pause-button {
-  background-color: rgba(79, 172, 254, 0.4) !important;
-  border-radius: 50%;
+  background-color: transparent !important;
+  border-radius: 50% !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -webkit-appearance: media-play-button !important;
+  appearance: media-play-button !important;
+  opacity: 1 !important;
+  filter: brightness(1.5);
+}
+
+audio::-webkit-media-controls-play-button:focus,
+audio::-webkit-media-controls-pause-button:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
 }
 
 audio::-webkit-media-controls-current-time-display,
 audio::-webkit-media-controls-time-remaining-display {
   color: #f4f4f5 !important;
   font-size: 0.85em;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
 }
 
 audio::-webkit-media-controls-timeline {
-  background-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: transparent !important;
   border-radius: 2px;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -webkit-appearance: media-slider !important;
+  appearance: media-slider !important;
+}
+
+audio::-webkit-media-controls-timeline:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
 }
 
 audio::-webkit-media-controls-volume-slider {
-  background-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: transparent !important;
   border-radius: 2px;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -webkit-appearance: media-slider !important;
+  appearance: media-slider !important;
+}
+
+audio::-webkit-media-controls-volume-slider:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
 }
 
 audio::-webkit-media-controls-mute-button {
-  background-color: rgba(79, 172, 254, 0.3) !important;
+  background-color: transparent !important;
   border-radius: 4px;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -webkit-appearance: media-mute-button !important;
+  appearance: media-mute-button !important;
+  opacity: 1 !important;
+  filter: brightness(1.5);
+}
+
+audio::-webkit-media-controls-mute-button:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+/* Remove all borders and outlines from audio controls */
+audio::-webkit-media-controls-start-playback-button,
+audio::-webkit-media-controls-fullscreen-button,
+audio::-webkit-media-controls-rewind-button,
+audio::-webkit-media-controls-return-to-realtime-button,
+audio::-webkit-media-controls-toggle-closed-captions-button {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Remove slider track styling that might show boxes */
+audio::-webkit-media-controls-timeline::-webkit-slider-thumb,
+audio::-webkit-media-controls-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+audio::-webkit-media-controls-timeline::-webkit-slider-runnable-track,
+audio::-webkit-media-controls-volume-slider::-webkit-slider-runnable-track {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+/* Firefox audio player styling */
+audio::-moz-media-controls {
+  border: none !important;
+  outline: none !important;
+  background: rgba(79, 172, 254, 0.15) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 12px;
+  box-shadow: none !important;
+}
+
+audio::-moz-media-controls:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
