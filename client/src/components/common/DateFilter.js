@@ -522,9 +522,11 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
       flex: 1,
       background: "rgba(255, 255, 255, 0.04)",
       borderRadius: "10px",
-      padding: isMobile ? "10px" : "12px",
+      padding: isMobile ? "8px" : "12px",
       border: "1px solid rgba(255, 255, 255, 0.1)",
-      backdropFilter: "blur(10px)"
+      backdropFilter: "blur(10px)",
+      overflow: "hidden",
+      minWidth: isMobile ? "0" : "auto"
     }}>
       <div style={{
         textAlign: "center",
@@ -547,7 +549,9 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
             fontSize: isMobile ? "9px" : "10px",
             fontWeight: 600,
             color: "rgba(255, 255, 255, 0.7)",
-            padding: isMobile ? "4px 2px" : "6px 3px"
+            padding: isMobile ? "3px 1px" : "6px 3px",
+            overflow: "hidden",
+            textOverflow: "ellipsis"
           }}>
             {day}
           </div>
@@ -561,7 +565,7 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
         {days.map((day, index) => {
           const dateStr = getDateString(day);
           if (!day) {
-            return <div key={`empty-${index}`} style={{ aspectRatio: "1", padding: isMobile ? "2px" : "3px" }} />;
+            return <div key={`empty-${index}`} style={{ aspectRatio: "1", padding: isMobile ? "1px" : "3px", minWidth: 0 }} />;
           }
 
           const isToday = dateStr === todayStr;
@@ -578,20 +582,31 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
               onClick={() => onDateClick(dateStr)}
               style={{
                 aspectRatio: "1",
-                padding: isMobile ? "2px" : "3px",
+                padding: 0,
+                minWidth: 0,
+                minHeight: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 background: isSelected
                   ? "rgba(236, 72, 153, 0.4)"
                   : isHighlighted
                   ? "rgba(236, 72, 153, 0.2)"
                   : "transparent",
                 color: isSelected ? "#fff" : isToday ? "rgba(244, 114, 182, 0.9)" : "#ffffff",
-                borderRadius: "5px",
+                borderRadius: isMobile ? "4px" : "5px",
                 cursor: "pointer",
-                fontSize: isMobile ? "10px" : "11px",
+                fontSize: isMobile ? "9px" : "11px",
                 fontWeight: isToday ? 600 : 400,
                 transition: "all 0.2s ease",
                 position: "relative",
-                border: isStart || isEnd ? "2px solid rgba(236, 72, 153, 0.8)" : "1px solid transparent"
+                border: isStart || isEnd 
+                  ? (isMobile ? "1px solid rgba(236, 72, 153, 0.8)" : "2px solid rgba(236, 72, 153, 0.8)")
+                  : "1px solid transparent",
+                boxSizing: "border-box",
+                overflow: "hidden",
+                width: "100%",
+                height: "100%"
               }}
               onMouseOver={(e) => {
                 if (!isSelected) {
