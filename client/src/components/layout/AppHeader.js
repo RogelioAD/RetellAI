@@ -35,7 +35,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
         left: 0,
         right: 0,
         bottom: 0,
-        background: "rgba(255, 255, 255, 0.92)",
+        background: "rgba(255, 255, 255, 0.75)",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         zIndex: -1,

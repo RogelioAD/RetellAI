@@ -175,7 +175,7 @@ export default function Dashboard({ token, user, onLogout }) {
         left: 0,
         right: 0,
         bottom: 0,
-        background: "rgba(244, 247, 254, 0.9)",
+        background: "rgba(244, 247, 254, 0.7)",
         zIndex: 0,
         pointerEvents: "none",
       }} />

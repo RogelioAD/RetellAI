@@ -126,7 +126,7 @@ export default function Login({ onLogin, onNavigateToHome }) {
         left: 0,
         right: 0,
         bottom: 0,
-        background: "rgba(244, 247, 254, 0.85)",
+        background: "rgba(244, 247, 254, 0.65)",
         zIndex: 0,
       }} />
       <Card

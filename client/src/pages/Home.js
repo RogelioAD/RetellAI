@@ -35,7 +35,7 @@ export default function Home({ onNavigateToLogin }) {
         left: 0,
         right: 0,
         bottom: 0,
-        background: "rgba(244, 247, 254, 0.75)",
+        background: "rgba(244, 247, 254, 0.55)",
         zIndex: 0,
       }} />
       <div style={{ textAlign: "center", marginBottom: spacing['4xl'], position: "relative", zIndex: 1 }}>
@@ -66,8 +66,9 @@ export default function Home({ onNavigateToLogin }) {
         <p style={{
           fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
           color: colors.text.secondary,
-          margin: 0,
+          margin: "0 auto",
           maxWidth: "600px",
+          textAlign: "center",
         }}>
           Access your call transcripts and analytics
         </p>
