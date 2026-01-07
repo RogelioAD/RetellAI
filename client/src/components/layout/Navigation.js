@@ -1,16 +1,19 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
+import Icon from "../common/Icon";
+import { colors, spacing, typography, sidebarStyles, shadows } from "../../constants/horizonTheme";
 
 /**
- * Navigation component - Sidebar on desktop, bottom nav on mobile
+ * Navigation component with Horizon UI styling
+ * Sidebar on desktop, bottom nav on mobile
  */
 export default function Navigation({ currentSection, onSectionChange, isAdmin }) {
   const { isMobile } = useResponsive();
 
   const sections = [
-    { id: "calls", label: "Calls", icon: "📞" },
-    ...(isAdmin ? [{ id: "users", label: "Users", icon: "👥" }] : []),
-    { id: "settings", label: "Settings", icon: "⚙️" },
+    { id: "calls", label: "Calls", icon: "phone" },
+    ...(isAdmin ? [{ id: "users", label: "Users", icon: "users" }] : []),
+    { id: "settings", label: "Settings", icon: "settings" },
   ];
 
   if (isMobile) {
@@ -22,15 +25,14 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
           bottom: 0,
           left: 0,
           right: 0,
-          background: "rgba(255, 255, 255, 0.06)",
-          backdropFilter: "blur(20px)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.1)",
-          padding: "8px 0",
+          background: colors.background.card,
+          borderTop: `1px solid ${colors.gray[100]}`,
+          padding: `${spacing.sm} 0`,
           display: "flex",
           justifyContent: "space-around",
           alignItems: "center",
           zIndex: 1000,
-          boxShadow: "0 -1px 4px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 -2px 8px rgba(112, 144, 176, 0.08)",
         }}
       >
         {sections.map((section) => {
@@ -44,14 +46,15 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: "4px",
-                padding: "8px 12px",
+                gap: spacing.xs,
+                padding: `${spacing.sm} ${spacing.md}`,
                 background: "transparent",
                 border: "none",
-                color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.7)",
-                fontSize: "10px",
+                color: isActive ? colors.brand[500] : colors.text.secondary,
+                fontSize: typography.fontSize.xs,
+                fontWeight: isActive ? typography.fontWeight.semibold : typography.fontWeight.medium,
                 cursor: "pointer",
-                transition: "all 0.3s ease",
+                transition: "all 0.2s ease",
                 position: "relative",
               }}
             >
@@ -59,33 +62,18 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
                 <div
                   style={{
                     position: "absolute",
-                    top: "50%",
+                    top: 0,
                     left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    width: "64px",
-                    height: "64px",
-                    borderRadius: "20px",
-                    background: "rgba(255, 20, 147, 0.25)",
-                    backdropFilter: "blur(20px)",
-                    border: "1px solid rgba(255, 20, 147, 0.5)",
-                    boxShadow: "0 2px 8px rgba(255, 20, 147, 0.3)",
-                    zIndex: -1,
-                    transition: "all 0.3s ease",
+                    transform: "translateX(-50%)",
+                    width: "40px",
+                    height: "3px",
+                    borderRadius: "0 0 3px 3px",
+                    background: colors.brand[500],
                   }}
                 />
               )}
-              <span style={{ fontSize: "20px", position: "relative", zIndex: 1 }}>
-                {section.icon}
-              </span>
-              <span
-                style={{
-                  fontWeight: isActive ? 500 : 400,
-                  position: "relative",
-                  zIndex: 1,
-                }}
-              >
-                {section.label}
-              </span>
+              <Icon name={section.icon} size={20} color={isActive ? colors.brand[500] : colors.text.secondary} />
+              <span>{section.label}</span>
             </button>
           );
         })}
@@ -97,63 +85,61 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
   return (
     <aside
       style={{
-        width: "200px",
-        minWidth: "200px",
-        background: "rgba(255, 255, 255, 0.06)",
-        backdropFilter: "blur(20px)",
-        borderRight: "1px solid rgba(255, 255, 255, 0.1)",
-        padding: "24px 0",
+        width: "240px",
+        minWidth: "240px",
+        backgroundColor: colors.background.card,
+        borderRight: `1px solid ${colors.gray[100]}`,
+        padding: `${spacing['2xl']} ${spacing.lg}`,
         display: "flex",
         flexDirection: "column",
-        gap: "4px",
+        gap: spacing.xs,
       }}
     >
-      {sections.map((section) => (
+      {sections.map((section) => {
+        const isActive = currentSection === section.id;
+        return (
           <button
             key={section.id}
             onClick={() => onSectionChange(section.id)}
             style={{
               width: "100%",
-              padding: "12px 24px",
+              padding: `${spacing.md} ${spacing.lg}`,
               display: "flex",
               alignItems: "center",
-              gap: "12px",
-            background:
-              currentSection === section.id
-                ? "rgba(255, 20, 147, 0.2)"
-                : "transparent",
-            border: "none",
-            borderLeft:
-              currentSection === section.id
-                ? "3px solid rgba(255, 20, 147, 1)"
-                : "3px solid transparent",
-              color: currentSection === section.id ? "#ffffff" : "rgba(255, 255, 255, 0.7)",
-              fontSize: "14px",
-              fontWeight: currentSection === section.id ? 500 : 400,
+              gap: spacing.md,
+              background: isActive ? colors.brand[500] : "transparent",
+              border: "none",
+              borderRadius: "12px",
+              color: isActive ? colors.text.white : colors.text.secondary,
+              fontSize: typography.fontSize.sm,
+              fontWeight: isActive ? typography.fontWeight.semibold : typography.fontWeight.medium,
               cursor: "pointer",
               transition: "all 0.2s ease",
               textAlign: "left",
-              boxShadow: "none",
-              outline: "none"
+              boxShadow: isActive ? shadows.sm : "none",
             }}
-          onMouseEnter={(e) => {
-            if (currentSection !== section.id) {
-              e.target.style.background = "rgba(255, 255, 255, 0.05)";
-              e.target.style.color = "rgba(255, 255, 255, 0.9)";
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (currentSection !== section.id) {
-              e.target.style.background = "transparent";
-              e.target.style.color = "rgba(255, 255, 255, 0.7)";
-            }
-          }}
-        >
-          <span style={{ fontSize: "18px" }}>{section.icon}</span>
-          <span>{section.label}</span>
-        </button>
-      ))}
+            onMouseEnter={(e) => {
+              if (!isActive) {
+                e.target.style.background = colors.gray[50];
+                e.target.style.color = colors.text.primary;
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isActive) {
+                e.target.style.background = "transparent";
+                e.target.style.color = colors.text.secondary;
+              }
+            }}
+          >
+            <Icon 
+              name={section.icon} 
+              size={18} 
+              color={isActive ? colors.text.white : colors.text.secondary} 
+            />
+            <span>{section.label}</span>
+          </button>
+        );
+      })}
     </aside>
   );
 }
-

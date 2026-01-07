@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import { getDateRange } from "./DateFilterUtils";
+import Button from "./Button";
+import { colors, spacing, typography, borderRadius, shadows } from "../../constants/horizonTheme";
 
 /**
  * Date filter component with modal containing dual calendars and filter buttons
@@ -162,53 +164,13 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
       marginBottom: isMobile ? "20px" : "24px",
       position: "relative"
     }}>
-      <button
+      <Button
           ref={buttonRef}
           onClick={() => setIsOpen(!isOpen)}
-          style={{
-            padding: isMobile ? "10px 16px" : "12px 20px",
-            fontSize: isMobile ? "13px" : "14px",
-            border: selectedRange !== "all" 
-              ? "1px solid rgba(255, 20, 147, 0.5)" 
-              : "1px solid rgba(255, 255, 255, 0.1)",
-            background: selectedRange !== "all"
-              ? "rgba(255, 20, 147, 0.2)"
-              : "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            color: selectedRange !== "all" ? "#fff" : "#d4d4d8",
-            borderRadius: "12px",
-            cursor: "pointer",
-            fontWeight: selectedRange !== "all" ? 500 : 400,
-            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-            whiteSpace: "nowrap",
-            boxShadow: selectedRange !== "all"
-              ? "0 2px 8px rgba(255, 20, 147, 0.3)"
-              : "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset",
-          }}
-          onMouseOver={(e) => {
-            e.target.style.transform = "translateY(-1px) scale(1.02)";
-            e.target.style.boxShadow = selectedRange !== "all"
-              ? "0 4px 12px rgba(255, 20, 147, 0.4)"
-              : "0 8px 24px rgba(255, 20, 147, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1) inset";
-            if (selectedRange === "all") {
-              e.target.style.border = "1px solid rgba(255, 20, 147, 0.4)";
-              e.target.style.background = "rgba(255, 20, 147, 0.15)";
-            }
-          }}
-          onMouseOut={(e) => {
-            e.target.style.transform = "translateY(0) scale(1)";
-            e.target.style.boxShadow = selectedRange !== "all"
-              ? "0 2px 8px rgba(255, 20, 147, 0.3)"
-              : "0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.05) inset";
-            if (selectedRange === "all") {
-              e.target.style.border = "1px solid rgba(255, 255, 255, 0.1)";
-              e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)";
-            }
-          }}
+          variant={selectedRange !== "all" ? "primary" : "outline"}
         >
-          Date Range
-        </button>
+          📅 Date Range
+        </Button>
 
       {isOpen && (
         <div
@@ -217,19 +179,18 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
             position: "absolute",
             top: "100%",
             left: 0,
-            marginTop: "12px",
-            background: "rgba(255, 255, 255, 0.06)",
-            backdropFilter: "blur(20px)",
-            borderRadius: "16px",
-            border: "1px solid rgba(255, 255, 255, 0.1)",
-            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
+            marginTop: spacing.md,
+            background: colors.background.card,
+            borderRadius: borderRadius.lg,
+            border: `1px solid ${colors.gray[100]}`,
+            boxShadow: shadows.xl,
             maxWidth: isMobile ? "calc(100vw - 32px)" : "750px",
             width: isMobile ? "calc(100vw - 32px)" : "max-content",
             minWidth: isMobile ? "auto" : "650px",
             maxHeight: "75vh",
             overflow: "auto",
-            padding: isMobile ? "12px" : "16px",
-            zIndex: 1000
+            padding: isMobile ? spacing.md : spacing.lg,
+            zIndex: 1000,
           }}
         >
             <div style={{
@@ -245,12 +206,12 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                 minWidth: isMobile ? "100%" : "140px"
               }}>
                 <div style={{
-                  fontSize: "10px",
-                  fontWeight: 600,
-                  color: "#a1a1aa",
-                  marginBottom: "4px",
+                  fontSize: typography.fontSize.xs,
+                  fontWeight: typography.fontWeight.semibold,
+                  color: colors.text.tertiary,
+                  marginBottom: spacing.xs,
                   textTransform: "uppercase",
-                  letterSpacing: "0.5px"
+                  letterSpacing: "0.5px",
                 }}>
                   Quick Filters
                 </div>
@@ -259,23 +220,21 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                     key={range.value}
                     onClick={() => handleFilterClick(range.value)}
                     style={{
-                      padding: isMobile ? "6px 10px" : "6px 10px",
-                      fontSize: "11px",
+                      padding: `${spacing.sm} ${spacing.md}`,
+                      fontSize: typography.fontSize.xs,
                       border: selectedRange === range.value 
-                        ? "1px solid rgba(255, 20, 147, 0.6)" 
-                        : "1px solid rgba(255, 255, 255, 0.1)",
+                        ? `1px solid ${colors.brand[500]}` 
+                        : `1px solid ${colors.gray[200]}`,
                       background: selectedRange === range.value
-                        ? "rgba(255, 20, 147, 0.2)"
-                        : "rgba(255, 255, 255, 0.03)",
-                      backdropFilter: "blur(10px)",
-                      WebkitBackdropFilter: "blur(10px)",
-                      color: selectedRange === range.value ? "#fff" : "#d4d4d8",
-                      borderRadius: "6px",
+                        ? colors.brand[500]
+                        : "transparent",
+                      color: selectedRange === range.value ? colors.text.white : colors.text.secondary,
+                      borderRadius: borderRadius.sm,
                       cursor: "pointer",
-                      fontWeight: selectedRange === range.value ? 500 : 400,
+                      fontWeight: selectedRange === range.value ? typography.fontWeight.semibold : typography.fontWeight.medium,
                       transition: "all 0.2s ease",
                       textAlign: "left",
-                      width: "100%"
+                      width: "100%",
                     }}
                   >
                     {range.label}
@@ -291,70 +250,15 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                   justifyContent: "space-between",
                   alignItems: "center"
                 }}>
-                  <button
-                    onClick={() => navigateMonths(-1)}
-                    style={{
-                      padding: isMobile ? "6px 10px" : "6px 10px",
-                      background: "rgba(236, 72, 153, 0.1)",
-                      border: "1px solid rgba(236, 72, 153, 0.3)",
-                      borderRadius: "6px",
-                      color: "rgba(244, 114, 182, 0.9)",
-                      cursor: "pointer",
-                      fontSize: isMobile ? "11px" : "12px",
-                      transition: "all 0.2s ease"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.background = "rgba(255, 20, 147, 0.25)";
-                      e.target.style.borderColor = "rgba(255, 20, 147, 0.6)";
-                      e.target.style.color = "#ffffff";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.background = "rgba(255, 20, 147, 0.15)";
-                      e.target.style.borderColor = "rgba(255, 20, 147, 0.4)";
-                      e.target.style.color = "rgba(255, 105, 180, 1)";
-                    }}
-                  >
+                  <Button onClick={() => navigateMonths(-1)} variant="outline" style={{ fontSize: typography.fontSize.xs }}>
                     ← Previous
-                  </button>
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    style={{
-                      padding: isMobile ? "6px 10px" : "6px 10px",
-                      background: "rgba(255, 255, 255, 0.05)",
-                      border: "1px solid rgba(255, 255, 255, 0.1)",
-                      borderRadius: "6px",
-                      color: "#d4d4d8",
-                      cursor: "pointer",
-                      fontSize: isMobile ? "11px" : "12px"
-                    }}
-                  >
+                  </Button>
+                  <Button onClick={() => setIsOpen(false)} variant="outline" style={{ fontSize: typography.fontSize.xs }}>
                     ✕ Close
-                  </button>
-                  <button
-                    onClick={() => navigateMonths(1)}
-                    style={{
-                      padding: isMobile ? "6px 10px" : "6px 10px",
-                      background: "rgba(236, 72, 153, 0.1)",
-                      border: "1px solid rgba(236, 72, 153, 0.3)",
-                      borderRadius: "6px",
-                      color: "rgba(244, 114, 182, 0.9)",
-                      cursor: "pointer",
-                      fontSize: isMobile ? "11px" : "12px",
-                      transition: "all 0.2s ease"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.background = "rgba(255, 20, 147, 0.25)";
-                      e.target.style.borderColor = "rgba(255, 20, 147, 0.6)";
-                      e.target.style.color = "#ffffff";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.background = "rgba(255, 20, 147, 0.15)";
-                      e.target.style.borderColor = "rgba(255, 20, 147, 0.4)";
-                      e.target.style.color = "rgba(255, 105, 180, 1)";
-                    }}
-                  >
+                  </Button>
+                  <Button onClick={() => navigateMonths(1)} variant="outline" style={{ fontSize: typography.fontSize.xs }}>
                     Next →
-                  </button>
+                  </Button>
                 </div>
 
                 {/* Two Calendars */}
@@ -435,20 +339,19 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
   return (
     <div style={{
       flex: 1,
-      background: "rgba(255, 255, 255, 0.04)",
-      borderRadius: "10px",
-      padding: isMobile ? "8px" : "12px",
-      border: "1px solid rgba(255, 255, 255, 0.1)",
-      backdropFilter: "blur(10px)",
+      background: colors.gray[50],
+      borderRadius: borderRadius.md,
+      padding: isMobile ? spacing.sm : spacing.md,
+      border: `1px solid ${colors.gray[100]}`,
       overflow: "hidden",
-      minWidth: isMobile ? "0" : "auto"
+      minWidth: isMobile ? "0" : "auto",
     }}>
       <div style={{
         textAlign: "center",
-        fontSize: isMobile ? "13px" : "14px",
-        fontWeight: 600,
-        color: "#ffffff",
-        marginBottom: isMobile ? "10px" : "12px"
+        fontSize: isMobile ? typography.fontSize.sm : typography.fontSize.base,
+        fontWeight: typography.fontWeight.semibold,
+        color: colors.text.primary,
+        marginBottom: isMobile ? spacing.md : spacing.md,
       }}>
         {monthNames[monthIndex]} {year}
       </div>
@@ -461,12 +364,12 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
         {dayNames.map(day => (
           <div key={day} style={{
             textAlign: "center",
-            fontSize: isMobile ? "9px" : "10px",
-            fontWeight: 600,
-            color: "rgba(255, 255, 255, 0.7)",
-            padding: isMobile ? "3px 1px" : "6px 3px",
+            fontSize: isMobile ? typography.fontSize.xs : typography.fontSize.xs,
+            fontWeight: typography.fontWeight.semibold,
+            color: colors.text.secondary,
+            padding: isMobile ? `${spacing.xs} 1px` : `${spacing.xs} ${spacing.xs}`,
             overflow: "hidden",
-            textOverflow: "ellipsis"
+            textOverflow: "ellipsis",
           }}>
             {day}
           </div>
@@ -502,33 +405,33 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
                 alignItems: "center",
                 justifyContent: "center",
                 background: isSelected
-                  ? "rgba(255, 20, 147, 0.5)"
+                  ? colors.brand[500]
                   : isHighlighted
-                  ? "rgba(255, 20, 147, 0.25)"
+                  ? `${colors.brand[500]}20`
                   : "transparent",
-                color: isSelected ? "#fff" : isToday ? "rgba(255, 105, 180, 1)" : "#ffffff",
-                borderRadius: isMobile ? "4px" : "5px",
+                color: isSelected ? colors.text.white : isToday ? colors.brand[500] : colors.text.primary,
+                borderRadius: borderRadius.sm,
                 cursor: "pointer",
-                fontSize: isMobile ? "9px" : "11px",
-                fontWeight: isToday ? 600 : 400,
+                fontSize: isMobile ? typography.fontSize.xs : typography.fontSize.xs,
+                fontWeight: isToday ? typography.fontWeight.semibold : typography.fontWeight.normal,
                 transition: "all 0.2s ease",
                 position: "relative",
                 border: isStart || isEnd 
-                  ? (isMobile ? "1px solid rgba(255, 20, 147, 1)" : "2px solid rgba(255, 20, 147, 1)")
+                  ? `2px solid ${colors.brand[500]}`
                   : "1px solid transparent",
                 boxSizing: "border-box",
                 overflow: "hidden",
                 width: "100%",
-                height: "100%"
+                height: "100%",
               }}
               onMouseOver={(e) => {
                 if (!isSelected) {
-                  e.target.style.background = "rgba(255, 20, 147, 0.2)";
+                  e.target.style.background = `${colors.brand[500]}15`;
                 }
               }}
               onMouseOut={(e) => {
                 if (!isSelected) {
-                  e.target.style.background = isHighlighted ? "rgba(255, 20, 147, 0.25)" : "transparent";
+                  e.target.style.background = isHighlighted ? `${colors.brand[500]}20` : "transparent";
                 }
               }}
             >

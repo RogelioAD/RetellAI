@@ -1,9 +1,11 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import Button from "../common/Button";
+import { colors, spacing, typography, shadows } from "../../constants/horizonTheme";
 
 /**
- * Sticky header component for the application
+ * Sticky header component with Horizon UI styling
+ * Clean, modern header with user profile actions
  */
 export default function AppHeader({ user, isAdmin, onLogout }) {
   const { isMobile } = useResponsive();
@@ -18,41 +20,50 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
-        backgroundColor: "rgba(255, 255, 255, 0.08)",
-        backdropFilter: "blur(30px)",
-        WebkitBackdropFilter: "blur(30px)",
-        borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
-        padding: isMobile ? "16px 20px" : "20px 32px",
+        borderBottom: `1px solid ${colors.gray[100]}`,
+        padding: isMobile ? `${spacing.lg} ${spacing.xl}` : `${spacing.xl} ${spacing['3xl']}`,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)",
+        boxShadow: shadows.sm,
+        position: "relative",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+      {/* Overlay for better readability */}
+      <div style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "rgba(255, 255, 255, 0.92)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+        zIndex: -1,
+      }} />
+      <div style={{ display: "flex", alignItems: "center", gap: spacing.md, position: "relative", zIndex: 1 }}>
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "8px",
+            gap: spacing.sm,
           }}
         >
           <img
             src="/logo.png"
             alt="Quantum Consulting Logo"
             style={{
-              width: isMobile ? "50px" : "58px",
-              height: isMobile ? "50px" : "58px",
+              width: isMobile ? "40px" : "48px",
+              height: isMobile ? "40px" : "48px",
               objectFit: "contain",
             }}
           />
           <h1
             style={{
               margin: 0,
-              fontSize: isMobile ? "1.25em" : "1.5em",
-              fontWeight: 600,
-              color: "#f4f4f5",
+              fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
+              fontWeight: typography.fontWeight.bold,
+              color: colors.text.primary,
             }}
           >
             Quantum Consulting
@@ -64,54 +75,68 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "12px",
+          gap: spacing.md,
+          position: "relative",
+          zIndex: 1,
         }}
       >
+        {/* User info */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            marginRight: isMobile ? 0 : "12px",
+            gap: spacing.sm,
+            padding: `${spacing.sm} ${spacing.md}`,
+            backgroundColor: colors.gray[50],
+            borderRadius: "12px",
+            marginRight: isMobile ? 0 : spacing.sm,
           }}
         >
-          <span
+          <div
             style={{
-              fontSize: isMobile ? "0.9em" : "0.95em",
-              color: "#f4f4f5",
-              fontWeight: 500,
+              width: "32px",
+              height: "32px",
+              borderRadius: "50%",
+              backgroundColor: colors.brand[500],
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: colors.text.white,
+              fontSize: typography.fontSize.sm,
+              fontWeight: typography.fontWeight.semibold,
             }}
           >
-            {user?.username || "User"}
-          </span>
+            {(user?.username || "U").charAt(0).toUpperCase()}
+          </div>
+          {!isMobile && (
+            <div>
+              <div
+                style={{
+                  fontSize: typography.fontSize.sm,
+                  color: colors.text.primary,
+                  fontWeight: typography.fontWeight.medium,
+                }}
+              >
+                {user?.username || "User"}
+              </div>
+              {isAdmin && (
+                <div
+                  style={{
+                    fontSize: typography.fontSize.xs,
+                    color: colors.text.secondary,
+                  }}
+                >
+                  Admin
+                </div>
+              )}
+            </div>
+          )}
         </div>
-        <Button 
-          onClick={onLogout} 
-          style={{ 
-            fontSize: isMobile ? "13px" : "14px",
-            background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
-            color: "#ffffff"
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 50%, rgba(240, 147, 251, 0.2) 100%)";
-            e.target.style.borderColor = "rgba(255, 255, 255, 0.25)";
-            e.target.style.color = "#ffffff";
-            e.target.style.fontWeight = 500;
-            e.target.style.transform = "translateY(-1px) scale(1.02)";
-            e.target.style.boxShadow = "0 12px 40px rgba(102, 126, 234, 0.35)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)";
-            e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
-            e.target.style.color = "#ffffff";
-            e.target.style.fontWeight = 400;
-            e.target.style.transform = "translateY(0) scale(1)";
-            e.target.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.2)";
-          }}
-        >
+        
+        <Button onClick={onLogout} variant="outline">
           Logout
         </Button>
       </div>
     </header>
   );
 }
-

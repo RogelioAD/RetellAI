@@ -1,17 +1,18 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import { formatTime } from "../../utils/dateFormatters";
+import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
 /**
- * Component for displaying call transcript utterances with responsive design
+ * Component for displaying call transcript utterances with Horizon UI styling
  */
 export default function TranscriptView({ utterances }) {
   const { isMobile } = useResponsive();
 
   return (
     <div style={{ 
-      borderRadius: 8,
-      padding: isMobile ? 12 : 16
+      borderRadius: borderRadius.md,
+      padding: isMobile ? spacing.md : spacing.lg,
     }}>
       {utterances.map((utterance, index) => {
         const role = utterance.role || utterance.speaker || utterance.type || 
@@ -25,12 +26,12 @@ export default function TranscriptView({ utterances }) {
           <div
             key={index}
             style={{
-              marginBottom: isMobile ? 12 : 16,
-              padding: isMobile ? 12 : 14,
-              background: isAgent ? "rgba(99, 102, 241, 0.1)" : "rgba(255, 255, 255, 0.04)",
-              borderRadius: 8,
-              borderLeft: `3px solid ${isAgent ? "#6366f1" : "rgba(255, 255, 255, 0.2)"}`,
-              border: "1px solid rgba(255, 255, 255, 0.1)"
+              marginBottom: isMobile ? spacing.md : spacing.lg,
+              padding: isMobile ? spacing.md : spacing.lg,
+              background: isAgent ? `${colors.brand[500]}08` : colors.gray[50],
+              borderRadius: borderRadius.md,
+              borderLeft: `3px solid ${isAgent ? colors.brand[500] : colors.gray[300]}`,
+              border: `1px solid ${isAgent ? colors.brand[200] : colors.gray[100]}`,
             }}
           >
             <div style={{
@@ -38,31 +39,31 @@ export default function TranscriptView({ utterances }) {
               flexDirection: isMobile ? "column" : "row",
               justifyContent: "space-between",
               alignItems: isMobile ? "flex-start" : "center",
-              marginBottom: 8,
-              gap: isMobile ? 4 : 0
+              marginBottom: spacing.sm,
+              gap: isMobile ? spacing.xs : 0,
             }}>
               <div style={{
-                fontWeight: 500,
-                color: isAgent ? "#a5b4fc" : "rgba(255, 255, 255, 0.9)",
-                fontSize: isMobile ? "0.9em" : "0.95em"
+                fontWeight: typography.fontWeight.semibold,
+                color: isAgent ? colors.brand[500] : colors.text.primary,
+                fontSize: typography.fontSize.sm,
               }}>
                 {speaker}
               </div>
               {timestamp && (
                 <div style={{
-                  fontSize: isMobile ? "0.75em" : "0.8em",
-                  color: "rgba(255, 255, 255, 0.6)"
+                  fontSize: typography.fontSize.xs,
+                  color: colors.text.tertiary,
                 }}>
                   {formatTime(timestamp)}
                 </div>
               )}
             </div>
             <div style={{
-              color: "#ffffff",
+              color: colors.text.primary,
               lineHeight: "1.6",
               whiteSpace: "pre-wrap",
               wordBreak: "break-word",
-              fontSize: isMobile ? "0.9em" : "1em"
+              fontSize: typography.fontSize.sm,
             }}>
               {content}
             </div>
@@ -72,4 +73,3 @@ export default function TranscriptView({ utterances }) {
     </div>
   );
 }
-

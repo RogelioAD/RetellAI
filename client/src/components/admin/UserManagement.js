@@ -4,10 +4,11 @@ import { createCustomer } from "../../services/api";
 import { validateUserCreation } from "../../utils/validators";
 import CreateUserForm from "./CreateUserForm";
 import UserTable from "./UserTable";
-import { formStyles } from "../../constants/styles";
+import Card from "../common/Card";
+import { colors, spacing, typography } from "../../constants/horizonTheme";
 
 /**
- * Component for managing users (admin only) with responsive design
+ * Component for managing users (admin only) with Horizon UI styling
  */
 export default function UserManagement({ token, users, loading, error, onUserCreated, currentUserId }) {
   const { isMobile } = useResponsive();
@@ -57,20 +58,16 @@ export default function UserManagement({ token, users, loading, error, onUserCre
   };
 
   return (
-    <div style={{
-      ...formStyles.container,
-      ...(isMobile && formStyles.containerMobile)
-    }}>
+    <Card>
       <h3 style={{ 
         marginTop: 0,
-        fontSize: isMobile ? "1.2em" : "1.3em",
-        color: "#f4f4f5",
-        fontWeight: 600,
-        background: "transparent",
-        border: "none",
-        padding: 0,
-        marginBottom: isMobile ? 12 : 16
-      }}>User Management</h3>
+        marginBottom: spacing.xl,
+        fontSize: isMobile ? typography.fontSize.xl : typography.fontSize['2xl'],
+        color: colors.text.primary,
+        fontWeight: typography.fontWeight.bold,
+      }}>
+        User Management
+      </h3>
       
       <CreateUserForm
         newUser={newUser}
@@ -93,7 +90,6 @@ export default function UserManagement({ token, users, loading, error, onUserCre
         }}
         currentUserId={currentUserId}
       />
-    </div>
+    </Card>
   );
 }
-

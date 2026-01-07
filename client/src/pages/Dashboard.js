@@ -11,9 +11,11 @@ import QuickStats from "../components/layout/QuickStats";
 import DateFilter from "../components/common/DateFilter";
 import { getDateRange } from "../components/common/DateFilterUtils";
 import { extractCreatedAt } from "../utils/callDataTransformers";
+import { colors, spacing } from "../constants/horizonTheme";
 
 /**
- * Main Dashboard page component with responsive design and navigation
+ * Main Dashboard page with Horizon UI layout
+ * Clean grid system with proper spacing and visual hierarchy
  */
 export default function Dashboard({ token, user, onLogout }) {
   const { isMobile } = useResponsive();
@@ -30,7 +32,7 @@ export default function Dashboard({ token, user, onLogout }) {
   const [selectedDateRange, setSelectedDateRange] = useState("all");
   const [customDate, setCustomDate] = useState(null);
 
-  // Refresh calls when switching to the calls section (to ensure fresh data)
+  // Refresh calls when switching to the calls section
   const prevSectionRef = useRef(currentSection);
   useEffect(() => {
     if (currentSection === "calls" && prevSectionRef.current !== "calls") {
@@ -118,9 +120,9 @@ export default function Dashboard({ token, user, onLogout }) {
             {loading && (
               <div
                 style={{
-                  padding: isMobile ? "32px 0" : "40px 0",
+                  padding: isMobile ? `${spacing['3xl']} 0` : `${spacing['4xl']} 0`,
                   textAlign: "center",
-                  color: "#71717a",
+                  color: colors.text.secondary,
                   fontSize: isMobile ? "15px" : "16px",
                   fontWeight: 400,
                 }}
@@ -131,13 +133,12 @@ export default function Dashboard({ token, user, onLogout }) {
             {error && (
               <div
                 style={{
-                  color: "#fca5a5",
-                  padding: isMobile ? "20px" : "24px",
-                  background: "rgba(239, 68, 68, 0.08)",
-                  backdropFilter: "blur(20px)",
-                  borderRadius: 12,
-                  border: "1px solid rgba(239, 68, 68, 0.2)",
-                  marginBottom: 20,
+                  color: colors.error,
+                  padding: isMobile ? spacing.xl : spacing['2xl'],
+                  background: `${colors.error}08`,
+                  borderRadius: "12px",
+                  border: `1px solid ${colors.error}`,
+                  marginBottom: spacing.xl,
                   fontSize: isMobile ? "14px" : "15px",
                   fontWeight: 400,
                 }}
@@ -159,9 +160,25 @@ export default function Dashboard({ token, user, onLogout }) {
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
-        background: "transparent",
+        backgroundImage: "url('/colorful.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        position: "relative",
       }}
     >
+      {/* Subtle overlay for content readability */}
+      <div style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "rgba(244, 247, 254, 0.9)",
+        zIndex: 0,
+        pointerEvents: "none",
+      }} />
       {/* Sticky Header */}
       <AppHeader user={user} isAdmin={isAdmin} onLogout={onLogout} />
 
@@ -171,6 +188,8 @@ export default function Dashboard({ token, user, onLogout }) {
           display: "flex",
           flex: 1,
           overflow: "hidden",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {/* Navigation Sidebar (Desktop) */}
@@ -187,8 +206,8 @@ export default function Dashboard({ token, user, onLogout }) {
           style={{
             flex: 1,
             overflowY: "auto",
-            padding: isMobile ? "20px 16px 80px 16px" : "32px 40px",
-            maxWidth: isMobile ? "100%" : "1400px",
+            padding: isMobile ? `${spacing.xl} ${spacing.lg} 80px ${spacing.lg}` : `${spacing['3xl']} ${spacing['4xl']}`,
+            maxWidth: "1400px",
             margin: "0 auto",
             width: "100%",
           }}

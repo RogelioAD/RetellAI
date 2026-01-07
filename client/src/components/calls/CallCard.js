@@ -10,10 +10,12 @@ import {
 } from "../../utils/callDataTransformers";
 import { formatFullDate } from "../../utils/dateFormatters";
 import TranscriptView from "./TranscriptView";
-import { cardStyles, gradients } from "../../constants/styles";
+import Card from "../common/Card";
+import Icon from "../common/Icon";
+import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
 /**
- * Card component for displaying a single call transcript with responsive design
+ * Card component for displaying a single call transcript with Horizon UI styling
  */
 export default function CallCard({ 
   call, 
@@ -34,171 +36,159 @@ export default function CallCard({
   const recordingUrl = extractRecordingUrl(call);
 
   return (
-    <div
+    <Card
+      padding="0"
       style={{
-        ...(hasError ? cardStyles.error : cardStyles.container),
-        marginBottom: isMobile ? 12 : 16
-      }}
-      onMouseEnter={(e) => {
-        if (!hasError) {
-          e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.12)";
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!hasError) {
-          e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)";
-          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.08)";
-        }
+        marginBottom: isMobile ? spacing.md : spacing.lg,
+        border: hasError ? `1px solid ${colors.error}` : undefined,
+        backgroundColor: hasError ? `${colors.error}08` : colors.background.card,
       }}
     >
       {/* Collapsible Header */}
       <div
         onClick={() => setIsExpanded(!isExpanded)}
         style={{
-          padding: isMobile ? "16px 20px" : "20px 24px",
-          background: isExpanded ? "rgba(102, 126, 234, 0.08)" : "transparent",
+          padding: isMobile ? `${spacing.lg} ${spacing.xl}` : `${spacing.xl} ${spacing['2xl']}`,
+          background: isExpanded ? colors.gray[50] : "transparent",
           cursor: "pointer",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          borderBottom: isExpanded ? "1px solid rgba(255, 255, 255, 0.08)" : "none",
+          borderBottom: isExpanded ? `1px solid ${colors.gray[100]}` : "none",
           userSelect: "none",
           minHeight: "44px",
-          touchAction: "manipulation",
-          transition: "all 0.2s ease"
+          transition: "all 0.2s ease",
         }}
       >
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ 
-            fontSize: isMobile ? "0.75em" : "0.8em", 
-            color: "#71717a", 
-            marginBottom: 6,
-            fontWeight: 500,
+            fontSize: typography.fontSize.xs, 
+            color: colors.text.tertiary, 
+            marginBottom: spacing.xs,
+            fontWeight: typography.fontWeight.semibold,
             textTransform: "uppercase",
-            letterSpacing: "0.5px"
+            letterSpacing: "0.5px",
           }}>
             Call Transcript
           </div>
           <div style={{ 
-            fontSize: isMobile ? "1em" : "1.15em", 
-            fontWeight: 500,
-            color: "#f4f4f5",
-            wordBreak: "break-word"
+            fontSize: isMobile ? typography.fontSize.base : typography.fontSize.lg, 
+            fontWeight: typography.fontWeight.semibold,
+            color: colors.text.primary,
+            wordBreak: "break-word",
+            marginBottom: spacing.xs,
           }}>
             {formatFullDate(finalCreatedAt)}
           </div>
           {(phoneNumber || durationSeconds !== null) && (
             <div style={{ 
-              fontSize: isMobile ? "0.8em" : "0.85em", 
-              color: "#a1a1aa", 
-              marginTop: 8,
+              fontSize: typography.fontSize.sm, 
+              color: colors.text.secondary, 
               display: "flex",
               flexWrap: "wrap",
-              gap: isMobile ? "12px" : "16px"
+              gap: isMobile ? spacing.md : spacing.lg,
+              alignItems: "center",
             }}>
               {phoneNumber && (
-                <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                  <span style={{ opacity: 0.7 }}>📞</span> {phoneNumber}
+                <span style={{ display: "flex", alignItems: "center", gap: spacing.xs }}>
+                  <Icon name="phone" size={14} color={colors.text.secondary} />
+                  {phoneNumber}
                 </span>
               )}
               {durationSeconds !== null && (
-                <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                  <span style={{ opacity: 0.7 }}>⏱️</span> {formatDuration(durationSeconds)}
+                <span style={{ display: "flex", alignItems: "center", gap: spacing.xs }}>
+                  ⏱️ {formatDuration(durationSeconds)}
                 </span>
               )}
             </div>
           )}
         </div>
         <div style={{ 
-          fontSize: isMobile ? "1.1em" : "1.3em", 
-          background: gradients.button,
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-          marginLeft: isMobile ? 12 : 20,
+          marginLeft: isMobile ? spacing.md : spacing.xl,
           flexShrink: 0,
-          transition: "transform 0.2s ease"
+          color: colors.brand[500],
+          transition: "transform 0.2s ease",
+          transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
         }}>
-          {isExpanded ? "▼" : "▶"}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </div>
       </div>
 
       {/* Collapsible Content */}
       {isExpanded && (
-        <div style={{ padding: isMobile ? "12px" : "20px" }}>
-          {/* Call Info and Recording Button */}
-              {call && !hasError && (
-                <div style={{
-                  marginBottom: isMobile ? 16 : 20,
-                  padding: isMobile ? 14 : 16,
-                  background: "rgba(255, 20, 147, 0.12)",
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
-                  borderRadius: 12,
-                  border: "1px solid rgba(255, 20, 147, 0.3)",
-                  display: "flex",
-                  flexDirection: isMobile ? "column" : "row",
-                  justifyContent: "space-between",
-                  alignItems: isMobile ? "flex-start" : "center",
-                  gap: isMobile ? "12px" : "16px"
-                }}>
+        <div style={{ padding: isMobile ? spacing.lg : spacing['2xl'] }}>
+          {/* Call Info and Recording */}
+          {call && !hasError && (
+            <div style={{
+              marginBottom: isMobile ? spacing.lg : spacing.xl,
+              padding: isMobile ? spacing.lg : spacing.xl,
+              background: colors.gray[50],
+              borderRadius: borderRadius.lg,
+              border: `1px solid ${colors.gray[100]}`,
+            }}>
               <div style={{ 
                 display: "flex",
                 flexDirection: isMobile ? "column" : "row",
-                gap: isMobile ? "4px" : "12px",
-                fontSize: isMobile ? "0.85em" : "0.9em",
-                color: "#d4d4d8"
+                gap: spacing.lg,
+                alignItems: isMobile ? "flex-start" : "center",
+                justifyContent: "space-between",
               }}>
-                <div>
-                  <strong style={{ color: "#a1a1aa" }}>Phone:</strong> {phoneNumber || "N/A"}
-                </div>
-                <div>
-                  <strong style={{ color: "#a1a1aa" }}>Duration:</strong> {durationSeconds !== null && durationSeconds !== undefined ? formatDuration(durationSeconds) : "N/A"}
-                </div>
-              </div>
-              {recordingUrl ? (
-                <div style={{
-                  width: isMobile ? "100%" : "auto",
-                  minWidth: isMobile ? "100%" : "300px"
+                <div style={{ 
+                  display: "flex",
+                  flexDirection: isMobile ? "column" : "row",
+                  gap: isMobile ? spacing.xs : spacing.lg,
+                  fontSize: typography.fontSize.sm,
+                  color: colors.text.secondary,
                 }}>
-                  <audio
-                    controls
-                    src={recordingUrl}
-                    style={{
-                      width: "100%",
-                      height: isMobile ? "36px" : "40px",
-                      outline: "none",
-                      border: "none",
-                      borderRadius: "12px",
-                      overflow: "hidden"
-                    }}
-                    preload="metadata"
-                  >
-                    Your browser does not support the audio element.
-                  </audio>
+                  <div>
+                    <strong style={{ color: colors.text.primary, fontWeight: typography.fontWeight.semibold }}>Phone:</strong> {phoneNumber || "N/A"}
+                  </div>
+                  <div>
+                    <strong style={{ color: colors.text.primary, fontWeight: typography.fontWeight.semibold }}>Duration:</strong> {durationSeconds !== null && durationSeconds !== undefined ? formatDuration(durationSeconds) : "N/A"}
+                  </div>
                 </div>
-              ) : (
-                <span style={{ fontSize: isMobile ? "0.85em" : "0.9em", color: "#71717a" }}>
-                  No recording available
-                </span>
-              )}
+                {recordingUrl ? (
+                  <div style={{
+                    width: isMobile ? "100%" : "auto",
+                    minWidth: isMobile ? "100%" : "300px",
+                  }}>
+                    <audio
+                      controls
+                      src={recordingUrl}
+                      style={{
+                        width: "100%",
+                        height: isMobile ? "36px" : "40px",
+                        borderRadius: borderRadius.md,
+                      }}
+                      preload="metadata"
+                    >
+                      Your browser does not support the audio element.
+                    </audio>
+                  </div>
+                ) : (
+                  <span style={{ fontSize: typography.fontSize.sm, color: colors.text.tertiary }}>
+                    No recording available
+                  </span>
+                )}
+              </div>
             </div>
           )}
           
           {hasError && (
             <div style={{ 
-              color: "#fca5a5", 
-              padding: isMobile ? 12 : 14, 
-              background: "rgba(239, 68, 68, 0.08)",
-              borderRadius: 8,
-              border: "1px solid rgba(239, 68, 68, 0.2)",
-              marginBottom: isMobile ? 12 : 16,
-              fontSize: isMobile ? "0.9em" : "1em"
+              color: colors.error, 
+              padding: isMobile ? spacing.md : spacing.lg, 
+              background: `${colors.error}08`,
+              borderRadius: borderRadius.md,
+              border: `1px solid ${colors.error}`,
+              marginBottom: isMobile ? spacing.md : spacing.lg,
+              fontSize: typography.fontSize.sm,
             }}>
               <strong>⚠️ Status:</strong> {errorMessage}
               {(isDeleted || (errorMessage && errorMessage.includes("404"))) && (
-                <div style={{ fontSize: isMobile ? "0.85em" : "0.9em", marginTop: 4, color: "#a1a1aa" }}>
+                <div style={{ fontSize: typography.fontSize.xs, marginTop: spacing.xs, color: colors.text.secondary }}>
                   This call may have been deleted from Retell or the call ID is invalid.
                 </div>
               )}
@@ -214,19 +204,22 @@ export default function CallCard({
                 <div style={{ 
                   whiteSpace: "pre-wrap", 
                   lineHeight: "1.6",
-                  color: "#d4d4d8",
-                  fontSize: isMobile ? "0.9em" : "1em",
-                  wordBreak: "break-word"
+                  color: colors.text.primary,
+                  fontSize: typography.fontSize.sm,
+                  wordBreak: "break-word",
+                  padding: spacing.lg,
+                  backgroundColor: colors.gray[50],
+                  borderRadius: borderRadius.md,
                 }}>
                   {typeof transcript === 'string' ? transcript : JSON.stringify(transcript, null, 2)}
                 </div>
               ) : (
                 <div style={{ 
-                  color: "#71717a", 
+                  color: colors.text.tertiary, 
                   fontStyle: "italic",
-                  padding: isMobile ? 16 : 20,
+                  padding: isMobile ? spacing.lg : spacing.xl,
                   textAlign: "center",
-                  fontSize: isMobile ? "0.9em" : "1em"
+                  fontSize: typography.fontSize.sm,
                 }}>
                   No transcript available for this call
                 </div>
@@ -236,11 +229,11 @@ export default function CallCard({
 
           {!call && !hasError && (
             <div style={{ 
-              color: "#71717a", 
+              color: colors.text.tertiary, 
               fontStyle: "italic", 
-              padding: isMobile ? 16 : 20,
+              padding: isMobile ? spacing.lg : spacing.xl,
               textAlign: "center",
-              fontSize: isMobile ? "0.9em" : "1em"
+              fontSize: typography.fontSize.sm,
             }}>
               No call details available
             </div>
@@ -248,32 +241,31 @@ export default function CallCard({
 
           {/* Full JSON details for admin */}
           {isAdmin && call && (
-            <details style={{ marginTop: isMobile ? 16 : 20 }}>
+            <details style={{ marginTop: isMobile ? spacing.lg : spacing.xl }}>
               <summary style={{ 
                 cursor: "pointer", 
-                padding: isMobile ? "10px 12px" : "8px 12px",
-                background: "rgba(255, 255, 255, 0.04)",
-                borderRadius: 8,
-                fontWeight: 500,
-                color: "#a1a1aa",
-                fontSize: isMobile ? "0.9em" : "1em",
-                touchAction: "manipulation",
-                border: "1px solid rgba(255, 255, 255, 0.08)"
+                padding: `${spacing.md} ${spacing.lg}`,
+                background: colors.gray[50],
+                borderRadius: borderRadius.md,
+                fontWeight: typography.fontWeight.medium,
+                color: colors.text.secondary,
+                fontSize: typography.fontSize.sm,
+                border: `1px solid ${colors.gray[100]}`,
               }}>
                 View Full Call Data (JSON)
               </summary>
               <pre style={{ 
                 whiteSpace: "pre-wrap", 
-                fontSize: isMobile ? "0.75em" : "0.85em",
-                background: "rgba(0, 0, 0, 0.3)",
-                color: "#d4d4d8",
-                padding: isMobile ? 10 : 12,
-                borderRadius: 8,
-                marginTop: 8,
+                fontSize: typography.fontSize.xs,
+                background: colors.gray[50],
+                color: colors.text.primary,
+                padding: isMobile ? spacing.md : spacing.lg,
+                borderRadius: borderRadius.md,
+                marginTop: spacing.sm,
                 maxHeight: isMobile ? "300px" : "400px",
                 overflow: "auto",
                 wordBreak: "break-word",
-                border: "1px solid rgba(255, 255, 255, 0.08)"
+                border: `1px solid ${colors.gray[100]}`,
               }}>
                 {JSON.stringify(call, null, 2)}
               </pre>
@@ -281,7 +273,6 @@ export default function CallCard({
           )}
         </div>
       )}
-    </div>
+    </Card>
   );
 }
-

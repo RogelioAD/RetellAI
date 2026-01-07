@@ -1,9 +1,12 @@
 import React from "react";
 import { useResponsive } from "../hooks/useResponsive";
+import Button from "../components/common/Button";
+import { colors, spacing, typography } from "../constants/horizonTheme";
 import "../index.css";
 
 /**
- * Home/Landing page component with shiny gradient company name
+ * Home/Landing page with Horizon UI styling
+ * Clean, modern landing page with brand gradient
  */
 export default function Home({ onNavigateToLogin }) {
   const { isMobile } = useResponsive();
@@ -16,66 +19,72 @@ export default function Home({ onNavigateToLogin }) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "#1a1b3a",
-        padding: isMobile ? "32px 20px" : "48px",
+        backgroundImage: "url('/colorful.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        padding: isMobile ? `${spacing['3xl']} ${spacing.xl}` : spacing['5xl'],
+        position: "relative",
       }}
     >
-      <h1
-        className="shiny-gradient-text"
-        style={{
-          fontSize: isMobile ? "3.5rem" : "5.5rem",
-          fontWeight: 700,
+      {/* Overlay for better readability */}
+      <div style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "rgba(244, 247, 254, 0.75)",
+        zIndex: 0,
+      }} />
+      <div style={{ textAlign: "center", marginBottom: spacing['4xl'], position: "relative", zIndex: 1 }}>
+        <img
+          src="/logo.png"
+          alt="Quantum Consulting Logo"
+          style={{
+            width: isMobile ? "80px" : "120px",
+            height: isMobile ? "80px" : "120px",
+            objectFit: "contain",
+            marginBottom: spacing['2xl'],
+          }}
+        />
+        <h1
+          className="brand-gradient-text"
+          style={{
+            fontSize: isMobile ? "3rem" : "4.5rem",
+            fontWeight: typography.fontWeight.bold,
+            margin: 0,
+            marginBottom: spacing.lg,
+            textAlign: "center",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.2,
+          }}
+        >
+          Quantum Consulting
+        </h1>
+        <p style={{
+          fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
+          color: colors.text.secondary,
           margin: 0,
-          marginBottom: isMobile ? "3rem" : "4rem",
-          textAlign: "center",
-          letterSpacing: "-0.02em",
-          lineHeight: 1.2,
-          paddingTop: "0.2em",
-          paddingBottom: "0.2em",
-          overflow: "visible",
-        }}
-      >
-        Quantum Consulting
-      </h1>
-      <button
+          maxWidth: "600px",
+        }}>
+          Access your call transcripts and analytics
+        </p>
+      </div>
+      
+      <Button
         onClick={onNavigateToLogin}
+        variant="primary"
         style={{
-          padding: isMobile ? "16px 32px" : "18px 40px",
-          fontSize: isMobile ? "16px" : "18px",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          color: "#d4d4d8",
-          borderRadius: "12px",
-          cursor: "pointer",
-          fontWeight: 400,
-          transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-          whiteSpace: "nowrap",
-          boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
+          padding: isMobile ? `${spacing.lg} ${spacing['3xl']}` : `${spacing.xl} ${spacing['4xl']}`,
+          fontSize: isMobile ? typography.fontSize.base : typography.fontSize.lg,
           position: "relative",
-          overflow: "hidden",
-        }}
-        onMouseOver={(e) => {
-          e.target.style.background = "linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 50%, rgba(240, 147, 251, 0.2) 100%)";
-          e.target.style.borderColor = "rgba(255, 255, 255, 0.25)";
-          e.target.style.color = "#fff";
-          e.target.style.fontWeight = 500;
-          e.target.style.transform = "translateY(-1px) scale(1.02)";
-          e.target.style.boxShadow = "0 12px 40px rgba(102, 126, 234, 0.35)";
-        }}
-        onMouseOut={(e) => {
-          e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)";
-          e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
-          e.target.style.color = "#d4d4d8";
-          e.target.style.fontWeight = 400;
-          e.target.style.transform = "translateY(0) scale(1)";
-          e.target.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.2)";
+          zIndex: 1,
         }}
       >
         View Transcripts
-      </button>
+      </Button>
     </div>
   );
 }
-

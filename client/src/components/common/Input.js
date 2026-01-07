@@ -1,9 +1,9 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
-import { formStyles } from "../../constants/styles";
+import { inputStyles, colors, typography, spacing } from "../../constants/horizonTheme";
 
 /**
- * Reusable Input component with responsive design
+ * Reusable Input component with Horizon UI styling
  */
 export default function Input({
   label,
@@ -17,16 +17,31 @@ export default function Input({
   ...props
 }) {
   const { isMobile } = useResponsive();
+  const [isFocused, setIsFocused] = React.useState(false);
+
+  const inputStyle = {
+    ...inputStyles.base,
+    ...(isFocused && inputStyles.focus),
+    ...(error && {
+      borderColor: colors.error,
+      boxShadow: `0 0 0 3px rgba(227, 26, 26, 0.1)`,
+    }),
+    ...props.style,
+  };
 
   return (
-    <div style={{ marginBottom: isMobile ? 16 : 12 }}>
+    <div style={{ marginBottom: isMobile ? spacing.lg : spacing.md }}>
       {label && (
-        <label style={{ 
-          ...formStyles.label,
-          fontSize: isMobile ? "16px" : "14px",
-          color: "#ffffff"
-        }}>
-          {label} {required && <span style={{ color: "#ffffff" }}>*</span>}
+        <label
+          style={{
+            display: "block",
+            marginBottom: spacing.sm,
+            fontSize: typography.fontSize.sm,
+            fontWeight: typography.fontWeight.medium,
+            color: colors.text.primary,
+          }}
+        >
+          {label} {required && <span style={{ color: colors.error }}>*</span>}
         </label>
       )}
       <input
@@ -36,37 +51,32 @@ export default function Input({
         required={required}
         disabled={disabled}
         placeholder={placeholder}
-        style={{
-          ...formStyles.input,
-          ...(isMobile && formStyles.inputMobile),
-          ...props.style
-        }}
+        style={inputStyle}
         onFocus={(e) => {
-          e.target.style.border = "1px solid rgba(255, 255, 255, 0.5)";
-          e.target.style.boxShadow = "0 0 0 2px rgba(255, 255, 255, 0.2)";
+          setIsFocused(true);
           if (props.onFocus) props.onFocus(e);
         }}
         onBlur={(e) => {
-          e.target.style.border = "1px solid rgba(255, 255, 255, 0.1)";
-          e.target.style.boxShadow = "none";
+          setIsFocused(false);
           if (props.onBlur) props.onBlur(e);
         }}
         {...props}
       />
       {error && (
-        <div style={{ 
-          color: "#fca5a5", 
-          fontSize: isMobile ? "14px" : "0.9em", 
-          marginTop: 4,
-          padding: "8px",
-          background: "rgba(239, 68, 68, 0.08)",
-          border: "1px solid rgba(239, 68, 68, 0.2)",
-          borderRadius: 6
-        }}>
+        <div
+          style={{
+            color: colors.error,
+            fontSize: typography.fontSize.xs,
+            marginTop: spacing.xs,
+            padding: spacing.sm,
+            backgroundColor: "rgba(227, 26, 26, 0.08)",
+            border: `1px solid rgba(227, 26, 26, 0.2)`,
+            borderRadius: "8px",
+          }}
+        >
           {error}
         </div>
       )}
     </div>
   );
 }
-

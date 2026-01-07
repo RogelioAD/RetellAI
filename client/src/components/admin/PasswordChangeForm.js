@@ -2,10 +2,11 @@ import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import Input from "../common/Input";
 import Button from "../common/Button";
-import { formStyles } from "../../constants/styles";
+import Card from "../common/Card";
+import { colors, spacing, typography } from "../../constants/horizonTheme";
 
 /**
- * Form component for changing password with responsive design
+ * Form component for changing password with Horizon UI styling
  */
 export default function PasswordChangeForm({
   passwordData,
@@ -19,14 +20,16 @@ export default function PasswordChangeForm({
   const { isMobile } = useResponsive();
 
   return (
-    <div style={{
-      ...formStyles.container,
-      ...(isMobile && formStyles.containerMobile)
-    }}>
+    <Card>
       <h3 style={{ 
         marginTop: 0,
-        fontSize: isMobile ? "1.2em" : "1.3em"
-      }}>Change Password</h3>
+        marginBottom: spacing.xl,
+        fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
+        color: colors.text.primary,
+        fontWeight: typography.fontWeight.semibold,
+      }}>
+        Change Password
+      </h3>
       <form onSubmit={onSubmit}>
         <Input
           label="Current Password"
@@ -55,23 +58,40 @@ export default function PasswordChangeForm({
           minLength={6}
         />
         {error && (
-          <div style={{ color: "red", marginBottom: 12, fontSize: isMobile ? "14px" : "14px" }}>
+          <div style={{ 
+            color: colors.error, 
+            marginBottom: spacing.md, 
+            fontSize: typography.fontSize.sm,
+            padding: spacing.md,
+            backgroundColor: `${colors.error}08`,
+            border: `1px solid ${colors.error}`,
+            borderRadius: "8px",
+          }}>
             {error}
           </div>
         )}
         {success && (
-          <div style={{ color: "green", marginBottom: 12, fontSize: isMobile ? "14px" : "14px" }}>
+          <div style={{ 
+            color: colors.success, 
+            marginBottom: spacing.md, 
+            fontSize: typography.fontSize.sm,
+            padding: spacing.md,
+            backgroundColor: `${colors.success}08`,
+            border: `1px solid ${colors.success}`,
+            borderRadius: "8px",
+          }}>
             {success}
           </div>
         )}
         <div style={{ 
           display: "flex", 
           flexDirection: isMobile ? "column" : "row",
-          gap: "8px" 
+          gap: spacing.md,
         }}>
           <Button 
             type="submit" 
             disabled={changing}
+            variant="primary"
             fullWidth={isMobile}
           >
             {changing ? "Changing..." : "Change Password"}
@@ -80,13 +100,13 @@ export default function PasswordChangeForm({
             type="button" 
             onClick={onCancel} 
             disabled={changing}
+            variant="outline"
             fullWidth={isMobile}
           >
             Cancel
           </Button>
         </div>
       </form>
-    </div>
+    </Card>
   );
 }
-

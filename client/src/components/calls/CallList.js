@@ -3,19 +3,20 @@ import { useResponsive } from "../../hooks/useResponsive";
 import { groupCallsByAgent, extractCallId, extractCreatedAt } from "../../utils/callDataTransformers";
 import CallCard from "./CallCard";
 import AgentFolder from "./AgentFolder";
+import Button from "../common/Button";
+import { colors, spacing, typography } from "../../constants/horizonTheme";
 
 /**
- * Main component for displaying a list of calls
+ * Main component for displaying a list of calls with Horizon UI styling
  * Supports both grouped (by agent) and ungrouped views
  */
 export default function CallList({ items, groupByAgent = false }) {
   const { isMobile } = useResponsive();
-  const [displayLimit, setDisplayLimit] = useState(50); // Show first 50 calls initially
+  const [displayLimit, setDisplayLimit] = useState(50);
   
   const INITIAL_DISPLAY_LIMIT = 50;
   const LOAD_MORE_INCREMENT = 50;
 
-  // Reset display limit when items change (e.g., when filters change)
   useEffect(() => {
     setDisplayLimit(INITIAL_DISPLAY_LIMIT);
   }, [items.length]);
@@ -39,9 +40,9 @@ export default function CallList({ items, groupByAgent = false }) {
     return (
       <div style={{
         textAlign: "center",
-        padding: "48px 24px",
-        color: "#71717a",
-        fontSize: "15px"
+        padding: `${spacing['5xl']} ${spacing['2xl']}`,
+        color: colors.text.tertiary,
+        fontSize: typography.fontSize.base,
       }}>
         No calls yet.
       </div>
@@ -92,45 +93,18 @@ export default function CallList({ items, groupByAgent = false }) {
       })}
       
       {hasMoreItems && (
-        <div style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
-          <button
+        <div style={{ marginTop: spacing.xl, display: "flex", justifyContent: "center" }}>
+          <Button
             onClick={handleLoadMore}
+            variant="outline"
             style={{
-              padding: isMobile ? "12px 24px" : "14px 32px",
-              fontSize: isMobile ? "14px" : "15px",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              background: "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              color: "#d4d4d8",
-              borderRadius: "12px",
-              cursor: "pointer",
-              fontWeight: 400,
-              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-              boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
-            }}
-            onMouseOver={(e) => {
-              e.target.style.background = "linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 50%, rgba(240, 147, 251, 0.2) 100%)";
-              e.target.style.borderColor = "rgba(255, 255, 255, 0.25)";
-              e.target.style.color = "#fff";
-              e.target.style.fontWeight = 500;
-              e.target.style.transform = "translateY(-1px) scale(1.02)";
-              e.target.style.boxShadow = "0 12px 40px rgba(102, 126, 234, 0.35)";
-            }}
-            onMouseOut={(e) => {
-              e.target.style.background = "linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%)";
-              e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
-              e.target.style.color = "#d4d4d8";
-              e.target.style.fontWeight = 400;
-              e.target.style.transform = "translateY(0) scale(1)";
-              e.target.style.boxShadow = "0 4px 16px rgba(0, 0, 0, 0.2)";
+              padding: isMobile ? `${spacing.md} ${spacing['2xl']}` : `${spacing.lg} ${spacing['3xl']}`,
             }}
           >
             Load More ({remainingCount} more {remainingCount === 1 ? 'call' : 'calls'})
-          </button>
+          </Button>
         </div>
       )}
     </div>
   );
 }
-

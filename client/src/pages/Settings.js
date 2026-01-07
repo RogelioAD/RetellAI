@@ -2,9 +2,10 @@ import React from "react";
 import { useResponsive } from "../hooks/useResponsive";
 import PasswordChangeForm from "../components/admin/PasswordChangeForm";
 import { usePasswordChange } from "../hooks/usePasswordChange";
+import { colors, spacing, typography } from "../constants/horizonTheme";
 
 /**
- * Settings page component
+ * Settings page with Horizon UI styling
  */
 export default function Settings({ token }) {
   const { isMobile } = useResponsive();
@@ -15,25 +16,25 @@ export default function Settings({ token }) {
       <h2
         style={{
           marginTop: 0,
-          marginBottom: 24,
-          fontSize: isMobile ? "1.5em" : "1.75em",
-          color: "#f4f4f5",
-          fontWeight: 600,
+          marginBottom: spacing['2xl'],
+          fontSize: isMobile ? typography.fontSize['2xl'] : typography.fontSize['3xl'],
+          color: colors.text.primary,
+          fontWeight: typography.fontWeight.bold,
         }}
       >
         Settings
       </h2>
 
-      <div style={{ marginBottom: 32 }}>
+      <div style={{ marginBottom: spacing['3xl'] }}>
         <h3
           style={{
-            fontSize: isMobile ? "1.1em" : "1.2em",
-            color: "#f4f4f5",
-            fontWeight: 500,
-            marginBottom: 16,
+            fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
+            color: colors.text.primary,
+            fontWeight: typography.fontWeight.semibold,
+            marginBottom: spacing.lg,
           }}
         >
-          Account
+          Account Security
         </h3>
         <PasswordChangeForm
           passwordData={passwordChange.passwordData}
@@ -48,4 +49,3 @@ export default function Settings({ token }) {
     </div>
   );
 }
-

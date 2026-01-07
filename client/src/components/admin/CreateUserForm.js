@@ -1,11 +1,11 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
-import { gridStyles } from "../../constants/styles";
 import Input from "../common/Input";
 import Button from "../common/Button";
+import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
 /**
- * Form component for creating a new user with responsive design
+ * Form component for creating a new user with Horizon UI styling
  */
 export default function CreateUserForm({
   newUser,
@@ -19,24 +19,28 @@ export default function CreateUserForm({
 
   return (
     <div style={{ 
-      marginBottom: isMobile ? 20 : 30, 
-      padding: isMobile ? 16 : 20, 
-      background: "rgba(255, 255, 255, 0.03)",
-      backdropFilter: "blur(20px)",
-      border: "1px solid rgba(255, 255, 255, 0.08)",
-      borderRadius: 12,
-      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05) inset"
+      marginBottom: isMobile ? spacing.xl : spacing['2xl'], 
+      padding: isMobile ? spacing.lg : spacing.xl, 
+      background: colors.gray[50],
+      border: `1px solid ${colors.gray[100]}`,
+      borderRadius: borderRadius.lg,
     }}>
       <h4 style={{ 
-        fontSize: isMobile ? "1.1em" : "1.2em", 
+        fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl, 
         marginTop: 0,
-        color: "#f4f4f5",
-        fontWeight: 500
-      }}>Create New Customer</h4>
+        marginBottom: spacing.lg,
+        color: colors.text.primary,
+        fontWeight: typography.fontWeight.semibold,
+      }}>
+        Create New Customer
+      </h4>
       <form onSubmit={onSubmit}>
         <div style={{
-          ...(isMobile ? gridStyles.createUserFormMobile : gridStyles.createUserForm),
-          marginBottom: 12
+          display: isMobile ? "flex" : "grid",
+          flexDirection: isMobile ? "column" : undefined,
+          gridTemplateColumns: isMobile ? undefined : "1fr 1fr 1fr auto",
+          gap: spacing.md,
+          marginBottom: spacing.md,
         }}>
           <div>
             <Input
@@ -77,15 +81,14 @@ export default function CreateUserForm({
             display: "flex", 
             alignItems: isMobile ? "stretch" : "flex-end",
             justifyContent: isMobile ? "stretch" : "flex-start",
-            paddingTop: isMobile ? 0 : "24px"
           }}>
             <Button 
               type="submit" 
               disabled={creating}
+              variant="primary"
               fullWidth={isMobile}
               style={{ 
-                padding: isMobile ? "12px 16px" : "12px 20px", 
-                minHeight: "44px"
+                minHeight: "44px",
               }}
             >
               {creating ? "Creating..." : "Create User"}
@@ -97,22 +100,38 @@ export default function CreateUserForm({
       {/* Show created user credentials */}
       {createdUserCredentials && (
         <div style={{ 
-          padding: 16, 
-          background: "rgba(76, 175, 80, 0.1)", 
-          border: "1px solid rgba(76, 175, 80, 0.3)", 
-          borderRadius: 10,
-          marginTop: 16,
-          backdropFilter: "blur(10px)"
+          padding: spacing.lg, 
+          background: `${colors.success}08`, 
+          border: `1px solid ${colors.success}`, 
+          borderRadius: borderRadius.md,
+          marginTop: spacing.lg,
         }}>
-          <strong style={{ color: "#81c784", fontSize: "0.95em" }}>✓ User Created Successfully!</strong>
-          <div style={{ marginTop: 12, fontFamily: "monospace", fontSize: "0.9em", color: "#d4d4d8" }}>
-            <div style={{ marginBottom: 6 }}><strong style={{ color: "#a1a1aa" }}>Username:</strong> {createdUserCredentials.username}</div>
-            <div style={{ marginBottom: 6 }}><strong style={{ color: "#a1a1aa" }}>Password:</strong> {createdUserCredentials.password}</div>
+          <strong style={{ color: colors.success, fontSize: typography.fontSize.sm }}>
+            ✓ User Created Successfully!
+          </strong>
+          <div style={{ 
+            marginTop: spacing.md, 
+            fontFamily: "monospace", 
+            fontSize: typography.fontSize.sm, 
+            color: colors.text.primary,
+          }}>
+            <div style={{ marginBottom: spacing.xs }}>
+              <strong style={{ color: colors.text.secondary }}>Username:</strong> {createdUserCredentials.username}
+            </div>
+            <div style={{ marginBottom: spacing.xs }}>
+              <strong style={{ color: colors.text.secondary }}>Password:</strong> {createdUserCredentials.password}
+            </div>
             {createdUserCredentials.email && (
-              <div><strong style={{ color: "#a1a1aa" }}>Email:</strong> {createdUserCredentials.email}</div>
+              <div>
+                <strong style={{ color: colors.text.secondary }}>Email:</strong> {createdUserCredentials.email}
+              </div>
             )}
           </div>
-          <div style={{ marginTop: 10, fontSize: "0.85em", color: "#71717a" }}>
+          <div style={{ 
+            marginTop: spacing.md, 
+            fontSize: typography.fontSize.xs, 
+            color: colors.text.secondary,
+          }}>
             ⚠️ Save these credentials now - the password cannot be retrieved later!
           </div>
         </div>
@@ -120,16 +139,17 @@ export default function CreateUserForm({
       
       {error && (
         <div style={{ 
-          color: "#fca5a5", 
-          marginTop: 12, 
-          fontSize: "0.9em",
-          padding: "12px",
-          background: "rgba(239, 68, 68, 0.08)",
-          border: "1px solid rgba(239, 68, 68, 0.2)",
-          borderRadius: 8
-        }}>{error}</div>
+          color: colors.error, 
+          marginTop: spacing.md, 
+          fontSize: typography.fontSize.sm,
+          padding: spacing.md,
+          background: `${colors.error}08`,
+          border: `1px solid ${colors.error}`,
+          borderRadius: borderRadius.sm,
+        }}>
+          {error}
+        </div>
       )}
     </div>
   );
 }
-
