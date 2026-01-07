@@ -8,58 +8,46 @@ import authRoute from "./routes/authRoute.js";
 import adminRoute from "./routes/adminRoute.js";
 import callsRoute from "./routes/callsRoute.js";
 import webhookRoute from "./routes/webhookRoute.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 
-// Security: CORS configuration - restrict to specific origins in production
+// CORS configuration - restrict to specific origins in production
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim()).filter(origin => origin)
   : ['http://localhost:3000', 'http://localhost:3001'];
 
-// Log allowed origins for debugging
-console.log('🌐 CORS Configuration:');
-console.log('  ALLOWED_ORIGINS:', allowedOrigins);
-console.log('  NODE_ENV:', process.env.NODE_ENV);
-
 app.use(cors({
   origin: function (origin, callback) {
-    // Log the incoming origin for debugging
-    console.log('🔍 CORS Check - Origin:', origin);
-    
     // Allow requests with no origin (mobile apps, Postman, etc.) in development
     if (!origin) {
-      console.log('✅ Allowing request with no origin');
-      callback(null, true);
-      return;
+      if (process.env.NODE_ENV !== 'production') {
+        return callback(null, true);
+      }
+      return callback(new Error('Origin required in production'));
     }
     
     // Check if origin is in allowed list
     if (allowedOrigins.includes(origin)) {
-      console.log('✅ Origin allowed:', origin);
-      callback(null, true);
-      return;
+      return callback(null, true);
     }
     
     // In development, allow all origins
     if (process.env.NODE_ENV !== 'production') {
-      console.log('✅ Development mode - allowing origin');
-      callback(null, true);
-      return;
+      return callback(null, true);
     }
     
     // Reject in production if not in allowed list
-    console.log('❌ Origin not allowed:', origin);
-    console.log('   Allowed origins:', allowedOrigins);
     callback(new Error('Not allowed by CORS'));
   },
   credentials: true
 }));
 
-// Security: Body parser with size limits
+// Body parser with size limits
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
-// Security: Basic security headers
+// Security headers
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
@@ -67,7 +55,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Security: Validate JWT_SECRET is set in production
+// Validate JWT_SECRET is set in production
 if (process.env.NODE_ENV === 'production' && (!jwtSecret || jwtSecret === "your-secret-key-change-in-production")) {
   console.error("❌ CRITICAL: JWT_SECRET must be set in production environment!");
   process.exit(1);
@@ -84,7 +72,10 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// Temporary: Seed admin user on startup
+// Error handler middleware (must be last)
+app.use(errorHandler);
+
+// Seed admin user on startup
 async function seedAdmin() {
   try {
     const { User } = db;
@@ -92,11 +83,12 @@ async function seedAdmin() {
     const adminPassword = process.env.ADMIN_PASSWORD;
 
     if (!adminPassword) {
-      console.warn("⚠️  ADMIN_PASSWORD not set - skipping admin seed");
+      if (process.env.NODE_ENV === 'production') {
+        console.warn("⚠️  ADMIN_PASSWORD not set - skipping admin seed");
+      }
       return;
     }
 
-    console.log("🌱 Seeding admin user...");
     const passwordHash = await hash(adminPassword, 10);
 
     const [admin, created] = await User.findOrCreate({
@@ -113,9 +105,6 @@ async function seedAdmin() {
       admin.passwordHash = passwordHash;
       admin.role = "admin";
       await admin.save();
-      console.log(`✅ Updated admin user "${adminUsername}"`);
-    } else {
-      console.log(`✅ Created admin user "${adminUsername}"`);
     }
   } catch (err) {
     console.error("⚠️  Error seeding admin (non-fatal):", err.message);
@@ -126,28 +115,23 @@ async function seedAdmin() {
 // Initialize database and start server
 async function start() {
   try {
-    // Test database connection
     console.log("🔌 Connecting to database...");
     await db.sequelize.authenticate();
     console.log("✅ Database connection established");
 
-    // Sync models (create tables if they don't exist)
     console.log("🔄 Syncing database models...");
     await db.sequelize.sync({ alter: false });
     console.log("✅ Database models synced");
 
-    // Temporary: Seed admin user
     await seedAdmin();
 
-    // Start server
     app.listen(port, () => {
       console.log(`🚀 Server running on http://localhost:${port}`);
     });
   } catch (err) {
-    console.error("❌ Failed to start server:", err);
+    console.error("❌ Failed to start server:", err.message);
     process.exit(1);
   }
 }
 
 start();
-
