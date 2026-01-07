@@ -3,7 +3,7 @@ import { useResponsive } from "../../hooks/useResponsive";
 import { extractCreatedAt } from "../../utils/callDataTransformers";
 import { formatDateRangeLabel } from "../../utils/dateFormatters";
 import Icon from "../common/Icon";
-import { colors, spacing, typography, statCardStyles, shadows } from "../../constants/horizonTheme";
+import { colors, spacing, typography, statCardStyles } from "../../constants/horizonTheme";
 
 /**
  * Quick stats component with Horizon UI stat card design

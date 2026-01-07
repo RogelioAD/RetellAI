@@ -26,7 +26,6 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
         justifyContent: "space-between",
         alignItems: "center",
         boxShadow: shadows.sm,
-        position: "relative",
       }}
     >
       {/* Overlay for better readability */}

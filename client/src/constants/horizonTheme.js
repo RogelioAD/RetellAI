@@ -255,7 +255,7 @@ export const sidebarStyles = {
   },
 };
 
-export default {
+const horizonTheme = {
   colors,
   shadows,
   borderRadius,
@@ -268,4 +268,6 @@ export default {
   tableStyles,
   sidebarStyles,
 };
+
+export default horizonTheme;
 

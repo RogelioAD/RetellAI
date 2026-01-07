@@ -1,7 +1,7 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import Icon from "../common/Icon";
-import { colors, spacing, typography, sidebarStyles, shadows } from "../../constants/horizonTheme";
+import { colors, spacing, typography, shadows } from "../../constants/horizonTheme";
 
 /**
  * Navigation component with Horizon UI styling
