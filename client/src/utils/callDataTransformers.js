@@ -32,13 +32,17 @@ export function extractCallId(call, mapping = {}, index = null) {
 
 /**
  * Extracts creation timestamp from call object with multiple fallback options.
+ * IMPORTANT: Prefers call object's date fields over mapping.createdAt, because
+ * mapping.createdAt is the database record creation date, not necessarily the call date.
  */
 export function extractCreatedAt(call, mapping = {}) {
+  // Prefer call object's date fields first (actual call date)
+  // Only use mapping.createdAt if call object doesn't have a date
   return (
-    mapping?.createdAt ||
     call?.created_at ||
     call?.createdAt ||
     call?.start_timestamp ||
+    mapping?.createdAt || // Fallback to mapping (database record date) only if call has no date
     new Date().toISOString()
   );
 }

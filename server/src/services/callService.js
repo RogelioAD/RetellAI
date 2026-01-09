@@ -1,4 +1,4 @@
-import { CallRecord, User } from "../models/index.js";
+import { CallRecord, User, Sequelize } from "../models/index.js";
 import retellClient from "../utils/retellClient.js";
 import { extractAgentName } from "../utils/agentUtils.js";
 
@@ -49,6 +49,23 @@ async function fetchAllRetellCalls(filters = {}) {
 }
 
 /**
+ * Extracts creation timestamp from call object with multiple fallback options.
+ * Prefers call object's date fields over mapping.createdAt, because
+ * mapping.createdAt is the database record creation date, not necessarily the call date.
+ */
+function extractCallDate(call, mapping = {}) {
+  // Prefer call object's date fields first (actual call date)
+  // Only use mapping.createdAt if call object doesn't have a date
+  return (
+    call?.created_at ||
+    call?.createdAt ||
+    call?.start_timestamp ||
+    mapping?.createdAt || // Fallback to mapping (database record date) only if call has no date
+    new Date().toISOString()
+  );
+}
+
+/**
  * Retrieves all calls for a specific user.
  */
 export async function getUserCalls(userId) {
@@ -59,15 +76,18 @@ export async function getUserCalls(userId) {
 
   const callRecords = await CallRecord.findAll({
     where: { userId },
-    order: [["createdAt", "DESC"]],
+    order: [["createdAt", "DESC"]], // Initial sort by DB record date for efficiency
   });
 
   const results = await fetchCallDetails(callRecords);
 
+  // Sort by actual call date (not database record creation date) - newest first
   return results.sort((a, b) => {
-    const aTime = new Date(a.mapping.createdAt).getTime();
-    const bTime = new Date(b.mapping.createdAt).getTime();
-    return bTime - aTime;
+    const aDate = extractCallDate(a.call, a.mapping);
+    const bDate = extractCallDate(b.call, b.mapping);
+    const aTime = new Date(aDate).getTime();
+    const bTime = new Date(bDate).getTime();
+    return bTime - aTime; // Descending order (newest first)
   });
 }
 
@@ -178,31 +198,94 @@ async function fetchCallDetails(callRecords) {
 }
 
 /**
+ * Retrieves all calls from the database (for admin view).
+ * This ensures consistency with regular users who also see database-linked calls.
+ * Only returns calls that are linked to users (userId is not null), matching
+ * what regular users see when they query their own calls.
+ */
+export async function getAllCallsFromDatabase() {
+  // First, refresh all user links to ensure database is up to date
+  const users = await User.findAll();
+  for (const user of users) {
+    await autoLinkCallsByAgent(user.username);
+  }
+
+  // Get all CallRecords from database that are linked to users
+  // This matches what regular users see - only calls linked to a userId
+  const callRecords = await CallRecord.findAll({
+    where: { userId: { [Sequelize.Op.ne]: null } }, // Only linked calls
+    order: [["createdAt", "DESC"]],
+  });
+
+  const results = await fetchCallDetails(callRecords);
+
+  // Sort by actual call date (not database record creation date) - newest first
+  return results.sort((a, b) => {
+    const aDate = extractCallDate(a.call, a.mapping);
+    const bDate = extractCallDate(b.call, b.mapping);
+    const aTime = new Date(aDate).getTime();
+    const bTime = new Date(bDate).getTime();
+    return bTime - aTime; // Descending order (newest first)
+  });
+}
+
+/**
  * Lists calls with optional filtering and pagination support.
  * NOTE: When fetchAll=false, only the first 100 calls are returned (Retell API limit).
  * For analytics or display purposes requiring the complete dataset, always use fetchAll=true.
+ * IMPORTANT: When fetchAll=true, this function now uses the database as source of truth
+ * to ensure consistency with regular user views. This fixes the discrepancy where regular
+ * users see database-linked calls while admins only see calls from Retell API.
  */
 export async function listCalls(filters = {}, fetchAll = false) {
+  // For admin views with fetchAll=true, use database as source of truth
+  // This ensures consistency with regular users who see database-linked calls
+  // We return raw call objects which transformAdminCallData will convert to {mapping, call} format
+  if (fetchAll) {
+    const results = await getAllCallsFromDatabase();
+    // Extract raw call objects from the database results
+    // Don't override call dates with database record creation dates - use actual call dates
+    // transformAdminCallData expects raw call objects and will create {mapping, call} format
+    const calls = results.map(result => {
+      if (result.call) {
+        // Return call object as-is, preserving its original date fields
+        // extractCreatedAt will prefer call dates over mapping dates
+        return result.call;
+      }
+      // Call was deleted from Retell but still exists in database
+      // Use mapping metadata to create a synthetic call object
+      // For deleted calls, use mapping createdAt as best approximation
+      const dbCreatedAt = result.mapping?.createdAt;
+      return {
+        call_id: result.mapping?.retellCallId,
+        id: result.mapping?.retellCallId,
+        callId: result.mapping?.retellCallId,
+        created_at: dbCreatedAt,
+        createdAt: dbCreatedAt,
+        start_timestamp: dbCreatedAt,
+        metadata: result.mapping?.metadata || {},
+        _isDeleted: true, // Flag to indicate this call was deleted from Retell
+      };
+    });
+    
+    return {
+      calls: calls,
+      fetched_count: results.length,
+    };
+  }
+
+  // For single-page fetches (fetchAll=false), still use Retell API
   const apiFilters = { ...filters };
   delete apiFilters.fetchAll;
 
-  let calls = [];
-
-  if (fetchAll) {
-    // Paginated fetch - gets ALL calls by looping until next_cursor is null
-    calls = await fetchAllRetellCalls(apiFilters);
-  } else {
-    // Single-page fetch - capped at 100 calls (Retell API limit)
-    // WARNING: Do NOT use this path for analytics or displays that need accurate totals
-    const response = await listCallsPost(apiFilters);
-    calls = extractCallsFromResponse(response);
-  }
+  const response = await listCallsPost(apiFilters);
+  const calls = extractCallsFromResponse(response);
 
   const activeAgents = await getActiveAgents();
 
   return {
     calls: filterCallsByActiveAgents(calls, activeAgents),
-    fetched_count: calls.length, // Actual number of calls fetched (not capped if fetchAll=true)
+    fetched_count: calls.length,
   };
 }
 
