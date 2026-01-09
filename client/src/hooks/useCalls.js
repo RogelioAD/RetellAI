@@ -23,7 +23,7 @@ export function useCalls(token, isAdmin) {
       if (isAdmin) {
         const transformedCalls = transformAdminCallData(data);
         setCalls(transformedCalls);
-        // Always use the actual length of the calls array, not the API's total_count
+        // Always use the actual length of the calls array (fully paginated, not capped at 100)
         // This ensures the count reflects the actual calls fetched, which updates as new calls come in
         setTotalCount(transformedCalls.length);
       } else {

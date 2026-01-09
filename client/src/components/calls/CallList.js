@@ -29,6 +29,8 @@ export default function CallList({ items, groupByAgent = false }) {
     return groupCallsByAgent(items);
   }, [items, groupByAgent]);
 
+  // UI pagination only - slices for display performance with "Load More" button
+  // NOTE: This does NOT affect analytics counts - QuickStats uses full items.length
   const displayedItems = items.slice(0, displayLimit);
   const hasMoreItems = items.length > displayLimit;
   const remainingCount = items.length - displayLimit;

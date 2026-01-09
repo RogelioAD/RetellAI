@@ -22,6 +22,7 @@ export default function QuickStats({
 
   // Calculate stats - always use filteredCalls if available, otherwise use calls
   // This ensures consistency between "all time" and filtered ranges
+  // NOTE: Uses full array length - calls array contains ALL paginated calls from backend (not capped at 100)
   const totalCalls = filteredCalls ? filteredCalls.length : calls.length;
   
   const today = new Date();

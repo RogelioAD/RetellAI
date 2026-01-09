@@ -4,7 +4,7 @@ import { buttonStyles, colors } from "../../constants/horizonTheme";
 /**
  * Reusable button component with primary, secondary, and outline variants.
  */
-export default function Button({
+const Button = React.forwardRef(function Button({
   children,
   onClick,
   type = "button",
@@ -13,7 +13,7 @@ export default function Button({
   variant = "primary", // primary, secondary, outline
   style: customStyle = {},
   ...props
-}) {
+}, ref) {
   const [isHovered, setIsHovered] = React.useState(false);
 
   // Get variant-specific styles
@@ -65,6 +65,7 @@ export default function Button({
 
   return (
     <button
+      ref={ref}
       type={type}
       onClick={onClick}
       disabled={disabled}
@@ -76,4 +77,6 @@ export default function Button({
       {children}
     </button>
   );
-}
+});
+
+export default Button;

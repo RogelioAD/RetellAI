@@ -10,6 +10,7 @@ export async function getMyCalls(req, res) {
 
 /**
  * Proxies to Retell AI's list-calls endpoint with pagination support.
+ * NOTE: Used by analytics/display. Requires fetchAll=true in request body to return complete dataset beyond 100-call limit.
  */
 export async function listAllCalls(req, res) {
   const filters = req.body || {};
