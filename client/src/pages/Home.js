@@ -18,24 +18,35 @@ export default function Home({ onNavigateToLogin }) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundImage: "url('/colorful.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
         padding: isMobile ? `${spacing['3xl']} ${spacing.xl}` : spacing['5xl'],
         position: "relative",
       }}
     >
+      {/* Fixed background image */}
+      <div style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundImage: "url('/colorful.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        zIndex: 0,
+        pointerEvents: "none",
+      }} />
+      
       {/* Overlay for better readability */}
       <div style={{
-        position: "absolute",
+        position: "fixed",
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
         background: "rgba(244, 247, 254, 0.3)",
         zIndex: 0,
+        pointerEvents: "none",
       }} />
       <div style={{ textAlign: "center", marginBottom: spacing['4xl'], position: "relative", zIndex: 1 }}>
         <img

@@ -156,17 +156,27 @@ export default function Dashboard({ token, user, onLogout }) {
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
+        position: "relative",
+      }}
+    >
+      {/* Fixed background image */}
+      <div style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         backgroundImage: "url('/colorful.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
-        position: "relative",
-      }}
-    >
+        zIndex: 0,
+        pointerEvents: "none",
+      }} />
+      
       {/* Subtle overlay for content readability */}
       <div style={{
-        position: "absolute",
+        position: "fixed",
         top: 0,
         left: 0,
         right: 0,
@@ -187,6 +197,7 @@ export default function Dashboard({ token, user, onLogout }) {
           overflow: "hidden",
           position: "relative",
           zIndex: 1,
+          minHeight: "100vh",
         }}
       >
         {/* Main Content Area */}
