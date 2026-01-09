@@ -1,7 +1,7 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import Button from "../common/Button";
-import { colors, spacing, typography, shadows, glassStyles, borderRadius } from "../../constants/horizonTheme";
+import { colors, spacing, typography, glassStyles, borderRadius } from "../../constants/horizonTheme";
 
 /**
  * Sticky header component with Horizon UI styling
