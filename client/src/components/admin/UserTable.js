@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import { formatShortDate } from "../../utils/dateFormatters";
-import Button from "../common/Button";
 import Card from "../common/Card";
-import Badge from "../common/Badge";
 import EmptyState from "../common/EmptyState";
 import SectionHeader from "../common/SectionHeader";
 import { colors, spacing, typography, tableStyles, borderRadius, glassStyles } from "../../constants/horizonTheme";

@@ -1,7 +1,7 @@
 import React from "react";
 import { useResponsive } from "../hooks/useResponsive";
 import Button from "../components/common/Button";
-import { colors, spacing, typography } from "../constants/horizonTheme";
+import { spacing, typography } from "../constants/horizonTheme";
 import "../index.css";
 
 /**

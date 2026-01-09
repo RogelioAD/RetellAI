@@ -1,5 +1,4 @@
 import React from "react";
-import { useResponsive } from "../hooks/useResponsive";
 import PasswordChangeForm from "../components/admin/PasswordChangeForm";
 import { usePasswordChange } from "../hooks/usePasswordChange";
 import SectionHeader from "../components/common/SectionHeader";
@@ -9,7 +8,6 @@ import { spacing } from "../constants/horizonTheme";
  * Settings page component that renders password change functionality.
  */
 export default function Settings({ token }) {
-  const { isMobile } = useResponsive();
   const passwordChange = usePasswordChange(token);
 
   return (

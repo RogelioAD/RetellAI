@@ -12,7 +12,7 @@ import DateFilter from "../components/common/DateFilter";
 import Alert from "../components/common/Alert";
 import { getDateRange } from "../components/common/DateFilterUtils";
 import { extractCreatedAt } from "../utils/callDataTransformers";
-import { colors, spacing, typography, glassStyles, borderRadius } from "../constants/horizonTheme";
+import { colors, spacing, typography } from "../constants/horizonTheme";
 
 /**
  * Main dashboard component with calls, users, and settings navigation sections.
