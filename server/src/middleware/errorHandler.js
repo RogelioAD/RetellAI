@@ -3,8 +3,7 @@
  */
 
 /**
- * Error handler middleware
- * Should be added after all routes
+ * Central error handler middleware that formats and returns appropriate error responses.
  */
 export function errorHandler(err, req, res, next) {
   // Log error for debugging (only in development or log to external service in production)

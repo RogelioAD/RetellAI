@@ -12,10 +12,11 @@ import { formatFullDate } from "../../utils/dateFormatters";
 import TranscriptView from "./TranscriptView";
 import Card from "../common/Card";
 import Icon from "../common/Icon";
+import Alert from "../common/Alert";
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
 /**
- * Card component for displaying a single call transcript with Horizon UI styling
+ * Displays a single call transcript in a collapsible card with metadata and recording player.
  */
 export default function CallCard({ 
   call, 
@@ -38,10 +39,16 @@ export default function CallCard({
   return (
     <Card
       padding="0"
+      variant={hasError ? "solid" : "glass"}
       style={{
         marginBottom: isMobile ? spacing.md : spacing.lg,
-        border: hasError ? `1px solid ${colors.error}` : undefined,
-        backgroundColor: hasError ? `${colors.error}08` : colors.background.card,
+        ...(hasError && {
+          border: `1px solid ${colors.error}`,
+          backgroundColor: `${colors.error}08`,
+          boxShadow: `0 8px 32px 0 rgba(227, 26, 26, 0.2)`,
+        }),
+        borderRadius: borderRadius.xl,
+        overflow: "hidden",
       }}
     >
       {/* Collapsible Header */}
@@ -58,14 +65,16 @@ export default function CallCard({
           userSelect: "none",
           minHeight: "44px",
           transition: "all 0.2s ease",
+          borderTopLeftRadius: borderRadius.xl,
+          borderTopRightRadius: borderRadius.xl,
         }}
       >
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ 
             fontSize: typography.fontSize.xs, 
-            color: colors.text.tertiary, 
+            color: colors.text.primary, 
             marginBottom: spacing.xs,
-            fontWeight: typography.fontWeight.semibold,
+            fontWeight: typography.fontWeight.bold,
             textTransform: "uppercase",
             letterSpacing: "0.5px",
           }}>
@@ -73,7 +82,7 @@ export default function CallCard({
           </div>
           <div style={{ 
             fontSize: isMobile ? typography.fontSize.base : typography.fontSize.lg, 
-            fontWeight: typography.fontWeight.semibold,
+            fontWeight: typography.fontWeight.bold,
             color: colors.text.primary,
             wordBreak: "break-word",
             marginBottom: spacing.xs,
@@ -83,7 +92,8 @@ export default function CallCard({
           {(phoneNumber || durationSeconds !== null) && (
             <div style={{ 
               fontSize: typography.fontSize.sm, 
-              color: colors.text.secondary, 
+              color: colors.text.primary, 
+              fontWeight: typography.fontWeight.semibold,
               display: "flex",
               flexWrap: "wrap",
               gap: isMobile ? spacing.md : spacing.lg,
@@ -91,7 +101,7 @@ export default function CallCard({
             }}>
               {phoneNumber && (
                 <span style={{ display: "flex", alignItems: "center", gap: spacing.xs }}>
-                  <Icon name="phone" size={14} color={colors.text.secondary} />
+                  <Icon name="phone" size={14} color={colors.text.primary} />
                   {phoneNumber}
                 </span>
               )}
@@ -118,14 +128,19 @@ export default function CallCard({
 
       {/* Collapsible Content */}
       {isExpanded && (
-        <div style={{ padding: isMobile ? spacing.lg : spacing['2xl'] }}>
+        <div style={{ 
+          padding: isMobile ? spacing.lg : spacing['2xl'],
+          borderBottomLeftRadius: borderRadius.xl,
+          borderBottomRightRadius: borderRadius.xl,
+          overflow: "hidden",
+        }}>
           {/* Call Info and Recording */}
           {call && !hasError && (
             <div style={{
               marginBottom: isMobile ? spacing.lg : spacing.xl,
               padding: isMobile ? spacing.lg : spacing.xl,
               background: colors.gray[50],
-              borderRadius: borderRadius.lg,
+              borderRadius: borderRadius.xl,
               border: `1px solid ${colors.gray[100]}`,
             }}>
               <div style={{ 
@@ -143,10 +158,10 @@ export default function CallCard({
                   color: colors.text.secondary,
                 }}>
                   <div>
-                    <strong style={{ color: colors.text.primary, fontWeight: typography.fontWeight.semibold }}>Phone:</strong> {phoneNumber || "N/A"}
+                    <strong style={{ color: colors.text.primary, fontWeight: typography.fontWeight.bold }}>Phone:</strong> {phoneNumber || "N/A"}
                   </div>
                   <div>
-                    <strong style={{ color: colors.text.primary, fontWeight: typography.fontWeight.semibold }}>Duration:</strong> {durationSeconds !== null && durationSeconds !== undefined ? formatDuration(durationSeconds) : "N/A"}
+                    <strong style={{ color: colors.text.primary, fontWeight: typography.fontWeight.bold }}>Duration:</strong> {durationSeconds !== null && durationSeconds !== undefined ? formatDuration(durationSeconds) : "N/A"}
                   </div>
                 </div>
                 {recordingUrl ? (
@@ -168,7 +183,7 @@ export default function CallCard({
                     </audio>
                   </div>
                 ) : (
-                  <span style={{ fontSize: typography.fontSize.sm, color: colors.text.tertiary }}>
+                  <span style={{ fontSize: typography.fontSize.sm, color: colors.text.primary, fontWeight: typography.fontWeight.medium }}>
                     No recording available
                   </span>
                 )}
@@ -177,22 +192,14 @@ export default function CallCard({
           )}
           
           {hasError && (
-            <div style={{ 
-              color: colors.error, 
-              padding: isMobile ? spacing.md : spacing.lg, 
-              background: `${colors.error}08`,
-              borderRadius: borderRadius.md,
-              border: `1px solid ${colors.error}`,
-              marginBottom: isMobile ? spacing.md : spacing.lg,
-              fontSize: typography.fontSize.sm,
-            }}>
+            <Alert variant="error" style={{ marginBottom: isMobile ? spacing.md : spacing.lg }}>
               <strong>⚠️ Status:</strong> {errorMessage}
               {(isDeleted || (errorMessage && errorMessage.includes("404"))) && (
-                <div style={{ fontSize: typography.fontSize.xs, marginTop: spacing.xs, color: colors.text.secondary }}>
+                <div style={{ fontSize: typography.fontSize.xs, marginTop: spacing.xs }}>
                   This call may have been deleted from Retell or the call ID is invalid.
                 </div>
               )}
-            </div>
+            </Alert>
           )}
 
           {/* Transcript Display */}
@@ -206,17 +213,19 @@ export default function CallCard({
                   lineHeight: "1.6",
                   color: colors.text.primary,
                   fontSize: typography.fontSize.sm,
+                  fontWeight: typography.fontWeight.medium,
                   wordBreak: "break-word",
                   padding: spacing.lg,
                   backgroundColor: colors.gray[50],
-                  borderRadius: borderRadius.md,
+                  borderRadius: borderRadius.xl,
                 }}>
                   {typeof transcript === 'string' ? transcript : JSON.stringify(transcript, null, 2)}
                 </div>
               ) : (
                 <div style={{ 
-                  color: colors.text.tertiary, 
+                  color: colors.text.primary, 
                   fontStyle: "italic",
+                  fontWeight: typography.fontWeight.semibold,
                   padding: isMobile ? spacing.lg : spacing.xl,
                   textAlign: "center",
                   fontSize: typography.fontSize.sm,
@@ -229,8 +238,9 @@ export default function CallCard({
 
           {!call && !hasError && (
             <div style={{ 
-              color: colors.text.tertiary, 
-              fontStyle: "italic", 
+              color: colors.text.primary, 
+              fontStyle: "italic",
+              fontWeight: typography.fontWeight.semibold,
               padding: isMobile ? spacing.lg : spacing.xl,
               textAlign: "center",
               fontSize: typography.fontSize.sm,
@@ -246,9 +256,9 @@ export default function CallCard({
                 cursor: "pointer", 
                 padding: `${spacing.md} ${spacing.lg}`,
                 background: colors.gray[50],
-                borderRadius: borderRadius.md,
-                fontWeight: typography.fontWeight.medium,
-                color: colors.text.secondary,
+                borderRadius: borderRadius.xl,
+                fontWeight: typography.fontWeight.bold,
+                color: '#1B2559',
                 fontSize: typography.fontSize.sm,
                 border: `1px solid ${colors.gray[100]}`,
               }}>
@@ -258,9 +268,10 @@ export default function CallCard({
                 whiteSpace: "pre-wrap", 
                 fontSize: typography.fontSize.xs,
                 background: colors.gray[50],
-                color: colors.text.primary,
+                color: '#1B2559',
+                fontWeight: typography.fontWeight.medium,
                 padding: isMobile ? spacing.md : spacing.lg,
-                borderRadius: borderRadius.md,
+                borderRadius: borderRadius.xl,
                 marginTop: spacing.sm,
                 maxHeight: isMobile ? "300px" : "400px",
                 overflow: "auto",

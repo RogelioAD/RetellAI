@@ -43,7 +43,7 @@ export default function TranscriptView({ utterances }) {
               gap: isMobile ? spacing.xs : 0,
             }}>
               <div style={{
-                fontWeight: typography.fontWeight.semibold,
+                fontWeight: typography.fontWeight.bold,
                 color: isAgent ? colors.brand[500] : colors.text.primary,
                 fontSize: typography.fontSize.sm,
               }}>
@@ -52,7 +52,8 @@ export default function TranscriptView({ utterances }) {
               {timestamp && (
                 <div style={{
                   fontSize: typography.fontSize.xs,
-                  color: colors.text.tertiary,
+                  color: colors.text.primary,
+                  fontWeight: typography.fontWeight.medium,
                 }}>
                   {formatTime(timestamp)}
                 </div>
@@ -64,6 +65,7 @@ export default function TranscriptView({ utterances }) {
               whiteSpace: "pre-wrap",
               wordBreak: "break-word",
               fontSize: typography.fontSize.sm,
+              fontWeight: typography.fontWeight.medium,
             }}>
               {content}
             </div>

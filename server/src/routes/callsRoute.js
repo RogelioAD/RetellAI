@@ -1,31 +1,18 @@
 import { Router } from "express";
-import { getUserCalls, listCalls } from "../services/callService.js";
+import { getMyCalls, listAllCalls } from "../controllers/callController.js";
 import { authMiddleware } from "../middleware/auth.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
 
 const router = Router();
 
 /**
- * GET /api/my-calls
- * Get all calls for the authenticated user
+ * GET /api/my-calls - Get all calls for the authenticated user.
  */
-router.get("/my-calls", authMiddleware, asyncHandler(async (req, res) => {
-  const results = await getUserCalls(req.user.id);
-  res.json(results);
-}));
+router.get("/my-calls", authMiddleware, asyncHandler(getMyCalls));
 
 /**
- * POST /api/list-calls
- * Proxy to Retell AI's list-calls endpoint
- * Supports pagination: set fetchAll=true in body to get all calls across all pages
- * Filters out calls from deleted agents
+ * POST /api/list-calls - Proxies to Retell AI's list-calls endpoint with pagination support.
  */
-router.post("/list-calls", authMiddleware, asyncHandler(async (req, res) => {
-  const filters = req.body || {};
-  const { fetchAll, ...apiFilters } = filters;
-  
-  const result = await listCalls(apiFilters, fetchAll);
-  res.json(result);
-}));
+router.post("/list-calls", authMiddleware, asyncHandler(listAllCalls));
 
 export default router;

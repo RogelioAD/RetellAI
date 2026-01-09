@@ -2,8 +2,7 @@ import { hash } from "bcrypt";
 import { User, CallRecord } from "../models/index.js";
 
 /**
- * Get all users (admin only)
- * @returns {Promise<Array>}
+ * Retrieves all users from the database excluding password hashes.
  */
 export async function getAllUsers() {
   return await User.findAll({
@@ -13,10 +12,7 @@ export async function getAllUsers() {
 }
 
 /**
- * Create a new customer user
- * @param {object} userData - User data (username, password, email)
- * @returns {Promise<{user: object, password: string}>}
- * @throws {Error} If user creation fails
+ * Creates a new customer user with the provided credentials.
  */
 export async function createCustomer({ username, password, email }) {
   const sanitizedUsername = String(username).trim();
@@ -53,11 +49,7 @@ export async function createCustomer({ username, password, email }) {
 }
 
 /**
- * Delete a user and all associated call records
- * @param {string} userId - User ID to delete
- * @param {string} requestingUserId - ID of user making the request
- * @returns {Promise<{deletedUser: object, deletedCallRecords: number}>}
- * @throws {Error} If deletion fails
+ * Deletes a user and all associated call records with safety checks.
  */
 export async function deleteUser(userId, requestingUserId) {
   const user = await User.findByPk(userId);
@@ -89,9 +81,7 @@ export async function deleteUser(userId, requestingUserId) {
 }
 
 /**
- * Get user by ID
- * @param {string} userId - User ID
- * @returns {Promise<object|null>}
+ * Retrieves a user by ID excluding the password hash.
  */
 export async function getUserById(userId) {
   return await User.findByPk(userId, {

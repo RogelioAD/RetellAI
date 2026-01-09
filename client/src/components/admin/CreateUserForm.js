@@ -2,6 +2,9 @@ import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import Input from "../common/Input";
 import Button from "../common/Button";
+import Card from "../common/Card";
+import Alert from "../common/Alert";
+import SectionHeader from "../common/SectionHeader";
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
 /**
@@ -18,28 +21,23 @@ export default function CreateUserForm({
   const { isMobile } = useResponsive();
 
   return (
-    <div style={{ 
-      marginBottom: isMobile ? spacing.xl : spacing['2xl'], 
-      padding: isMobile ? spacing.lg : spacing.xl, 
-      background: colors.gray[50],
-      border: `1px solid ${colors.gray[100]}`,
-      borderRadius: borderRadius.lg,
-    }}>
-      <h4 style={{ 
-        fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl, 
-        marginTop: 0,
-        marginBottom: spacing.lg,
-        color: colors.text.primary,
-        fontWeight: typography.fontWeight.semibold,
-      }}>
-        Create New Customer
-      </h4>
+    <Card 
+      variant="glass"
+      style={{ 
+        marginBottom: isMobile ? spacing.xl : spacing['2xl'],
+        borderRadius: borderRadius.xl,
+      }}
+    >
+      <SectionHeader 
+        title="Create New Customer"
+        level={2}
+      />
       <form onSubmit={onSubmit}>
         <div style={{
           display: isMobile ? "flex" : "grid",
           flexDirection: isMobile ? "column" : undefined,
           gridTemplateColumns: isMobile ? undefined : "1fr 1fr 1fr auto",
-          gap: spacing.md,
+          gap: isMobile ? spacing.md : `${spacing.md} ${spacing.md} ${spacing.md} ${spacing.sm}`,
           marginBottom: spacing.md,
         }}>
           <div>
@@ -79,8 +77,10 @@ export default function CreateUserForm({
           </div>
           <div style={{ 
             display: "flex", 
-            alignItems: isMobile ? "stretch" : "flex-end",
+            alignItems: isMobile ? "stretch" : "flex-start",
             justifyContent: isMobile ? "stretch" : "flex-start",
+            paddingTop: isMobile ? 0 : `calc(${typography.fontSize.sm} + ${spacing.sm} + 2px)`,
+            paddingLeft: isMobile ? 0 : spacing.sm,
           }}>
             <Button 
               type="submit" 
@@ -99,14 +99,8 @@ export default function CreateUserForm({
       
       {/* Show created user credentials */}
       {createdUserCredentials && (
-        <div style={{ 
-          padding: spacing.lg, 
-          background: `${colors.success}08`, 
-          border: `1px solid ${colors.success}`, 
-          borderRadius: borderRadius.md,
-          marginTop: spacing.lg,
-        }}>
-          <strong style={{ color: colors.success, fontSize: typography.fontSize.sm }}>
+        <Alert variant="success" style={{ marginTop: spacing.lg }}>
+          <strong style={{ fontSize: typography.fontSize.sm, display: "block", marginBottom: spacing.md }}>
             ✓ User Created Successfully!
           </strong>
           <div style={{ 
@@ -116,40 +110,33 @@ export default function CreateUserForm({
             color: colors.text.primary,
           }}>
             <div style={{ marginBottom: spacing.xs }}>
-              <strong style={{ color: colors.text.secondary }}>Username:</strong> {createdUserCredentials.username}
+              <strong style={{ color: colors.text.primary, fontWeight: typography.fontWeight.bold }}>Username:</strong> {createdUserCredentials.username}
             </div>
             <div style={{ marginBottom: spacing.xs }}>
-              <strong style={{ color: colors.text.secondary }}>Password:</strong> {createdUserCredentials.password}
+              <strong style={{ color: colors.text.primary, fontWeight: typography.fontWeight.bold }}>Password:</strong> {createdUserCredentials.password}
             </div>
             {createdUserCredentials.email && (
               <div>
-                <strong style={{ color: colors.text.secondary }}>Email:</strong> {createdUserCredentials.email}
+                <strong style={{ color: colors.text.primary, fontWeight: typography.fontWeight.bold }}>Email:</strong> {createdUserCredentials.email}
               </div>
             )}
           </div>
           <div style={{ 
             marginTop: spacing.md, 
             fontSize: typography.fontSize.xs, 
-            color: colors.text.secondary,
+            color: colors.text.primary,
+            fontWeight: typography.fontWeight.semibold,
           }}>
             ⚠️ Save these credentials now - the password cannot be retrieved later!
           </div>
-        </div>
+        </Alert>
       )}
       
       {error && (
-        <div style={{ 
-          color: colors.error, 
-          marginTop: spacing.md, 
-          fontSize: typography.fontSize.sm,
-          padding: spacing.md,
-          background: `${colors.error}08`,
-          border: `1px solid ${colors.error}`,
-          borderRadius: borderRadius.sm,
-        }}>
+        <Alert variant="error" style={{ marginTop: spacing.md }}>
           {error}
-        </div>
+        </Alert>
       )}
-    </div>
+    </Card>
   );
 }

@@ -4,7 +4,8 @@ import { groupCallsByAgent, extractCallId, extractCreatedAt } from "../../utils/
 import CallCard from "./CallCard";
 import AgentFolder from "./AgentFolder";
 import Button from "../common/Button";
-import { colors, spacing, typography } from "../../constants/horizonTheme";
+import EmptyState from "../common/EmptyState";
+import { spacing } from "../../constants/horizonTheme";
 
 /**
  * Main component for displaying a list of calls with Horizon UI styling
@@ -38,14 +39,7 @@ export default function CallList({ items, groupByAgent = false }) {
 
   if (!items || items.length === 0) {
     return (
-      <div style={{
-        textAlign: "center",
-        padding: `${spacing['5xl']} ${spacing['2xl']}`,
-        color: colors.text.tertiary,
-        fontSize: typography.fontSize.base,
-      }}>
-        No calls yet.
-      </div>
+      <EmptyState message="No calls yet." />
     );
   }
 

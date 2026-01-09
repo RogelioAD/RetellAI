@@ -19,9 +19,7 @@ const client = axios.create({
 });
 
 /**
- * Get a specific call by ID
- * @param {string} callId - Call ID
- * @returns {Promise<object>} Call data
+ * Fetches a specific call by ID from Retell API.
  */
 async function getCall(callId) {
   if (!callId) {
@@ -41,9 +39,7 @@ async function getCall(callId) {
 }
 
 /**
- * List calls using GET endpoint
- * @param {object} query - Query parameters
- * @returns {Promise<object>} Calls data
+ * Lists calls using GET endpoint with optional query parameters.
  */
 async function listCalls(query = {}) {
   try {
@@ -58,9 +54,7 @@ async function listCalls(query = {}) {
 }
 
 /**
- * List calls using POST endpoint
- * @param {object} filters - Filter parameters
- * @returns {Promise<object>} Calls data
+ * Lists calls using POST endpoint with filter parameters.
  */
 async function listCallsPost(filters = {}) {
   if (!retell.apiKey) {
@@ -88,10 +82,7 @@ async function listCallsPost(filters = {}) {
 }
 
 /**
- * Fetch all calls with pagination support
- * Handles pagination automatically by checking for next_cursor, has_more, or similar pagination fields
- * @param {object} filters - Filter parameters
- * @returns {Promise<object>} All calls with metadata
+ * Fetches all calls with automatic pagination support handling multiple response formats.
  */
 async function listAllCallsPost(filters = {}) {
   const allCalls = [];
@@ -218,8 +209,7 @@ async function listAllCallsPost(filters = {}) {
 }
 
 /**
- * List all active agents
- * @returns {Promise<Array>} Array of agents
+ * Lists all active agents from Retell API trying multiple endpoint patterns.
  */
 async function listAgents() {
   if (!retell.apiKey) {

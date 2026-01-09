@@ -1,14 +1,14 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { hash } from "bcrypt";
 import { port, jwtSecret } from "./config.js";
-import db from "./models/indexModel.js";
+import db from "./models/index.js";
 import authRoute from "./routes/authRoute.js";
 import adminRoute from "./routes/adminRoute.js";
 import callsRoute from "./routes/callsRoute.js";
 import webhookRoute from "./routes/webhookRoute.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import { seedAdmin } from "./services/adminService.js";
 
 const app = express();
 
@@ -75,44 +75,10 @@ app.get("/health", (req, res) => {
 // Error handler middleware (must be last)
 app.use(errorHandler);
 
-// Seed admin user on startup
-async function seedAdmin() {
-  try {
-    const { User } = db;
-    const adminUsername = process.env.ADMIN_USERNAME || "admin";
-    const adminPassword = process.env.ADMIN_PASSWORD;
 
-    if (!adminPassword) {
-      if (process.env.NODE_ENV === 'production') {
-        console.warn("⚠️  ADMIN_PASSWORD not set - skipping admin seed");
-      }
-      return;
-    }
-
-    const passwordHash = await hash(adminPassword, 10);
-
-    const [admin, created] = await User.findOrCreate({
-      where: { username: adminUsername },
-      defaults: {
-        username: adminUsername,
-        passwordHash,
-        role: "admin",
-      },
-    });
-
-    if (!created) {
-      // User already exists → update password
-      admin.passwordHash = passwordHash;
-      admin.role = "admin";
-      await admin.save();
-    }
-  } catch (err) {
-    console.error("⚠️  Error seeding admin (non-fatal):", err.message);
-    // Don't exit - allow server to start even if seeding fails
-  }
-}
-
-// Initialize database and start server
+/**
+ * Initializes database connection and starts the Express server.
+ */
 async function start() {
   try {
     console.log("🔌 Connecting to database...");

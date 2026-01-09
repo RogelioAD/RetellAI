@@ -1,8 +1,5 @@
 /**
- * Extract agent name from Retell call data
- * Tries multiple fields and formats to handle different API response structures
- * @param {object} callData - Call data from Retell API
- * @returns {string|null} Agent name or null if not found
+ * Extracts agent name from Retell call data using multiple possible field names.
  */
 export function extractAgentName(callData) {
   if (!callData) {

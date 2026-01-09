@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { fetchAllUsers } from "../services/api";
 
 /**
- * Custom hook for managing users (admin only)
+ * Manages user data fetching and state for admin users.
  */
 export function useUsers(token, isAdmin, enabled = false) {
   const [users, setUsers] = useState([]);
@@ -29,6 +29,9 @@ export function useUsers(token, isAdmin, enabled = false) {
       });
   }, [token, isAdmin, enabled]);
 
+  /**
+   * Refreshes the users list by fetching from the API.
+   */
   const refreshUsers = async () => {
     if (!isAdmin) return;
     

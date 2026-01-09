@@ -3,7 +3,7 @@
  */
 
 /**
- * Extract agent name from call object
+ * Extracts agent name from call object using multiple possible field names.
  */
 export function extractAgentName(call, mapping = {}) {
   return (
@@ -18,7 +18,7 @@ export function extractAgentName(call, mapping = {}) {
 }
 
 /**
- * Extract call ID from call object
+ * Extracts call ID from call object or mapping with fallback to index-based ID.
  */
 export function extractCallId(call, mapping = {}, index = null) {
   return (
@@ -31,7 +31,7 @@ export function extractCallId(call, mapping = {}, index = null) {
 }
 
 /**
- * Extract created date from call object
+ * Extracts creation timestamp from call object with multiple fallback options.
  */
 export function extractCreatedAt(call, mapping = {}) {
   return (
@@ -44,7 +44,7 @@ export function extractCreatedAt(call, mapping = {}) {
 }
 
 /**
- * Extract phone number from call object
+ * Extracts phone number from call object checking multiple possible field names.
  */
 export function extractPhoneNumber(call) {
   if (!call) return null;
@@ -82,7 +82,7 @@ export function extractPhoneNumber(call) {
 }
 
 /**
- * Extract call duration from call object (in seconds)
+ * Extracts call duration in seconds, calculating from timestamps if needed.
  */
 export function extractCallDuration(call) {
   if (!call) return null;
@@ -142,7 +142,7 @@ export function extractCallDuration(call) {
 }
 
 /**
- * Format duration from seconds to readable format (MM:SS or HH:MM:SS)
+ * Formats duration in seconds to human-readable format (MM:SS or HH:MM:SS).
  */
 export function formatDuration(seconds) {
   if (!seconds || seconds < 0) return "0:00";
@@ -158,7 +158,7 @@ export function formatDuration(seconds) {
 }
 
 /**
- * Extract recording URL from call object
+ * Extracts recording URL from call object checking multiple possible field names.
  */
 export function extractRecordingUrl(call) {
   return (
@@ -174,7 +174,7 @@ export function extractRecordingUrl(call) {
 }
 
 /**
- * Extract transcript data from call object
+ * Extracts transcript and utterances data from call object.
  */
 export function extractTranscriptData(call) {
   return {
@@ -184,8 +184,7 @@ export function extractTranscriptData(call) {
 }
 
 /**
- * Transform admin call data to unified format
- * Preserves metadata like total_count, fetched_count if present
+ * Transforms admin call data to unified format preserving metadata.
  */
 export function transformAdminCallData(data, metadata = {}) {
   let callsArray = [];
@@ -225,7 +224,7 @@ export function transformAdminCallData(data, metadata = {}) {
 }
 
 /**
- * Group calls by agent name
+ * Groups calls by agent name and sorts by last updated timestamp.
  */
 export function groupCallsByAgent(items) {
   const groups = {};

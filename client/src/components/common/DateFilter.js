@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import { getDateRange } from "./DateFilterUtils";
 import Button from "./Button";
-import { colors, spacing, typography, borderRadius, shadows } from "../../constants/horizonTheme";
+import { colors, spacing, typography, borderRadius, glassStyles } from "../../constants/horizonTheme";
 
 /**
  * Date filter component with modal containing dual calendars and filter buttons
@@ -167,7 +167,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
       <Button
           ref={buttonRef}
           onClick={() => setIsOpen(!isOpen)}
-          variant={selectedRange !== "all" ? "primary" : "outline"}
+          variant={selectedRange !== "all" ? "primary" : "primary"}
         >
           📅 Date Range
         </Button>
@@ -180,16 +180,16 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
             top: "100%",
             left: 0,
             marginTop: spacing.md,
-            background: colors.background.card,
+            marginBottom: isMobile ? "100px" : "0",
+            ...glassStyles.base,
             borderRadius: borderRadius.lg,
-            border: `1px solid ${colors.gray[100]}`,
-            boxShadow: shadows.xl,
             maxWidth: isMobile ? "calc(100vw - 32px)" : "750px",
             width: isMobile ? "calc(100vw - 32px)" : "max-content",
             minWidth: isMobile ? "auto" : "650px",
-            maxHeight: "75vh",
+            maxHeight: isMobile ? "calc(75vh - 100px)" : "75vh",
             overflow: "auto",
             padding: isMobile ? spacing.md : spacing.lg,
+            paddingBottom: isMobile ? "100px" : spacing.lg,
             zIndex: 1000,
           }}
         >
@@ -207,11 +207,16 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
               }}>
                 <div style={{
                   fontSize: typography.fontSize.xs,
-                  fontWeight: typography.fontWeight.semibold,
-                  color: colors.text.tertiary,
+                  fontWeight: typography.fontWeight.bold,
+                  color: colors.text.primary,
                   marginBottom: spacing.xs,
                   textTransform: "uppercase",
                   letterSpacing: "0.5px",
+                  padding: `${spacing.xs} ${spacing.sm}`,
+                  ...glassStyles.subtle,
+                  borderRadius: borderRadius.md,
+                  display: "inline-block",
+                  width: "fit-content",
                 }}>
                   Quick Filters
                 </div>
@@ -222,19 +227,30 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                     style={{
                       padding: `${spacing.sm} ${spacing.md}`,
                       fontSize: typography.fontSize.xs,
-                      border: selectedRange === range.value 
-                        ? `1px solid ${colors.brand[500]}` 
-                        : `1px solid ${colors.gray[200]}`,
-                      background: selectedRange === range.value
-                        ? colors.brand[500]
-                        : "transparent",
-                      color: selectedRange === range.value ? colors.text.white : colors.text.secondary,
-                      borderRadius: borderRadius.sm,
+                      ...(selectedRange === range.value ? glassStyles.active : glassStyles.subtle),
+                      color: colors.text.primary,
+                      borderRadius: borderRadius.md,
                       cursor: "pointer",
-                      fontWeight: selectedRange === range.value ? typography.fontWeight.semibold : typography.fontWeight.medium,
-                      transition: "all 0.2s ease",
+                      fontWeight: selectedRange === range.value ? typography.fontWeight.bold : typography.fontWeight.semibold,
+                      transition: "all 0.3s ease",
                       textAlign: "left",
                       width: "100%",
+                      transform: "scale(1)",
+                      boxShadow: selectedRange === range.value 
+                        ? glassStyles.active.boxShadow 
+                        : glassStyles.subtle.boxShadow,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (selectedRange !== range.value) {
+                        e.currentTarget.style.transform = "scale(1.01)";
+                        e.currentTarget.style.boxShadow = "0 8px 32px 0 rgba(31, 38, 135, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (selectedRange !== range.value) {
+                        e.currentTarget.style.transform = "scale(1)";
+                        e.currentTarget.style.boxShadow = glassStyles.subtle.boxShadow;
+                      }
                     }}
                   >
                     {range.label}
@@ -248,17 +264,84 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                 <div style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "center"
+                  alignItems: "center",
+                  gap: spacing.sm,
                 }}>
-                  <Button onClick={() => navigateMonths(-1)} variant="outline" style={{ fontSize: typography.fontSize.xs }}>
+                  <button
+                    onClick={() => navigateMonths(-1)}
+                    style={{
+                      padding: `${spacing.sm} ${spacing.md}`,
+                      fontSize: typography.fontSize.xs,
+                      ...glassStyles.subtle,
+                      color: colors.text.primary,
+                      borderRadius: borderRadius.md,
+                      cursor: "pointer",
+                      fontWeight: typography.fontWeight.bold,
+                      transition: "all 0.3s ease",
+                      transform: "scale(1)",
+                      boxShadow: glassStyles.subtle.boxShadow,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.01)";
+                      e.currentTarget.style.boxShadow = "0 8px 32px 0 rgba(31, 38, 135, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "scale(1)";
+                      e.currentTarget.style.boxShadow = glassStyles.subtle.boxShadow;
+                    }}
+                  >
                     ← Previous
-                  </Button>
-                  <Button onClick={() => setIsOpen(false)} variant="outline" style={{ fontSize: typography.fontSize.xs }}>
+                  </button>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    style={{
+                      padding: `${spacing.sm} ${spacing.md}`,
+                      fontSize: typography.fontSize.xs,
+                      ...glassStyles.subtle,
+                      color: colors.text.primary,
+                      borderRadius: borderRadius.md,
+                      cursor: "pointer",
+                      fontWeight: typography.fontWeight.bold,
+                      transition: "all 0.3s ease",
+                      transform: "scale(1)",
+                      boxShadow: glassStyles.subtle.boxShadow,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.01)";
+                      e.currentTarget.style.boxShadow = "0 8px 32px 0 rgba(31, 38, 135, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "scale(1)";
+                      e.currentTarget.style.boxShadow = glassStyles.subtle.boxShadow;
+                    }}
+                  >
                     ✕ Close
-                  </Button>
-                  <Button onClick={() => navigateMonths(1)} variant="outline" style={{ fontSize: typography.fontSize.xs }}>
+                  </button>
+                  <button
+                    onClick={() => navigateMonths(1)}
+                    style={{
+                      padding: `${spacing.sm} ${spacing.md}`,
+                      fontSize: typography.fontSize.xs,
+                      ...glassStyles.subtle,
+                      color: colors.text.primary,
+                      borderRadius: borderRadius.md,
+                      cursor: "pointer",
+                      fontWeight: typography.fontWeight.bold,
+                      transition: "all 0.3s ease",
+                      transform: "scale(1)",
+                      boxShadow: glassStyles.subtle.boxShadow,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.01)";
+                      e.currentTarget.style.boxShadow = "0 8px 32px 0 rgba(31, 38, 135, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "scale(1)";
+                      e.currentTarget.style.boxShadow = glassStyles.subtle.boxShadow;
+                    }}
+                  >
                     Next →
-                  </Button>
+                  </button>
                 </div>
 
                 {/* Two Calendars */}
@@ -339,17 +422,17 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
   return (
     <div style={{
       flex: 1,
-      background: colors.gray[50],
+      ...glassStyles.subtle,
       borderRadius: borderRadius.md,
       padding: isMobile ? spacing.sm : spacing.md,
-      border: `1px solid ${colors.gray[100]}`,
       overflow: "hidden",
       minWidth: isMobile ? "0" : "auto",
+      transition: "all 0.3s ease",
     }}>
       <div style={{
         textAlign: "center",
         fontSize: isMobile ? typography.fontSize.sm : typography.fontSize.base,
-        fontWeight: typography.fontWeight.semibold,
+        fontWeight: typography.fontWeight.bold,
         color: colors.text.primary,
         marginBottom: isMobile ? spacing.md : spacing.md,
       }}>
@@ -365,9 +448,9 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
           <div key={day} style={{
             textAlign: "center",
             fontSize: isMobile ? typography.fontSize.xs : typography.fontSize.xs,
-            fontWeight: typography.fontWeight.semibold,
+            fontWeight: typography.fontWeight.bold,
             color: colors.text.secondary,
-            padding: isMobile ? `${spacing.xs} 1px` : `${spacing.xs} ${spacing.xs}`,
+            padding: `${spacing.xs} ${spacing.xs}`,
             overflow: "hidden",
             textOverflow: "ellipsis",
           }}>
@@ -405,19 +488,19 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
                 alignItems: "center",
                 justifyContent: "center",
                 background: isSelected
-                  ? colors.brand[500]
+                  ? "rgba(99, 102, 241, 0.5)"
                   : isHighlighted
-                  ? `${colors.brand[500]}20`
+                  ? "rgba(99, 102, 241, 0.2)"
                   : "transparent",
-                color: isSelected ? colors.text.white : isToday ? colors.brand[500] : colors.text.primary,
+                color: isSelected ? colors.text.white : isToday ? colors.brand[600] : colors.text.primary,
                 borderRadius: borderRadius.sm,
                 cursor: "pointer",
                 fontSize: isMobile ? typography.fontSize.xs : typography.fontSize.xs,
-                fontWeight: isToday ? typography.fontWeight.semibold : typography.fontWeight.normal,
-                transition: "all 0.2s ease",
+                fontWeight: isToday || isSelected ? typography.fontWeight.bold : typography.fontWeight.semibold,
+                transition: "all 0.3s ease",
                 position: "relative",
                 border: isStart || isEnd 
-                  ? `2px solid ${colors.brand[500]}`
+                  ? "2px solid rgba(99, 102, 241, 0.6)"
                   : "1px solid transparent",
                 boxSizing: "border-box",
                 overflow: "hidden",
@@ -426,12 +509,12 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
               }}
               onMouseOver={(e) => {
                 if (!isSelected) {
-                  e.target.style.background = `${colors.brand[500]}15`;
+                  e.currentTarget.style.background = "rgba(99, 102, 241, 0.15)";
                 }
               }}
               onMouseOut={(e) => {
                 if (!isSelected) {
-                  e.target.style.background = isHighlighted ? `${colors.brand[500]}20` : "transparent";
+                  e.currentTarget.style.background = isHighlighted ? "rgba(99, 102, 241, 0.2)" : "transparent";
                 }
               }}
             >

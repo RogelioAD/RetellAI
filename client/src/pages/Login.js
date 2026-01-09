@@ -4,14 +4,14 @@ import { login } from "../services/api";
 import Input from "../components/common/Input";
 import Button from "../components/common/Button";
 import Card from "../components/common/Card";
-import { colors, spacing, typography } from "../constants/horizonTheme";
+import Alert from "../components/common/Alert";
+import { colors, spacing, typography, borderRadius } from "../constants/horizonTheme";
 
 const MAX_ATTEMPTS = 3;
 const LOCKOUT_DURATION_MS = 5 * 60 * 1000; // 5 minutes
 
 /**
- * Login page with Horizon UI styling
- * Clean, modern login form with card-based layout
+ * Login form component with account lockout protection after failed attempts.
  */
 export default function Login({ onLogin, onNavigateToHome }) {
   const { isMobile } = useResponsive();
@@ -53,12 +53,18 @@ export default function Login({ onLogin, onNavigateToHome }) {
     return () => clearInterval(interval);
   }, [isLockedOut]);
 
+  /**
+   * Formats milliseconds to MM:SS format for lockout timer display.
+   */
   const formatTime = (ms) => {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  /**
+   * Handles login form submission with attempt tracking and lockout logic.
+   */
   async function handleSubmit(e) {
     e.preventDefault();
     
@@ -126,16 +132,18 @@ export default function Login({ onLogin, onNavigateToHome }) {
         left: 0,
         right: 0,
         bottom: 0,
-        background: "rgba(244, 247, 254, 0.65)",
+        background: "rgba(244, 247, 254, 0.4)",
         zIndex: 0,
       }} />
       <Card
+        variant="glass"
         style={{
           maxWidth: "420px",
           width: "100%",
           padding: isMobile ? spacing['2xl'] : spacing['3xl'],
           position: "relative",
           zIndex: 1,
+          borderRadius: borderRadius.xl,
         }}
       >
         <div style={{ textAlign: "center", marginBottom: spacing['2xl'] }}>
@@ -146,48 +154,34 @@ export default function Login({ onLogin, onNavigateToHome }) {
               width: "64px",
               height: "64px",
               objectFit: "contain",
-              marginBottom: spacing.lg,
+              marginBottom: spacing.md,
             }}
           />
           <h2 style={{ 
             fontSize: isMobile ? typography.fontSize['2xl'] : typography.fontSize['3xl'], 
             marginTop: 0,
-            marginBottom: spacing.xs,
-            color: colors.text.primary,
+            marginBottom: 0,
+            color: colors.text.white,
             fontWeight: typography.fontWeight.bold,
           }}>
             Welcome Back
           </h2>
-          <p style={{
-            fontSize: typography.fontSize.sm,
-            color: colors.text.secondary,
-            margin: 0,
-          }}>
-            Sign in to access your transcripts
-          </p>
         </div>
 
         {isLockedOut && (
-          <div style={{
-            background: `${colors.error}08`,
-            border: `1px solid ${colors.error}`,
-            borderRadius: "12px",
-            padding: isMobile ? spacing.lg : spacing.xl,
-            marginBottom: spacing.xl,
-            textAlign: "center",
-          }}>
+          <Alert variant="error" style={{ marginBottom: spacing.xl, textAlign: "center" }}>
             <div style={{ 
               fontWeight: typography.fontWeight.semibold, 
               marginBottom: spacing.sm, 
-              color: colors.error,
               fontSize: typography.fontSize.sm,
             }}>
               Account Temporarily Locked
             </div>
             <div style={{ 
-              color: colors.text.secondary, 
+              color: colors.text.white, 
               marginBottom: spacing.md,
               fontSize: typography.fontSize.sm,
+              fontWeight: typography.fontWeight.semibold,
             }}>
               Password has been incorrect multiple times. Please try again after:
             </div>
@@ -195,11 +189,10 @@ export default function Login({ onLogin, onNavigateToHome }) {
               fontSize: isMobile ? typography.fontSize.xl : typography.fontSize['2xl'],
               fontWeight: typography.fontWeight.bold,
               marginTop: spacing.sm,
-              color: colors.error,
             }}>
               {formatTime(timeRemaining)}
             </div>
-          </div>
+          </Alert>
         )}
 
         <form onSubmit={handleSubmit} style={{ width: '100%' }}>
@@ -231,7 +224,7 @@ export default function Login({ onLogin, onNavigateToHome }) {
                 type="button"
                 onClick={onNavigateToHome}
                 disabled={loading || isLockedOut}
-                variant="outline"
+                variant="primary"
                 fullWidth
               >
                 Home
@@ -248,17 +241,9 @@ export default function Login({ onLogin, onNavigateToHome }) {
           </div>
           
           {error && (
-            <div style={{ 
-              color: colors.error, 
-              marginTop: spacing.md,
-              fontSize: typography.fontSize.sm,
-              padding: spacing.md,
-              background: `${colors.error}08`,
-              border: `1px solid ${colors.error}`,
-              borderRadius: "8px",
-            }}>
+            <Alert variant="error" style={{ marginTop: spacing.md }}>
               {error}
-            </div>
+            </Alert>
           )}
         </form>
       </Card>

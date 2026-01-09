@@ -3,7 +3,9 @@ import { useResponsive } from "../../hooks/useResponsive";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import Card from "../common/Card";
-import { colors, spacing, typography } from "../../constants/horizonTheme";
+import Alert from "../common/Alert";
+import SectionHeader from "../common/SectionHeader";
+import { spacing, borderRadius } from "../../constants/horizonTheme";
 
 /**
  * Form component for changing password with Horizon UI styling
@@ -20,16 +22,14 @@ export default function PasswordChangeForm({
   const { isMobile } = useResponsive();
 
   return (
-    <Card>
-      <h3 style={{ 
-        marginTop: 0,
-        marginBottom: spacing.xl,
-        fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
-        color: colors.text.primary,
-        fontWeight: typography.fontWeight.semibold,
-      }}>
-        Change Password
-      </h3>
+    <Card 
+      variant="glass"
+      style={{ borderRadius: borderRadius.xl }}
+    >
+      <SectionHeader 
+        title="Change Password"
+        level={2}
+      />
       <form onSubmit={onSubmit}>
         <Input
           label="Current Password"
@@ -58,30 +58,14 @@ export default function PasswordChangeForm({
           minLength={6}
         />
         {error && (
-          <div style={{ 
-            color: colors.error, 
-            marginBottom: spacing.md, 
-            fontSize: typography.fontSize.sm,
-            padding: spacing.md,
-            backgroundColor: `${colors.error}08`,
-            border: `1px solid ${colors.error}`,
-            borderRadius: "8px",
-          }}>
+          <Alert variant="error" style={{ marginBottom: spacing.md }}>
             {error}
-          </div>
+          </Alert>
         )}
         {success && (
-          <div style={{ 
-            color: colors.success, 
-            marginBottom: spacing.md, 
-            fontSize: typography.fontSize.sm,
-            padding: spacing.md,
-            backgroundColor: `${colors.success}08`,
-            border: `1px solid ${colors.success}`,
-            borderRadius: "8px",
-          }}>
+          <Alert variant="success" style={{ marginBottom: spacing.md }}>
             {success}
-          </div>
+          </Alert>
         )}
         <div style={{ 
           display: "flex", 
@@ -100,7 +84,7 @@ export default function PasswordChangeForm({
             type="button" 
             onClick={onCancel} 
             disabled={changing}
-            variant="outline"
+            variant="primary"
             fullWidth={isMobile}
           >
             Cancel

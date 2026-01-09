@@ -5,9 +5,7 @@ import { extractAgentName } from "../utils/agentUtils.js";
 const { getCall, listAllCallsPost, listAgents } = retellClient;
 
 /**
- * Get calls for a specific user with auto-linking
- * @param {string} userId - User ID
- * @returns {Promise<Array>}
+ * Retrieves all calls for a specific user with automatic linking by agent name.
  */
 export async function getUserCalls(userId) {
   const user = await User.findByPk(userId);
@@ -46,9 +44,7 @@ export async function getUserCalls(userId) {
 }
 
 /**
- * Auto-link unlinked calls by matching agent_name with username
- * @param {string} username - Username to match
- * @returns {Promise<number>} Number of calls linked
+ * Automatically links unlinked calls by matching agent_name with username.
  */
 async function autoLinkCallsByAgent(username) {
   try {
@@ -130,9 +126,7 @@ async function autoLinkCallsByAgent(username) {
 }
 
 /**
- * Fetch call details from Retell for call records
- * @param {Array} callRecords - Array of CallRecord instances
- * @returns {Promise<Array>}
+ * Fetches call details from Retell API for the provided call records.
  */
 async function fetchCallDetails(callRecords) {
   const results = [];
@@ -202,10 +196,7 @@ async function fetchCallDetails(callRecords) {
 }
 
 /**
- * List calls from Retell with filtering
- * @param {object} filters - Filters for listing calls
- * @param {boolean} fetchAll - Whether to fetch all pages
- * @returns {Promise<object>}
+ * Lists calls from Retell API with optional filtering and pagination.
  */
 export async function listCalls(filters = {}, fetchAll = false) {
   // Remove fetchAll from filters to avoid passing it to API
@@ -235,8 +226,7 @@ export async function listCalls(filters = {}, fetchAll = false) {
 }
 
 /**
- * Get active agents from Retell
- * @returns {Promise<Array>}
+ * Retrieves active agents from Retell API.
  */
 async function getActiveAgents() {
   try {
@@ -247,10 +237,7 @@ async function getActiveAgents() {
 }
 
 /**
- * Filter calls to only include those with active agents
- * @param {Array} calls - Array of calls
- * @param {Array} activeAgents - Array of active agents
- * @returns {Array}
+ * Filters calls to only include those associated with active agents.
  */
 function filterCallsByActiveAgents(calls, activeAgents) {
   if (!activeAgents || activeAgents.length === 0) {
@@ -285,9 +272,7 @@ function filterCallsByActiveAgents(calls, activeAgents) {
 }
 
 /**
- * Extract calls array from Retell API response
- * @param {*} response - Retell API response
- * @returns {Array}
+ * Extracts the calls array from various Retell API response formats.
  */
 function extractCallsArray(response) {
   if (Array.isArray(response)) {
@@ -303,9 +288,7 @@ function extractCallsArray(response) {
 }
 
 /**
- * Extract calls metadata from Retell API response
- * @param {*} response - Retell API response
- * @returns {object}
+ * Extracts calls metadata including total count and fetched count from Retell API response.
  */
 function extractCallsMetadata(response) {
   let callsArray = [];
@@ -329,8 +312,7 @@ function extractCallsMetadata(response) {
 }
 
 /**
- * Link call records to users by agent name
- * @returns {Promise<object>}
+ * Links call records to users by matching agent names with usernames.
  */
 export async function linkCallsByAgent() {
   const { getCall } = retellClient;
@@ -394,8 +376,7 @@ export async function linkCallsByAgent() {
 }
 
 /**
- * Refresh agent names from RetellAI and re-link calls
- * @returns {Promise<object>}
+ * Refreshes agent names from RetellAI and re-links calls to users.
  */
 export async function refreshAgentNames() {
   const retellCalls = await listAllCallsPost({});
@@ -476,9 +457,7 @@ export async function refreshAgentNames() {
 }
 
 /**
- * Handle webhook event from Retell
- * @param {object} event - Webhook event data
- * @returns {Promise<object>}
+ * Handles webhook events from Retell by creating or updating call records and linking to users.
  */
 export async function handleWebhookEvent(event) {
   const { getCall } = retellClient;

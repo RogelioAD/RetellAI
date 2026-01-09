@@ -10,8 +10,7 @@ export const breakpoints = {
 };
 
 /**
- * Hook to detect if screen is mobile
- * Note: This is a simple utility. For more complex cases, use a library like react-responsive
+ * Detects if the current screen width is below mobile breakpoint.
  */
 export function isMobile() {
   if (typeof window === 'undefined') return false;
@@ -19,7 +18,7 @@ export function isMobile() {
 }
 
 /**
- * Get responsive styles based on screen size
+ * Returns responsive styles merged based on current screen size.
  */
 export function getResponsiveStyles(styles) {
   if (typeof window === 'undefined') return styles.desktop || styles;

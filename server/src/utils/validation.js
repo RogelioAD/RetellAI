@@ -3,9 +3,7 @@
  */
 
 /**
- * Validate username format and length
- * @param {string} username - Username to validate
- * @returns {object} { valid: boolean, error?: string }
+ * Validates username format, length, and character restrictions.
  */
 export function validateUsername(username) {
   if (!username || typeof username !== 'string') {
@@ -26,10 +24,7 @@ export function validateUsername(username) {
 }
 
 /**
- * Validate password format and length
- * @param {string} password - Password to validate
- * @param {string} fieldName - Field name for error messages (default: "Password")
- * @returns {object} { valid: boolean, error?: string }
+ * Validates password format and length requirements.
  */
 export function validatePassword(password, fieldName = "Password") {
   if (!password || typeof password !== 'string') {
@@ -44,9 +39,7 @@ export function validatePassword(password, fieldName = "Password") {
 }
 
 /**
- * Validate email format
- * @param {string} email - Email to validate
- * @returns {object} { valid: boolean, error?: string, value?: string }
+ * Validates email format (email is optional).
  */
 export function validateEmail(email) {
   if (!email || email.trim() === "") {
@@ -68,9 +61,7 @@ export function validateEmail(email) {
 }
 
 /**
- * Validate call ID format
- * @param {string} callId - Call ID to validate
- * @returns {object} { valid: boolean, error?: string, value?: string }
+ * Validates call ID format and length.
  */
 export function validateCallId(callId) {
   if (!callId || typeof callId !== 'string') {
@@ -87,9 +78,7 @@ export function validateCallId(callId) {
 }
 
 /**
- * Validate user ID format
- * @param {string} userId - User ID to validate
- * @returns {object} { valid: boolean, error?: string }
+ * Validates user ID format and presence.
  */
 export function validateUserId(userId) {
   if (!userId || typeof userId !== 'string' || userId.trim() === '') {

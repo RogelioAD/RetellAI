@@ -1,7 +1,7 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import Button from "../common/Button";
-import { colors, spacing, typography, shadows } from "../../constants/horizonTheme";
+import { colors, spacing, typography, shadows, glassStyles, borderRadius } from "../../constants/horizonTheme";
 
 /**
  * Sticky header component with Horizon UI styling
@@ -20,8 +20,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        borderBottom: `1px solid ${colors.gray[100]}`,
-        padding: isMobile ? `${spacing.lg} ${spacing.xl}` : `${spacing.xl} ${spacing['3xl']}`,
+        padding: isMobile ? `${spacing.lg} ${spacing.xl}` : `${spacing.lg} ${spacing['3xl']}`,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -35,7 +34,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
         left: 0,
         right: 0,
         bottom: 0,
-        background: "rgba(255, 255, 255, 0.75)",
+        background: "rgba(255, 255, 255, 0.45)",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         zIndex: -1,
@@ -45,24 +44,28 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: spacing.sm,
+            gap: spacing.xs,
+            padding: `${spacing.sm} ${spacing.md}`,
+            ...glassStyles.base,
+            borderRadius: borderRadius.md,
           }}
         >
           <img
             src="/logo.png"
             alt="Quantum Consulting Logo"
             style={{
-              width: isMobile ? "40px" : "48px",
-              height: isMobile ? "40px" : "48px",
+              width: "32px",
+              height: "32px",
               objectFit: "contain",
             }}
           />
-          <h1
+            <h1
             style={{
               margin: 0,
               fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
               fontWeight: typography.fontWeight.bold,
               color: colors.text.primary,
+              lineHeight: 1,
             }}
           >
             Quantum Consulting
@@ -86,8 +89,8 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
             alignItems: "center",
             gap: spacing.sm,
             padding: `${spacing.sm} ${spacing.md}`,
-            backgroundColor: colors.gray[50],
-            borderRadius: "12px",
+            ...glassStyles.base,
+            borderRadius: borderRadius.md,
             marginRight: isMobile ? 0 : spacing.sm,
           }}
         >
@@ -113,7 +116,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
                 style={{
                   fontSize: typography.fontSize.sm,
                   color: colors.text.primary,
-                  fontWeight: typography.fontWeight.medium,
+                  fontWeight: typography.fontWeight.bold,
                 }}
               >
                 {user?.username || "User"}
@@ -123,6 +126,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
                   style={{
                     fontSize: typography.fontSize.xs,
                     color: colors.text.secondary,
+                    fontWeight: typography.fontWeight.semibold,
                   }}
                 >
                   Admin
@@ -132,7 +136,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
           )}
         </div>
         
-        <Button onClick={onLogout} variant="outline">
+        <Button onClick={onLogout} variant="primary">
           Logout
         </Button>
       </div>

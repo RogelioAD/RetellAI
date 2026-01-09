@@ -3,7 +3,8 @@ import { useResponsive } from "../../hooks/useResponsive";
 import { extractCreatedAt } from "../../utils/callDataTransformers";
 import { formatDateRangeLabel } from "../../utils/dateFormatters";
 import Icon from "../common/Icon";
-import { colors, spacing, typography, statCardStyles } from "../../constants/horizonTheme";
+import Card from "../common/Card";
+import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
 /**
  * Quick stats component with Horizon UI stat card design
@@ -19,10 +20,9 @@ export default function QuickStats({
 }) {
   const { isMobile } = useResponsive();
 
-  // Calculate stats
-  const totalCalls = selectedRange === "all" && totalCount !== null 
-    ? totalCount 
-    : (filteredCalls ? filteredCalls.length : calls.length);
+  // Calculate stats - always use filteredCalls if available, otherwise use calls
+  // This ensures consistency between "all time" and filtered ranges
+  const totalCalls = filteredCalls ? filteredCalls.length : calls.length;
   
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -58,15 +58,15 @@ export default function QuickStats({
       label: "Today", 
       value: todayCalls, 
       icon: "chart",
-      color: colors.success,
-      bgColor: `${colors.success}15`,
+      color: '#EC4899',
+      bgColor: `#EC489915`,
     },
     { 
       label: "This Week", 
       value: weekCalls, 
       icon: "chart",
-      color: colors.warning,
-      bgColor: `${colors.warning}15`,
+      color: '#9333EA',
+      bgColor: `#9333EA15`,
     },
   ];
 
@@ -80,12 +80,11 @@ export default function QuickStats({
       }}
     >
       {stats.map((stat, index) => (
-        <div
+        <Card
           key={index}
-          style={{
-            ...statCardStyles.base,
-            padding: isMobile ? spacing.lg : spacing['2xl'],
-          }}
+          variant="glass"
+          padding={isMobile ? spacing.lg : spacing['2xl']}
+          style={{ borderRadius: borderRadius.xl }}
         >
           <div
             style={{
@@ -99,7 +98,7 @@ export default function QuickStats({
                 style={{
                   fontSize: typography.fontSize.sm,
                   color: colors.text.secondary,
-                  fontWeight: typography.fontWeight.medium,
+                  fontWeight: typography.fontWeight.bold,
                   marginBottom: spacing.sm,
                 }}
               >
@@ -118,19 +117,21 @@ export default function QuickStats({
             </div>
             <div
               style={{
-                width: "56px",
-                height: "56px",
-                borderRadius: "16px",
+                width: isMobile ? "64px" : "72px",
+                height: isMobile ? "64px" : "72px",
+                borderRadius: borderRadius.lg,
                 backgroundColor: stat.bgColor,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                boxShadow: `0 4px 12px ${stat.color}25`,
+                border: `2px solid ${stat.color}30`,
               }}
             >
-              <Icon name={stat.icon} size={24} color={stat.color} />
+              <Icon name={stat.icon} size={isMobile ? 28 : 32} color={stat.color} strokeWidth="2.5" />
             </div>
           </div>
-        </div>
+        </Card>
       ))}
     </div>
   );

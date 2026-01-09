@@ -1,9 +1,9 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
-import { inputStyles, colors, typography, spacing } from "../../constants/horizonTheme";
+import { inputStyles, colors, typography, spacing, borderRadius } from "../../constants/horizonTheme";
 
 /**
- * Reusable Input component with Horizon UI styling
+ * Reusable input component with label, error state, and focus styles.
  */
 export default function Input({
   label,
@@ -24,8 +24,11 @@ export default function Input({
     ...(isFocused && inputStyles.focus),
     ...(error && {
       borderColor: colors.error,
-      boxShadow: `0 0 0 3px rgba(227, 26, 26, 0.1)`,
+      boxShadow: `0 0 0 2px rgba(227, 26, 26, 0.1)`,
     }),
+    outline: 'none',
+    outlineWidth: 0,
+    borderWidth: '1px',
     ...props.style,
   };
 
@@ -37,7 +40,7 @@ export default function Input({
             display: "block",
             marginBottom: spacing.sm,
             fontSize: typography.fontSize.sm,
-            fontWeight: typography.fontWeight.medium,
+            fontWeight: typography.fontWeight.semibold,
             color: colors.text.primary,
           }}
         >
@@ -71,7 +74,7 @@ export default function Input({
             padding: spacing.sm,
             backgroundColor: "rgba(227, 26, 26, 0.08)",
             border: `1px solid rgba(227, 26, 26, 0.2)`,
-            borderRadius: "8px",
+            borderRadius: borderRadius.md,
           }}
         >
           {error}

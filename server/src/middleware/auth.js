@@ -3,8 +3,7 @@ import { jwtSecret } from "../config.js";
 import { User } from "../models/index.js";
 
 /**
- * Authentication middleware
- * Verifies JWT token and attaches user to request
+ * Verifies JWT token and attaches authenticated user to request.
  */
 export async function authMiddleware(req, res, next) {
   const auth = req.headers.authorization;
@@ -42,9 +41,7 @@ export async function authMiddleware(req, res, next) {
 }
 
 /**
- * Admin authorization middleware
- * Must be used after authMiddleware
- * Checks if user has admin role
+ * Ensures the authenticated user has admin role (must be used after authMiddleware).
  */
 export async function adminMiddleware(req, res, next) {
   // User should already be attached by authMiddleware

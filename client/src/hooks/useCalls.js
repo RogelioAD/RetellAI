@@ -3,7 +3,7 @@ import { fetchMyCalls, fetchAllCalls } from "../services/api";
 import { transformAdminCallData } from "../utils/callDataTransformers";
 
 /**
- * Custom hook for fetching and managing calls
+ * Fetches and manages call data with automatic refresh on tab visibility.
  */
 export function useCalls(token, isAdmin) {
   const [calls, setCalls] = useState([]);
@@ -23,17 +23,12 @@ export function useCalls(token, isAdmin) {
       if (isAdmin) {
         const transformedCalls = transformAdminCallData(data);
         setCalls(transformedCalls);
-        // Extract total count from response if available, otherwise use fetched count
-        // This ensures we show the actual total even if API doesn't provide total_count
-        // Since we're fetching all pages with pagination, fetched_count should equal total if no total_count provided
-        const extractedTotalCount = data.total_count !== undefined 
-          ? data.total_count 
-          : (data.fetched_count !== undefined ? data.fetched_count : transformedCalls.length);
-        setTotalCount(extractedTotalCount);
-        console.log(`📊 Total calls: ${extractedTotalCount} (from API: ${data.total_count}, fetched: ${data.fetched_count || transformedCalls.length})`);
+        // Always use the actual length of the calls array, not the API's total_count
+        // This ensures the count reflects the actual calls fetched, which updates as new calls come in
+        setTotalCount(transformedCalls.length);
       } else {
         setCalls(data);
-        // For non-admin, we don't have pagination info, so use array length
+        // For non-admin, use array length
         setTotalCount(Array.isArray(data) ? data.length : null);
       }
       setLoading(false);

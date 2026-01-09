@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 
 /**
- * Main App component
+ * Main application component that handles routing between Home, Login, and Dashboard.
  */
 export default function App() {
   const { token, user, login, logout } = useAuth();

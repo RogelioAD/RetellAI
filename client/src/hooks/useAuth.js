@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 /**
- * Custom hook for managing authentication state
+ * Manages authentication state and provides login/logout functions.
  */
 export function useAuth() {
   const [token, setToken] = useState(() => localStorage.getItem("token"));

@@ -56,10 +56,13 @@ export const colors = {
   },
   // Text
   text: {
-    primary: '#1B2559',
-    secondary: '#707EAE',
-    tertiary: '#A3AED0',
-    white: '#FFFFFF',
+    primary: '#0F172A',      // Primary text
+    secondary: '#475569',    // Secondary text
+    muted: '#64748B',       // Muted text
+    accent: '#1E3A8A',      // Links / Accent
+    disabled: '#94A3B8',   // Disabled text
+    white: '#FFFFFF',       // White text (kept for glass backgrounds where needed)
+    tertiary: '#64748B',    // Alias for muted for backward compatibility
   },
 };
 
@@ -73,10 +76,10 @@ export const shadows = {
 };
 
 export const borderRadius = {
-  sm: '8px',
-  md: '12px',
-  lg: '16px',
-  xl: '20px',
+  sm: '12px',      // Small elements - rounded bubble look
+  md: '16px',      // Medium elements - more rounded
+  lg: '24px',      // Large elements - very rounded
+  xl: '32px',      // Extra large (cards) - very bubbly and rounded
   full: '9999px',
 };
 
@@ -168,14 +171,20 @@ export const inputStyles = {
     fontSize: typography.fontSize.sm,
     border: `1px solid ${colors.gray[200]}`,
     backgroundColor: colors.background.card,
-    color: colors.text.primary,
+    color: '#1B2559',  // Keep dark text inside inputs for readability
+    fontWeight: typography.fontWeight.semibold,
     transition: 'all 0.2s ease',
     outline: 'none',
+    outlineWidth: 0,
     boxSizing: 'border-box',
   },
   focus: {
     borderColor: colors.brand[500],
-    boxShadow: `0 0 0 3px ${colors.brand[50]}`,
+    boxShadow: `0 0 0 2px ${colors.brand[50]}`,
+    transform: 'scale(1.01)',
+    outline: 'none',
+    outlineWidth: 0,
+    borderWidth: '1px',
   },
 };
 
@@ -204,27 +213,28 @@ export const statCardStyles = {
   },
   label: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.text.white,
     marginTop: spacing.xs,
+    fontWeight: typography.fontWeight.semibold,
   },
 };
 
 // Table styles
 export const tableStyles = {
   header: {
-    backgroundColor: colors.gray[50],
-    color: colors.text.secondary,
     fontSize: typography.fontSize.xs,
     fontWeight: typography.fontWeight.bold,
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
     padding: `${spacing.md} ${spacing.lg}`,
+    color: colors.text.white,
   },
   cell: {
     padding: `${spacing.lg} ${spacing.lg}`,
-    borderBottom: `1px solid ${colors.gray[100]}`,
-    color: colors.text.primary,
+    borderBottom: `1px solid rgba(255, 255, 255, 0.1)`,
+    color: colors.text.white,
     fontSize: typography.fontSize.sm,
+    fontWeight: typography.fontWeight.semibold,
   },
 };
 
@@ -255,6 +265,43 @@ export const sidebarStyles = {
   },
 };
 
+// Glass effect styles (glassmorphism) - standardized across the app
+export const glassStyles = {
+  base: {
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    backdropFilter: 'blur(40px) saturate(180%)',
+    WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+    border: '1px solid rgba(255, 255, 255, 0.18)',
+    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)',
+    transition: 'all 0.3s ease',
+  },
+  subtle: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backdropFilter: 'blur(30px) saturate(160%)',
+    WebkitBackdropFilter: 'blur(30px) saturate(160%)',
+    border: '1px solid rgba(255, 255, 255, 0.25)',
+    boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.3), 0 4px 16px 0 rgba(31, 38, 135, 0.2)',
+  },
+  light: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backdropFilter: 'blur(20px) saturate(150%)',
+    WebkitBackdropFilter: 'blur(20px) saturate(150%)',
+    border: '1px solid rgba(255, 255, 255, 0.15)',
+  },
+  active: {
+    backgroundColor: 'rgba(99, 102, 241, 0.25)',
+    border: '1px solid rgba(255, 255, 255, 0.4)',
+    boxShadow: 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.5), 0 2px 8px 0 rgba(99, 102, 241, 0.2)',
+  },
+  frosty: {
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    backdropFilter: 'blur(50px) saturate(200%)',
+    WebkitBackdropFilter: 'blur(50px) saturate(200%)',
+    border: '1px solid rgba(255, 255, 255, 0.3)',
+    boxShadow: '0 4px 16px 0 rgba(31, 38, 135, 0.25), inset 0 1px 2px 0 rgba(255, 255, 255, 0.4)',
+  },
+};
+
 const horizonTheme = {
   colors,
   shadows,
@@ -267,6 +314,7 @@ const horizonTheme = {
   statCardStyles,
   tableStyles,
   sidebarStyles,
+  glassStyles,
 };
 
 export default horizonTheme;

@@ -4,11 +4,7 @@ import { User } from "../models/index.js";
 import { jwtSecret } from "../config.js";
 
 /**
- * Authenticate user with username and password
- * @param {string} username - Username
- * @param {string} password - Plain text password
- * @returns {Promise<{token: string, user: object}>}
- * @throws {Error} If authentication fails
+ * Authenticates a user with username and password and returns a JWT token.
  */
 export async function authenticateUser(username, password) {
   if (!jwtSecret) {
@@ -41,11 +37,7 @@ export async function authenticateUser(username, password) {
 }
 
 /**
- * Change user password
- * @param {string} userId - User ID
- * @param {string} currentPassword - Current plain text password
- * @param {string} newPassword - New plain text password
- * @throws {Error} If password change fails
+ * Changes a user's password after validating the current password.
  */
 export async function changePassword(userId, currentPassword, newPassword) {
   const user = await User.findByPk(userId);

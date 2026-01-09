@@ -3,7 +3,7 @@ import { changePassword } from "../services/api";
 import { validatePasswordChange } from "../utils/validators";
 
 /**
- * Custom hook for password change functionality
+ * Manages password change form state, validation, and submission.
  */
 export function usePasswordChange(token) {
   const [showForm, setShowForm] = useState(false);

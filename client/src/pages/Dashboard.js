@@ -9,13 +9,13 @@ import Navigation from "../components/layout/Navigation";
 import AppHeader from "../components/layout/AppHeader";
 import QuickStats from "../components/layout/QuickStats";
 import DateFilter from "../components/common/DateFilter";
+import Alert from "../components/common/Alert";
 import { getDateRange } from "../components/common/DateFilterUtils";
 import { extractCreatedAt } from "../utils/callDataTransformers";
-import { colors, spacing } from "../constants/horizonTheme";
+import { colors, spacing, typography, glassStyles, borderRadius } from "../constants/horizonTheme";
 
 /**
- * Main Dashboard page with Horizon UI layout
- * Clean grid system with proper spacing and visual hierarchy
+ * Main dashboard component with calls, users, and settings navigation sections.
  */
 export default function Dashboard({ token, user, onLogout }) {
   const { isMobile } = useResponsive();
@@ -56,14 +56,21 @@ export default function Dashboard({ token, user, onLogout }) {
     return calls.filter((item) => {
       const mapping = item.mapping || {};
       const call = item.call || item;
-      const callDate = new Date(extractCreatedAt(call, mapping));
+      const callDateStr = extractCreatedAt(call, mapping);
+      const callDate = new Date(callDateStr);
+      
+      // Handle invalid dates
+      if (isNaN(callDate.getTime())) {
+        return false;
+      }
       
       if (startDate && endDate) {
-        return callDate >= startDate && callDate <= endDate;
+        // Ensure we're comparing dates correctly - callDate should be >= startDate and <= endDate
+        return callDate.getTime() >= startDate.getTime() && callDate.getTime() <= endDate.getTime();
       } else if (startDate) {
-        return callDate >= startDate;
+        return callDate.getTime() >= startDate.getTime();
       } else if (endDate) {
-        return callDate <= endDate;
+        return callDate.getTime() <= endDate.getTime();
       }
       
       return true;
@@ -122,29 +129,18 @@ export default function Dashboard({ token, user, onLogout }) {
                 style={{
                   padding: isMobile ? `${spacing['3xl']} 0` : `${spacing['4xl']} 0`,
                   textAlign: "center",
-                  color: colors.text.secondary,
+                  color: colors.text.white,
                   fontSize: isMobile ? "15px" : "16px",
-                  fontWeight: 400,
+                  fontWeight: typography.fontWeight.semibold,
                 }}
               >
                 Loading...
               </div>
             )}
             {error && (
-              <div
-                style={{
-                  color: colors.error,
-                  padding: isMobile ? spacing.xl : spacing['2xl'],
-                  background: `${colors.error}08`,
-                  borderRadius: "12px",
-                  border: `1px solid ${colors.error}`,
-                  marginBottom: spacing.xl,
-                  fontSize: isMobile ? "14px" : "15px",
-                  fontWeight: 400,
-                }}
-              >
+              <Alert variant="error" style={{ marginBottom: spacing.xl }}>
                 {error}
-              </div>
+              </Alert>
             )}
             {!loading && !error && (
               <CallList items={filteredCalls} groupByAgent={isAdmin} />
@@ -175,10 +171,11 @@ export default function Dashboard({ token, user, onLogout }) {
         left: 0,
         right: 0,
         bottom: 0,
-        background: "rgba(244, 247, 254, 0.7)",
+        background: "rgba(244, 247, 254, 0.4)",
         zIndex: 0,
         pointerEvents: "none",
       }} />
+      
       {/* Sticky Header */}
       <AppHeader user={user} isAdmin={isAdmin} onLogout={onLogout} />
 
@@ -192,21 +189,15 @@ export default function Dashboard({ token, user, onLogout }) {
           zIndex: 1,
         }}
       >
-        {/* Navigation Sidebar (Desktop) */}
-        {!isMobile && (
-          <Navigation
-            currentSection={currentSection}
-            onSectionChange={setCurrentSection}
-            isAdmin={isAdmin}
-          />
-        )}
-
         {/* Main Content Area */}
         <main
           style={{
             flex: 1,
             overflowY: "auto",
-            padding: isMobile ? `${spacing.xl} ${spacing.lg} 80px ${spacing.lg}` : `${spacing['3xl']} ${spacing['4xl']}`,
+            padding: isMobile 
+              ? `${spacing.xl} ${spacing.lg} 80px ${spacing.lg}` 
+              : `${spacing['3xl']} ${spacing['4xl']} 80px ${spacing['4xl']}`,
+            paddingLeft: isMobile ? spacing.lg : spacing['4xl'],
             maxWidth: "1400px",
             margin: "0 auto",
             width: "100%",
@@ -216,14 +207,12 @@ export default function Dashboard({ token, user, onLogout }) {
         </main>
       </div>
 
-      {/* Bottom Navigation (Mobile) */}
-      {isMobile && (
-        <Navigation
-          currentSection={currentSection}
-          onSectionChange={setCurrentSection}
-          isAdmin={isAdmin}
-        />
-      )}
+      {/* Bottom Navigation (Centered for both mobile and desktop) */}
+      <Navigation
+        currentSection={currentSection}
+        onSectionChange={setCurrentSection}
+        isAdmin={isAdmin}
+      />
     </div>
   );
 }

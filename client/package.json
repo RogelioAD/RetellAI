@@ -30,5 +30,8 @@
   },
   "devDependencies": {
     "typescript": "^4.9.5"
+  },
+  "overrides": {
+    "@remix-run/router": ">=2.16.3"
   }
 }

@@ -5,7 +5,7 @@ import { validateUsername, validatePassword, validateEmail, validateCallId, vali
  */
 
 /**
- * Validate login request body
+ * Validates login request body for username and password format.
  */
 export function validateLogin(req, res, next) {
   const { username, password } = req.body;
@@ -30,7 +30,7 @@ export function validateLogin(req, res, next) {
 }
 
 /**
- * Validate change password request body
+ * Validates change password request body.
  */
 export function validateChangePassword(req, res, next) {
   const { currentPassword, newPassword } = req.body;
@@ -48,7 +48,7 @@ export function validateChangePassword(req, res, next) {
 }
 
 /**
- * Validate create customer request body
+ * Validates create customer request body.
  */
 export function validateCreateCustomer(req, res, next) {
   const { username, password, email } = req.body;
@@ -80,7 +80,7 @@ export function validateCreateCustomer(req, res, next) {
 }
 
 /**
- * Validate user ID parameter
+ * Validates user ID parameter from request params.
  */
 export function validateUserIdParam(req, res, next) {
   const validation = validateUserId(req.params.userId);
@@ -91,7 +91,7 @@ export function validateUserIdParam(req, res, next) {
 }
 
 /**
- * Validate webhook payload
+ * Validates webhook payload structure and call ID.
  */
 export function validateWebhookPayload(req, res, next) {
   const event = req.body;

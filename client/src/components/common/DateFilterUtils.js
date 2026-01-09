@@ -1,5 +1,5 @@
 /**
- * Utility function to get date range from filter selection
+ * Calculates start and end dates based on filter selection and optional custom date values.
  */
 export function getDateRange(range, customDateValue = null) {
   const now = new Date();

@@ -2,6 +2,9 @@
  * Form validation utilities
  */
 
+/**
+ * Validates password length and presence.
+ */
 export function validatePassword(password, minLength = 6) {
   if (!password) {
     return "Password is required";
@@ -12,6 +15,9 @@ export function validatePassword(password, minLength = 6) {
   return null;
 }
 
+/**
+ * Validates that password and confirm password match.
+ */
 export function validatePasswordMatch(password, confirmPassword) {
   if (password !== confirmPassword) {
     return "Passwords do not match";
@@ -19,6 +25,9 @@ export function validatePasswordMatch(password, confirmPassword) {
   return null;
 }
 
+/**
+ * Validates password change form with all required checks.
+ */
 export function validatePasswordChange(currentPassword, newPassword, confirmPassword) {
   if (!currentPassword || !newPassword || !confirmPassword) {
     return "All fields are required";
@@ -41,6 +50,9 @@ export function validatePasswordChange(currentPassword, newPassword, confirmPass
   return null;
 }
 
+/**
+ * Validates user creation form data including username, password, and optional email.
+ */
 export function validateUserCreation(username, password, email = null) {
   if (!username || !password) {
     return "Username and password are required";

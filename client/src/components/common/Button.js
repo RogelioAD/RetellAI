@@ -2,8 +2,7 @@ import React from "react";
 import { buttonStyles, colors } from "../../constants/horizonTheme";
 
 /**
- * Reusable Button component with Horizon UI styling
- * Supports primary, secondary, and outline variants
+ * Reusable button component with primary, secondary, and outline variants.
  */
 export default function Button({
   children,

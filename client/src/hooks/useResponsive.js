@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { breakpoints } from "../utils/responsive";
 
 /**
- * Custom hook for responsive design
+ * Provides responsive breakpoint information based on window width.
  */
 export function useResponsive() {
   const [windowWidth, setWindowWidth] = useState(

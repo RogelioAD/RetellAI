@@ -3,7 +3,7 @@
  */
 
 /**
- * Format date to full locale string
+ * Formats date to full locale string with weekday, date, and time.
  */
 export function formatFullDate(date) {
   return new Date(date).toLocaleString('en-US', {
@@ -17,21 +17,21 @@ export function formatFullDate(date) {
 }
 
 /**
- * Format date to short date string
+ * Formats date to short locale date string.
  */
 export function formatShortDate(date) {
   return new Date(date).toLocaleDateString();
 }
 
 /**
- * Format date to time string
+ * Formats date to locale time string.
  */
 export function formatTime(date) {
   return new Date(date).toLocaleTimeString();
 }
 
 /**
- * Format date range label for display in stats
+ * Formats date range label for display in stats based on selected range type.
  */
 export function formatDateRangeLabel(selectedRange, customDate) {
   const rangeLabels = {

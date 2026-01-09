@@ -4,14 +4,15 @@ import { createCustomer } from "../../services/api";
 import { validateUserCreation } from "../../utils/validators";
 import CreateUserForm from "./CreateUserForm";
 import UserTable from "./UserTable";
-import Card from "../common/Card";
-import { colors, spacing, typography } from "../../constants/horizonTheme";
+import SectionHeader from "../common/SectionHeader";
+import { colors, spacing, typography, borderRadius, glassStyles } from "../../constants/horizonTheme";
 
 /**
- * Component for managing users (admin only) with Horizon UI styling
+ * User management component with tabbed interface for creating and viewing users.
  */
 export default function UserManagement({ token, users, loading, error, onUserCreated, currentUserId }) {
   const { isMobile } = useResponsive();
+  const [activeTab, setActiveTab] = useState("create");
   const [newUser, setNewUser] = useState({ username: "", password: "", email: "" });
   const [creating, setCreating] = useState(false);
   const [userError, setUserError] = useState(null);
@@ -58,38 +59,124 @@ export default function UserManagement({ token, users, loading, error, onUserCre
   };
 
   return (
-    <Card>
-      <h3 style={{ 
-        marginTop: 0,
-        marginBottom: spacing.xl,
-        fontSize: isMobile ? typography.fontSize.xl : typography.fontSize['2xl'],
-        color: colors.text.primary,
-        fontWeight: typography.fontWeight.bold,
-      }}>
-        User Management
-      </h3>
+    <div>
+      <SectionHeader 
+        title="User Management"
+        level={1}
+      />
       
-      <CreateUserForm
-        newUser={newUser}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        error={userError || error}
-        creating={creating}
-        createdUserCredentials={createdUserCredentials}
-      />
+      {/* Tab Navigation */}
+      <div style={{
+        display: "flex",
+        gap: spacing.md,
+        marginBottom: spacing.xl,
+        flexWrap: isMobile ? "wrap" : "nowrap",
+      }}>
+        <button
+          onClick={() => setActiveTab("create")}
+          style={{
+            ...glassStyles.base,
+            ...(activeTab === "create" ? {
+              backgroundColor: glassStyles.active.backgroundColor,
+              border: glassStyles.active.border,
+            } : {}),
+            borderRadius: borderRadius.lg,
+            padding: `${spacing.md} ${spacing.xl}`,
+            fontSize: typography.fontSize.sm,
+            fontWeight: activeTab === "create" ? typography.fontWeight.bold : typography.fontWeight.semibold,
+            color: colors.text.primary,
+            cursor: "pointer",
+            outline: "none",
+            flex: isMobile ? "1 1 100%" : "0 1 auto",
+            minWidth: isMobile ? "auto" : "180px",
+            transition: "all 0.3s ease",
+            transform: activeTab === "create" ? "scale(1.02)" : "scale(1)",
+            boxShadow: activeTab === "create" 
+              ? "0 8px 32px 0 rgba(66, 42, 251, 0.4), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)"
+              : glassStyles.base.boxShadow,
+          }}
+          onMouseEnter={(e) => {
+            if (activeTab !== "create") {
+              e.currentTarget.style.transform = "scale(1.01)";
+              e.currentTarget.style.boxShadow = "0 8px 32px 0 rgba(31, 38, 135, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)";
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeTab !== "create") {
+              e.currentTarget.style.transform = "scale(1)";
+              e.currentTarget.style.boxShadow = glassStyles.base.boxShadow;
+            }
+          }}
+        >
+          Create New Customer
+        </button>
+        
+        <button
+          onClick={() => setActiveTab("users")}
+          style={{
+            ...glassStyles.base,
+            ...(activeTab === "users" ? {
+              backgroundColor: glassStyles.active.backgroundColor,
+              border: glassStyles.active.border,
+            } : {}),
+            borderRadius: borderRadius.lg,
+            padding: `${spacing.md} ${spacing.xl}`,
+            fontSize: typography.fontSize.sm,
+            fontWeight: activeTab === "users" ? typography.fontWeight.bold : typography.fontWeight.semibold,
+            color: colors.text.primary,
+            cursor: "pointer",
+            outline: "none",
+            flex: isMobile ? "1 1 100%" : "0 1 auto",
+            minWidth: isMobile ? "auto" : "180px",
+            transition: "all 0.3s ease",
+            transform: activeTab === "users" ? "scale(1.02)" : "scale(1)",
+            boxShadow: activeTab === "users" 
+              ? "0 8px 32px 0 rgba(66, 42, 251, 0.4), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)"
+              : glassStyles.base.boxShadow,
+          }}
+          onMouseEnter={(e) => {
+            if (activeTab !== "users") {
+              e.currentTarget.style.transform = "scale(1.01)";
+              e.currentTarget.style.boxShadow = "0 8px 32px 0 rgba(31, 38, 135, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)";
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeTab !== "users") {
+              e.currentTarget.style.transform = "scale(1)";
+              e.currentTarget.style.boxShadow = glassStyles.base.boxShadow;
+            }
+          }}
+        >
+          All Users
+        </button>
+      </div>
 
-      <UserTable 
-        users={users} 
-        loading={loading} 
-        onDeleteUser={async (userId) => {
-          const { deleteUser } = await import("../../services/api");
-          await deleteUser(token, userId);
-          if (onUserCreated) {
-            onUserCreated();
-          }
-        }}
-        currentUserId={currentUserId}
-      />
-    </Card>
+      {/* Tab Content */}
+      {activeTab === "create" && (
+        <CreateUserForm
+          newUser={newUser}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          error={userError || error}
+          creating={creating}
+          createdUserCredentials={createdUserCredentials}
+        />
+      )}
+
+      {activeTab === "users" && (
+        <UserTable 
+          users={users} 
+          loading={loading} 
+          onDeleteUser={async (userId) => {
+            const { deleteUser } = await import("../../services/api");
+            await deleteUser(token, userId);
+            if (onUserCreated) {
+              onUserCreated();
+            }
+          }}
+          currentUserId={currentUserId}
+        />
+      )}
+    </div>
   );
 }

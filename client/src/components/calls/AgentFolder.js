@@ -3,7 +3,7 @@ import { useResponsive } from "../../hooks/useResponsive";
 import CallCard from "./CallCard";
 import Button from "../common/Button";
 import { extractCallId, extractCreatedAt } from "../../utils/callDataTransformers";
-import { colors, spacing, typography, borderRadius, shadows } from "../../constants/horizonTheme";
+import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
 /**
  * Collapsible folder component for grouping calls by agent with Horizon UI styling
@@ -45,18 +45,20 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
   return (
     <div style={{ 
       marginBottom: isMobile ? spacing.lg : spacing.xl, 
-      border: `1px solid ${colors.gray[100]}`, 
       borderRadius: borderRadius.xl, 
       overflow: "hidden",
-      background: colors.background.card,
-      boxShadow: shadows.card,
-      transition: "all 0.2s ease",
+      backgroundColor: "rgba(255, 255, 255, 0.25)",
+      backdropFilter: "blur(40px) saturate(180%)",
+      WebkitBackdropFilter: "blur(40px) saturate(180%)",
+      border: "1px solid rgba(255, 255, 255, 0.18)",
+      boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)",
+      transition: "all 0.3s ease",
     }}>
       <div
         onClick={() => setIsOpen(!isOpen)}
         style={{
           padding: isMobile ? `${spacing.lg} ${spacing.xl}` : `${spacing.xl} ${spacing['2xl']}`,
-          background: isOpen ? colors.gray[50] : "transparent",
+          background: isOpen ? "rgba(99, 102, 241, 0.15)" : "transparent",
           cursor: "pointer",
           display: "flex",
           justifyContent: "space-between",
@@ -64,7 +66,7 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
           fontWeight: typography.fontWeight.semibold,
           userSelect: "none",
           minHeight: "44px",
-          transition: "all 0.2s ease",
+          transition: "all 0.3s ease",
         }}
       >
         <span style={{ 
@@ -73,6 +75,7 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
           flex: 1,
           minWidth: 0,
           color: colors.text.primary,
+          fontWeight: typography.fontWeight.bold,
         }}>
           {agentName} ({calls.length} {calls.length === 1 ? 'call' : 'calls'})
         </span>
@@ -90,7 +93,14 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
       </div>
       
       {isOpen && (
-        <div style={{ padding: isMobile ? spacing.xs : spacing.sm }}>
+        <div style={{ 
+          padding: isMobile ? spacing.sm : spacing.md,
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
+          backdropFilter: "blur(20px) saturate(150%)",
+          WebkitBackdropFilter: "blur(20px) saturate(150%)",
+          borderTop: "1px solid rgba(255, 255, 255, 0.15)",
+          transition: "all 0.3s ease",
+        }}>
           {displayedCalls.map((item, index) => {
             const mapping = item.mapping || {};
             const call = item.call || item;
