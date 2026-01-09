@@ -48,6 +48,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
             padding: `${spacing.sm} ${spacing.md}`,
             ...glassStyles.base,
             borderRadius: borderRadius.md,
+            width: "fit-content",
           }}
         >
           <img
