@@ -16,10 +16,14 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
         position: "sticky",
         top: 0,
         zIndex: 100,
-        padding: isMobile ? spacing.lg : spacing.lg,
+        padding: isMobile ? 0 : spacing.lg,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        ...(isMobile && {
+          paddingTop: "16px",
+          paddingBottom: "16px",
+        }),
       }}
     >
       {isMobile ? (
@@ -32,6 +36,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
               alignItems: "center",
               maxWidth: "calc(100% - 32px)",
               width: "calc(100% - 32px)",
+              minWidth: "auto",
               ...glassStyles.base,
               borderRadius: "36px",
               padding: `${spacing.xs} ${spacing.sm}`,
