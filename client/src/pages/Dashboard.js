@@ -195,9 +195,10 @@ export default function Dashboard({ token, user, onLogout }) {
             flex: 1,
             overflowY: "auto",
             padding: isMobile 
-              ? `${spacing.xl} ${spacing.lg} 80px ${spacing.lg}` 
-              : `${spacing['3xl']} ${spacing['4xl']} 80px ${spacing['4xl']}`,
+              ? `${spacing.xl} ${spacing.lg} 120px ${spacing.lg}` 
+              : `${spacing['3xl']} ${spacing['4xl']} 120px ${spacing['4xl']}`,
             paddingLeft: isMobile ? spacing.lg : spacing['4xl'],
+            paddingBottom: isMobile ? "140px" : "120px",
             maxWidth: "1400px",
             margin: "0 auto",
             width: "100%",

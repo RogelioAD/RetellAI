@@ -164,35 +164,49 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
       marginBottom: isMobile ? "20px" : "24px",
       position: "relative"
     }}>
-      <Button
+        <Button
           ref={buttonRef}
           onClick={() => setIsOpen(!isOpen)}
           variant={selectedRange !== "all" ? "primary" : "primary"}
         >
-          📅 Date Range
+          Date Range
         </Button>
 
       {isOpen && (
-        <div
-          ref={modalRef}
-          style={{
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            marginTop: spacing.md,
-            marginBottom: isMobile ? "100px" : "0",
-            ...glassStyles.base,
-            borderRadius: borderRadius.lg,
-            maxWidth: isMobile ? "calc(100vw - 32px)" : "750px",
-            width: isMobile ? "calc(100vw - 32px)" : "max-content",
-            minWidth: isMobile ? "auto" : "650px",
-            maxHeight: isMobile ? "calc(75vh - 100px)" : "75vh",
-            overflow: "auto",
-            padding: isMobile ? spacing.md : spacing.lg,
-            paddingBottom: isMobile ? "100px" : spacing.lg,
-            zIndex: 1000,
-          }}
-        >
+        <>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.3)",
+              zIndex: 999,
+            }}
+            onClick={() => setIsOpen(false)}
+          />
+          <div
+            ref={modalRef}
+            style={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              marginTop: spacing.md,
+              ...glassStyles.base,
+              borderRadius: borderRadius.lg,
+              maxWidth: isMobile ? "calc(100vw - 32px)" : "750px",
+              width: isMobile ? "calc(100vw - 32px)" : "max-content",
+              minWidth: isMobile ? "auto" : "650px",
+              maxHeight: isMobile ? "calc(85vh - 140px)" : "75vh",
+              overflowY: "auto",
+              overflowX: "hidden",
+              padding: isMobile ? spacing.md : spacing.lg,
+              paddingBottom: isMobile ? spacing.xl : spacing.lg,
+              zIndex: 1000,
+              boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
+            }}
+          >
             <div style={{
               display: "flex",
               flexDirection: isMobile ? "column" : "row",
@@ -372,6 +386,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
               </div>
             </div>
           </div>
+        </>
       )}
     </div>
   );

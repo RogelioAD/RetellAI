@@ -59,7 +59,7 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
               objectFit: "contain",
             }}
           />
-            <h1
+          <h1
             style={{
               margin: 0,
               fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
@@ -82,35 +82,35 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
           zIndex: 1,
         }}
       >
-        {/* User info */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: spacing.sm,
-            padding: `${spacing.sm} ${spacing.md}`,
-            ...glassStyles.base,
-            borderRadius: borderRadius.md,
-            marginRight: isMobile ? 0 : spacing.sm,
-          }}
-        >
+        {/* User info - hidden on mobile */}
+        {!isMobile && (
           <div
             style={{
-              width: "32px",
-              height: "32px",
-              borderRadius: "50%",
-              backgroundColor: colors.brand[500],
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-              color: colors.text.white,
-              fontSize: typography.fontSize.sm,
-              fontWeight: typography.fontWeight.semibold,
+              gap: spacing.sm,
+              padding: `${spacing.sm} ${spacing.md}`,
+              ...glassStyles.base,
+              borderRadius: borderRadius.md,
+              marginRight: spacing.sm,
             }}
           >
-            {(user?.username || "U").charAt(0).toUpperCase()}
-          </div>
-          {!isMobile && (
+            <div
+              style={{
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                backgroundColor: colors.brand[500],
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: colors.text.white,
+                fontSize: typography.fontSize.sm,
+                fontWeight: typography.fontWeight.semibold,
+              }}
+            >
+              {(user?.username || "U").charAt(0).toUpperCase()}
+            </div>
             <div>
               <div
                 style={{
@@ -133,8 +133,8 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
                 </div>
               )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
         
         <Button onClick={onLogout} variant="primary">
           Logout
