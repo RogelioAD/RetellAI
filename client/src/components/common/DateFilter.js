@@ -480,7 +480,6 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
                 padding: spacing.xs,
                 fontSize: typography.fontSize.xs,
                 fontWeight: typography.fontWeight.semibold,
-                color: colors.text.primary,
                 borderRadius: borderRadius.sm,
                 cursor: "pointer",
                 border: "1px solid transparent",
