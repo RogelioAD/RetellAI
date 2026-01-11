@@ -2,9 +2,7 @@ import jwt from "jsonwebtoken";
 import { jwtSecret } from "../config.js";
 import { User } from "../models/index.js";
 
-/**
- * Verifies JWT token and attaches authenticated user to request.
- */
+// Express middleware to verify JWT token and attach user to request object
 export async function authMiddleware(req, res, next) {
   const auth = req.headers.authorization;
   
@@ -26,7 +24,6 @@ export async function authMiddleware(req, res, next) {
       return res.status(401).json({ error: "Invalid token - user not found" });
     }
 
-    // Attach user info to request (without password hash)
     req.user = {
       id: user.id,
       username: user.username,
@@ -40,20 +37,15 @@ export async function authMiddleware(req, res, next) {
   }
 }
 
-/**
- * Ensures the authenticated user has admin role (must be used after authMiddleware).
- */
+// Express middleware to verify user has admin role (must be used after authMiddleware)
 export async function adminMiddleware(req, res, next) {
-  // User should already be attached by authMiddleware
   if (!req.user) {
     return res.status(401).json({ error: "Authentication required" });
   }
 
-  // Check role directly from req.user (no need to re-fetch from DB)
   if (req.user.role !== "admin") {
     return res.status(403).json({ error: "Admin access required" });
   }
 
   next();
 }
-

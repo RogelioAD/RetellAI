@@ -1,12 +1,6 @@
 import { validateUsername, validatePassword, validateEmail, validateCallId, validateUserId } from "../utils/validation.js";
 
-/**
- * Validation middleware factory
- */
-
-/**
- * Validates login request body for username and password format.
- */
+// Express middleware to validate login request body (username and password)
 export function validateLogin(req, res, next) {
   const { username, password } = req.body;
 
@@ -24,14 +18,11 @@ export function validateLogin(req, res, next) {
     return res.status(400).json({ error: passwordValidation.error });
   }
 
-  // Sanitize username
   req.body.username = usernameValidation.value;
   next();
 }
 
-/**
- * Validates change password request body.
- */
+// Express middleware to validate password change request body
 export function validateChangePassword(req, res, next) {
   const { currentPassword, newPassword } = req.body;
 
@@ -47,9 +38,7 @@ export function validateChangePassword(req, res, next) {
   next();
 }
 
-/**
- * Validates create customer request body.
- */
+// Express middleware to validate customer creation request body
 export function validateCreateCustomer(req, res, next) {
   const { username, password, email } = req.body;
 
@@ -79,9 +68,7 @@ export function validateCreateCustomer(req, res, next) {
   next();
 }
 
-/**
- * Validates user ID parameter from request params.
- */
+// Express middleware to validate userId parameter from URL
 export function validateUserIdParam(req, res, next) {
   const validation = validateUserId(req.params.userId);
   if (!validation.valid) {
@@ -90,9 +77,7 @@ export function validateUserIdParam(req, res, next) {
   next();
 }
 
-/**
- * Validates webhook payload structure and call ID.
- */
+// Express middleware to validate webhook payload structure and call ID
 export function validateWebhookPayload(req, res, next) {
   const event = req.body;
   
@@ -112,4 +97,3 @@ export function validateWebhookPayload(req, res, next) {
   req.body.id = callIdValidation.value;
   next();
 }
-

@@ -3,9 +3,7 @@ import { useResponsive } from "../../hooks/useResponsive";
 import { formatTime } from "../../utils/dateFormatters";
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Component for displaying call transcript utterances with Horizon UI styling
- */
+// Component for displaying call transcript utterances with Horizon UI styling
 export default function TranscriptView({ utterances }) {
   const { isMobile } = useResponsive();
 

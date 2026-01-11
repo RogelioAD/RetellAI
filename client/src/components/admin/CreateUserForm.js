@@ -7,9 +7,7 @@ import Alert from "../common/Alert";
 import SectionHeader from "../common/SectionHeader";
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Form component for creating a new user with Horizon UI styling
- */
+// Form component for creating a new user with Horizon UI styling
 export default function CreateUserForm({
   newUser,
   onChange,
@@ -97,7 +95,6 @@ export default function CreateUserForm({
         </div>
       </form>
       
-      {/* Show created user credentials */}
       {createdUserCredentials && (
         <Alert variant="success" style={{ marginTop: spacing.lg }}>
           <strong style={{ fontSize: typography.fontSize.sm, display: "block", marginBottom: spacing.md }}>

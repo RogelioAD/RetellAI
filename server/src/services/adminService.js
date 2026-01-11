@@ -1,9 +1,7 @@
 import { hash } from "bcrypt";
 import { User } from "../models/index.js";
 
-/**
- * Seeds or updates the admin user based on environment variables.
- */
+// Seeds or updates the admin user from environment variables (non-fatal if fails)
 export async function seedAdmin() {
   try {
     const adminUsername = process.env.ADMIN_USERNAME || "admin";
@@ -36,4 +34,3 @@ export async function seedAdmin() {
     console.error("⚠️  Error seeding admin (non-fatal):", err.message);
   }
 }
-

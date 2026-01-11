@@ -23,14 +23,8 @@ const passwordChangeLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-/**
- * POST /auth/login - Authenticate user and return JWT token.
- */
 router.post("/login", loginLimiter, validateLogin, asyncHandler(login));
 
-/**
- * PUT /auth/change-password - Allows authenticated users to change their own password.
- */
 router.put("/change-password", authMiddleware, passwordChangeLimiter, validateChangePassword, asyncHandler(changeUserPassword));
 
 export default router;

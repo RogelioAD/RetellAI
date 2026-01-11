@@ -14,9 +14,7 @@ import { getDateRange } from "../components/common/DateFilterUtils";
 import { extractCreatedAt } from "../utils/callDataTransformers";
 import { colors, spacing, typography } from "../constants/horizonTheme";
 
-/**
- * Main dashboard component with calls, users, and settings navigation sections.
- */
+// Main dashboard component with calls, users, and settings navigation sections
 export default function Dashboard({ token, user, onLogout }) {
   const { isMobile } = useResponsive();
   const isAdmin = user?.role === "admin";
@@ -32,7 +30,7 @@ export default function Dashboard({ token, user, onLogout }) {
   const [selectedDateRange, setSelectedDateRange] = useState("all");
   const [customDate, setCustomDate] = useState(null);
 
-  // Refresh calls when switching to the calls section
+  // Refreshes calls when switching to the calls section
   const prevSectionRef = useRef(currentSection);
   useEffect(() => {
     if (currentSection === "calls" && prevSectionRef.current !== "calls") {
@@ -41,7 +39,7 @@ export default function Dashboard({ token, user, onLogout }) {
     prevSectionRef.current = currentSection;
   }, [currentSection, refreshCalls]);
 
-  // Filter calls based on selected date range
+  // Filters calls based on selected date range
   const filteredCalls = useMemo(() => {
     if (selectedDateRange === "all") {
       return calls;
@@ -59,13 +57,11 @@ export default function Dashboard({ token, user, onLogout }) {
       const callDateStr = extractCreatedAt(call, mapping);
       const callDate = new Date(callDateStr);
       
-      // Handle invalid dates
       if (isNaN(callDate.getTime())) {
         return false;
       }
       
       if (startDate && endDate) {
-        // Ensure we're comparing dates correctly - callDate should be >= startDate and <= endDate
         return callDate.getTime() >= startDate.getTime() && callDate.getTime() <= endDate.getTime();
       } else if (startDate) {
         return callDate.getTime() >= startDate.getTime();
@@ -77,12 +73,13 @@ export default function Dashboard({ token, user, onLogout }) {
     });
   }, [calls, selectedDateRange, customDate]);
 
+  // Handles date range filter change
   const handleDateRangeChange = (range, customDateValue) => {
     setSelectedDateRange(range);
     setCustomDate(customDateValue);
   };
 
-  // Render content based on current section
+  // Renders content based on current section (calls, users, or settings)
   const renderContent = () => {
     switch (currentSection) {
       case "users":
@@ -105,7 +102,6 @@ export default function Dashboard({ token, user, onLogout }) {
       default:
         return (
           <>
-            {/* Quick Stats */}
             {!loading && !error && calls.length > 0 && (
               <QuickStats 
                 calls={calls}
@@ -117,7 +113,6 @@ export default function Dashboard({ token, user, onLogout }) {
               />
             )}
 
-            {/* Date Filter */}
             <DateFilter
               onDateRangeChange={handleDateRangeChange}
               selectedRange={selectedDateRange}
@@ -159,7 +154,6 @@ export default function Dashboard({ token, user, onLogout }) {
         position: "relative",
       }}
     >
-      {/* Fixed background image */}
       <div style={{
         position: "fixed",
         top: 0,
@@ -174,7 +168,6 @@ export default function Dashboard({ token, user, onLogout }) {
         pointerEvents: "none",
       }} />
       
-      {/* Subtle overlay for content readability */}
       <div style={{
         position: "fixed",
         top: 0,
@@ -186,10 +179,8 @@ export default function Dashboard({ token, user, onLogout }) {
         pointerEvents: "none",
       }} />
       
-      {/* Sticky Header */}
       <AppHeader user={user} isAdmin={isAdmin} onLogout={onLogout} />
 
-      {/* Main Layout */}
       <div
         style={{
           display: "flex",
@@ -200,7 +191,6 @@ export default function Dashboard({ token, user, onLogout }) {
           minHeight: "100vh",
         }}
       >
-        {/* Main Content Area */}
         <main
           style={{
             flex: 1,
@@ -219,7 +209,6 @@ export default function Dashboard({ token, user, onLogout }) {
         </main>
       </div>
 
-      {/* Bottom Navigation (Centered for both mobile and desktop) */}
       <Navigation
         currentSection={currentSection}
         onSectionChange={setCurrentSection}

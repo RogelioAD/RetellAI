@@ -7,9 +7,7 @@ import Alert from "../common/Alert";
 import SectionHeader from "../common/SectionHeader";
 import { spacing, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Form component for changing password with Horizon UI styling
- */
+// Form component for changing password with Horizon UI styling
 export default function PasswordChangeForm({
   passwordData,
   onChange,

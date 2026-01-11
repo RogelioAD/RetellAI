@@ -2,15 +2,14 @@ import { useState, useEffect, useCallback } from "react";
 import { fetchMyCalls, fetchAllCalls } from "../services/api";
 import { transformAdminCallData } from "../utils/callDataTransformers";
 
-/**
- * Fetches and manages call data with automatic refresh on tab visibility.
- */
+// Fetches and manages call data with automatic refresh on tab visibility change
 export function useCalls(token, isAdmin) {
   const [calls, setCalls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [totalCount, setTotalCount] = useState(null);
 
+  // Fetches calls data (user's calls or all calls for admin)
   const fetchCallsData = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -23,12 +22,9 @@ export function useCalls(token, isAdmin) {
       if (isAdmin) {
         const transformedCalls = transformAdminCallData(data);
         setCalls(transformedCalls);
-        // Always use the actual length of the calls array (fully paginated, not capped at 100)
-        // This ensures the count reflects the actual calls fetched, which updates as new calls come in
         setTotalCount(transformedCalls.length);
       } else {
         setCalls(data);
-        // For non-admin, use array length
         setTotalCount(Array.isArray(data) ? data.length : null);
       }
       setLoading(false);
@@ -62,4 +58,3 @@ export function useCalls(token, isAdmin) {
 
   return { calls, loading, error, totalCount, refreshCalls: fetchCallsData };
 }
-

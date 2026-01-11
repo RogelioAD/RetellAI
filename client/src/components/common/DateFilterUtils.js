@@ -1,9 +1,7 @@
-/**
- * Calculates start and end dates based on filter selection and optional custom date values.
- */
+// Calculates start and end dates based on filter selection and optional custom date values
 export function getDateRange(range, customDateValue = null) {
   const now = new Date();
-  now.setHours(23, 59, 59, 999); // End of today
+  now.setHours(23, 59, 59, 999);
 
   let startDate = null;
   let endDate = now;
@@ -54,16 +52,14 @@ export function getDateRange(range, customDateValue = null) {
     
     case "custom":
       if (customDateValue) {
-        // Parse date string (YYYY-MM-DD) to avoid timezone issues
         const [year, month, day] = customDateValue.split('-').map(Number);
-        startDate = new Date(year, month - 1, day, 0, 0, 0, 0); // month is 0-indexed, local time
+        startDate = new Date(year, month - 1, day, 0, 0, 0, 0);
         endDate = new Date(year, month - 1, day, 23, 59, 59, 999);
       }
       break;
     
     case "daterange":
       if (customDateValue && customDateValue.startDate && customDateValue.endDate) {
-        // Parse date strings to avoid timezone issues
         const [startYear, startMonth, startDay] = customDateValue.startDate.split('-').map(Number);
         const [endYear, endMonth, endDay] = customDateValue.endDate.split('-').map(Number);
         startDate = new Date(startYear, startMonth - 1, startDay, 0, 0, 0, 0);

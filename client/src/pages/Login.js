@@ -8,11 +8,9 @@ import Alert from "../components/common/Alert";
 import { colors, spacing, typography, borderRadius } from "../constants/horizonTheme";
 
 const MAX_ATTEMPTS = 3;
-const LOCKOUT_DURATION_MS = 5 * 60 * 1000; // 5 minutes
+const LOCKOUT_DURATION_MS = 5 * 60 * 1000;
 
-/**
- * Login form component with account lockout protection after failed attempts.
- */
+// Login form component with account lockout protection after failed attempts
 export default function Login({ onLogin, onNavigateToHome }) {
   const { isMobile } = useResponsive();
   const [username, setUsername] = useState("");
@@ -22,7 +20,7 @@ export default function Login({ onLogin, onNavigateToHome }) {
   const [isLockedOut, setIsLockedOut] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(0);
 
-  // Check lockout status on mount and set up timer
+  // Checks lockout status on mount and sets up timer to update remaining time
   useEffect(() => {
     const checkLockout = () => {
       const lockoutData = localStorage.getItem("loginLockout");
@@ -53,18 +51,14 @@ export default function Login({ onLogin, onNavigateToHome }) {
     return () => clearInterval(interval);
   }, [isLockedOut]);
 
-  /**
-   * Formats milliseconds to MM:SS format for lockout timer display.
-   */
+  // Formats milliseconds to MM:SS format for lockout timer display
   const formatTime = (ms) => {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  /**
-   * Handles login form submission with attempt tracking and lockout logic.
-   */
+  // Handles login form submission with attempt tracking and lockout logic
   async function handleSubmit(e) {
     e.preventDefault();
     
@@ -120,7 +114,6 @@ export default function Login({ onLogin, onNavigateToHome }) {
       padding: isMobile ? spacing.xl : spacing['4xl'],
       position: "relative",
     }}>
-      {/* Fixed background image */}
       <div style={{
         position: "fixed",
         top: 0,
@@ -135,7 +128,6 @@ export default function Login({ onLogin, onNavigateToHome }) {
         pointerEvents: "none",
       }} />
       
-      {/* Overlay for better readability */}
       <div style={{
         position: "fixed",
         top: 0,

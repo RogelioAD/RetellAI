@@ -1,14 +1,12 @@
 import React from "react";
 import { cardStyles, glassStyles, spacing, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Reusable card component with solid and glass effect variants.
- */
+// Reusable card component with solid and glass effect variants
 export default function Card({
   children,
   padding,
   hover = false,
-  variant = "solid", // solid, glass, glassSubtle, glassLight
+  variant = "solid",
   style = {},
   onClick,
   className = "",
@@ -16,14 +14,13 @@ export default function Card({
 }) {
   const [isHovered, setIsHovered] = React.useState(false);
 
-  // Default padding based on variant
   const defaultPadding = padding !== undefined 
     ? padding 
     : variant === "solid" 
       ? spacing['2xl'] 
       : spacing['2xl'];
 
-  // Get base styles based on variant
+  // Gets base styles based on variant (solid, glass, glassSubtle, or glassLight)
   const getBaseStyle = () => {
     switch (variant) {
       case "glass":
@@ -39,7 +36,6 @@ export default function Card({
 
   const baseStyle = {
     ...getBaseStyle(),
-    // Apply border-radius based on variant (glass variants need explicit radius)
     borderRadius: variant !== "solid" ? borderRadius.xl : cardStyles.base.borderRadius,
     padding: defaultPadding,
     ...(hover && isHovered && cardStyles.hover),
@@ -60,4 +56,3 @@ export default function Card({
     </div>
   );
 }
-

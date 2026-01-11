@@ -3,10 +3,7 @@ import { useResponsive } from "../../hooks/useResponsive";
 import Icon from "../common/Icon";
 import { colors, spacing, typography, glassStyles, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Navigation component with Horizon UI styling
- * Sidebar on desktop, bottom nav on mobile
- */
+// Navigation component with bottom navigation for both mobile and desktop (centered bubble design)
 export default function Navigation({ currentSection, onSectionChange, isAdmin }) {
   const { isMobile } = useResponsive();
   const [hoveredSection, setHoveredSection] = useState(null);
@@ -17,7 +14,6 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
     { id: "settings", label: "Settings", icon: "settings" },
   ];
 
-  // Bottom navigation for both mobile and desktop - centered bubble
   return (
     <nav
       style={{

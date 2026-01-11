@@ -4,19 +4,15 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 
-/**
- * Main application component that handles routing between Home, Login, and Dashboard.
- */
+// Main application component - handles routing between Home, Login, and Dashboard based on authentication state
 export default function App() {
   const { token, user, login, logout } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
 
-  // Show home page first if not logged in and login not requested
   if (!token && !showLogin) {
     return <Home onNavigateToLogin={() => setShowLogin(true)} />;
   }
 
-  // Show login page when user clicks "View Transcripts"
   if (!token && showLogin) {
     return <Login onLogin={login} onNavigateToHome={() => setShowLogin(false)} />;
   }

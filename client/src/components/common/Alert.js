@@ -1,54 +1,45 @@
 import React from "react";
-import { useResponsive } from "../../hooks/useResponsive";
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Alert component for displaying error, success, warning, and info messages
- * Consistent styling and positioning across the application
- */
-export default function Alert({
-  children,
-  variant = "error", // error, success, warning, info
-  style = {},
-  ...props
-}) {
-  const { isMobile } = useResponsive();
-
-  const variants = {
-    error: {
-      color: colors.error,
-      background: `${colors.error}08`,
-      border: `1px solid ${colors.error}`,
-    },
+// Alert component for displaying success, error, warning, or info messages
+export default function Alert({ children, variant = "info", style = {}, ...props }) {
+  const variantStyles = {
     success: {
-      color: colors.success,
-      background: `${colors.success}08`,
-      border: `1px solid ${colors.success}`,
+      backgroundColor: colors.success[50],
+      borderColor: colors.success[200],
+      color: colors.success[700],
+    },
+    error: {
+      backgroundColor: colors.error[50],
+      borderColor: colors.error[200],
+      color: colors.error[700],
     },
     warning: {
-      color: colors.warning,
-      background: `${colors.warning}08`,
-      border: `1px solid ${colors.warning}`,
+      backgroundColor: colors.warning[50],
+      borderColor: colors.warning[200],
+      color: colors.warning[700],
     },
     info: {
-      color: colors.info,
-      background: `${colors.info}08`,
-      border: `1px solid ${colors.info}`,
+      backgroundColor: colors.info[50],
+      borderColor: colors.info[200],
+      color: colors.info[700],
     },
   };
 
-  const alertStyle = {
-    padding: isMobile ? spacing.md : spacing.lg,
+  const baseStyle = {
+    padding: spacing.md,
     borderRadius: borderRadius.md,
+    border: `1px solid ${variantStyles[variant].borderColor}`,
+    backgroundColor: variantStyles[variant].backgroundColor,
+    color: variantStyles[variant].color,
     fontSize: typography.fontSize.sm,
-    ...variants[variant],
+    fontWeight: typography.fontWeight.medium,
     ...style,
   };
 
   return (
-    <div style={alertStyle} {...props}>
+    <div style={baseStyle} {...props}>
       {children}
     </div>
   );
 }
-

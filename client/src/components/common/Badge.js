@@ -1,71 +1,44 @@
 import React from "react";
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Badge component for displaying status indicators, roles, and labels
- * Consistent styling across the application
- */
-export default function Badge({
-  children,
-  variant = "default", // default, primary, success, warning, error
-  size = "md", // sm, md
-  style = {},
-  ...props
-}) {
-  const variants = {
+// Badge component for displaying small labels or status indicators
+export default function Badge({ children, variant = "default", style = {}, ...props }) {
+  const variantStyles = {
     default: {
-      background: `${colors.gray[300]}20`,
-      color: colors.text.white,
-      border: `1px solid ${colors.gray[300]}`,
+      backgroundColor: colors.gray[100],
+      color: colors.gray[700],
     },
     primary: {
-      background: `${colors.brand[500]}15`,
-      color: colors.brand[500],
-      border: `1px solid ${colors.brand[500]}`,
+      backgroundColor: colors.brand[100],
+      color: colors.brand[700],
     },
     success: {
-      background: `${colors.success}15`,
-      color: colors.success,
-      border: `1px solid ${colors.success}`,
-    },
-    warning: {
-      background: `${colors.warning}15`,
-      color: colors.warning,
-      border: `1px solid ${colors.warning}`,
+      backgroundColor: colors.success[100],
+      color: colors.success[700],
     },
     error: {
-      background: `${colors.error}15`,
-      color: colors.error,
-      border: `1px solid ${colors.error}`,
+      backgroundColor: colors.error[100],
+      color: colors.error[700],
+    },
+    warning: {
+      backgroundColor: colors.warning[100],
+      color: colors.warning[700],
     },
   };
 
-  const sizes = {
-    sm: {
-      padding: `${spacing.xs} ${spacing.md}`,
-      fontSize: typography.fontSize.xs,
-      fontWeight: typography.fontWeight.semibold,
-    },
-    md: {
-      padding: `${spacing.xs} ${spacing.md}`,
-      fontSize: typography.fontSize.xs,
-      fontWeight: typography.fontWeight.semibold,
-    },
-  };
-
-  const badgeStyle = {
-    display: "inline-flex",
-    alignItems: "center",
-    borderRadius: borderRadius.sm,
-    ...variants[variant],
-    ...sizes[size],
+  const baseStyle = {
+    display: "inline-block",
+    padding: `${spacing.xs} ${spacing.sm}`,
+    borderRadius: borderRadius.full,
+    fontSize: typography.fontSize.xs,
+    fontWeight: typography.fontWeight.semibold,
+    ...variantStyles[variant],
     ...style,
   };
 
   return (
-    <span style={badgeStyle} {...props}>
+    <span style={baseStyle} {...props}>
       {children}
     </span>
   );
 }
-

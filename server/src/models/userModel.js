@@ -22,7 +22,6 @@ export default (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          // Only validate email format if a value is provided (not null/empty)
           isEmailOrEmpty(value) {
             if (value != null && value.trim() !== "") {
               if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {

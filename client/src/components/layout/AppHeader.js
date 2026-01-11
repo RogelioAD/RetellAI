@@ -3,10 +3,7 @@ import { useResponsive } from "../../hooks/useResponsive";
 import Button from "../common/Button";
 import { colors, spacing, typography, glassStyles, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Sticky header component with Horizon UI styling
- * Clean, modern header with user profile actions
- */
+// Sticky header component with logo, user info, and logout button (glass effect styling)
 export default function AppHeader({ user, isAdmin, onLogout }) {
   const { isMobile } = useResponsive();
 
@@ -28,7 +25,6 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
     >
       {isMobile ? (
         <>
-          {/* Glass dock container for mobile */}
           <div
             style={{
               display: "flex",
@@ -62,7 +58,6 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
         </>
       ) : (
         <>
-          {/* Glass dock container for desktop */}
           <div
             style={{
               display: "flex",
@@ -80,7 +75,6 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
               gap: spacing.md,
             }}
           >
-            {/* Logo and app name badge */}
             <div
               style={{
                 display: "flex",
@@ -115,7 +109,6 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
               </h1>
             </div>
 
-            {/* User info badge and logout button grouped together */}
             <div
               style={{
                 display: "flex",
@@ -123,7 +116,6 @@ export default function AppHeader({ user, isAdmin, onLogout }) {
                 gap: spacing.sm,
               }}
             >
-              {/* User info badge */}
               <div
                 style={{
                   display: "flex",

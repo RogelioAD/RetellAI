@@ -4,9 +4,7 @@ import Button from "../components/common/Button";
 import { spacing, typography } from "../constants/horizonTheme";
 import "../index.css";
 
-/**
- * Landing page component with brand logo and navigation to login.
- */
+// Landing page component with brand logo and navigation to login
 export default function Home({ onNavigateToLogin }) {
   const { isMobile } = useResponsive();
 
@@ -22,7 +20,6 @@ export default function Home({ onNavigateToLogin }) {
         position: "relative",
       }}
     >
-      {/* Fixed background image */}
       <div style={{
         position: "fixed",
         top: 0,
@@ -37,7 +34,6 @@ export default function Home({ onNavigateToLogin }) {
         pointerEvents: "none",
       }} />
       
-      {/* Overlay for better readability */}
       <div style={{
         position: "fixed",
         top: 0,

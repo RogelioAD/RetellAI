@@ -1,9 +1,7 @@
 import { hash } from "bcrypt";
 import { User, CallRecord } from "../models/index.js";
 
-/**
- * Retrieves all users from the database excluding password hashes.
- */
+// Retrieves all users from the database, excluding password hashes
 export async function getAllUsers() {
   return await User.findAll({
     attributes: { exclude: ["passwordHash"] },
@@ -11,9 +9,7 @@ export async function getAllUsers() {
   });
 }
 
-/**
- * Creates a new customer user with the provided credentials.
- */
+// Creates a new customer user account with hashed password
 export async function createCustomer({ username, password, email }) {
   const sanitizedUsername = String(username).trim();
   const existing = await User.findOne({ where: { username: sanitizedUsername } });
@@ -44,13 +40,11 @@ export async function createCustomer({ username, password, email }) {
       role: user.role,
       createdAt: user.createdAt,
     },
-    password, // Return plain password for admin display (only available at creation)
+    password,
   };
 }
 
-/**
- * Deletes a user and all associated call records with safety checks.
- */
+// Deletes a user and all associated call records, with safety checks to prevent deleting admins or self
 export async function deleteUser(userId, requestingUserId) {
   const user = await User.findByPk(userId);
   if (!user) {
@@ -80,12 +74,9 @@ export async function deleteUser(userId, requestingUserId) {
   };
 }
 
-/**
- * Retrieves a user by ID excluding the password hash.
- */
+// Retrieves a user by ID, excluding password hash
 export async function getUserById(userId) {
   return await User.findByPk(userId, {
     attributes: { exclude: ["passwordHash"] },
   });
 }
-

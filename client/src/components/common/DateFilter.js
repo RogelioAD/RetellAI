@@ -4,9 +4,7 @@ import { getDateRange } from "./DateFilterUtils";
 import Button from "./Button";
 import { colors, spacing, typography, borderRadius, glassStyles } from "../../constants/horizonTheme";
 
-/**
- * Date filter component with modal containing dual calendars and filter buttons
- */
+// Date filter component with modal containing dual calendars and predefined filter buttons
 export default function DateFilter({ onDateRangeChange, selectedRange = "all", customDateValue = null }) {
   const { isMobile } = useResponsive();
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +30,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
     { value: "last4months", label: "Last 4 Months" },
   ];
 
-  // Initialize from props
+  // Initializes selected dates from props when customDateValue changes
   useEffect(() => {
     if (customDateValue && typeof customDateValue === 'string') {
       setSelectedDate(customDateValue);
@@ -44,7 +42,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
 
   const buttonRef = useRef(null);
 
-  // Close modal on outside click
+  // Closes modal when clicking outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -62,6 +60,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
     }
   }, [isOpen]);
 
+  // Handles predefined filter button click
   const handleFilterClick = (range) => {
     setSelectedDate(null);
     setSelectedStartDate(null);
@@ -70,21 +69,18 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
     setIsOpen(false);
   };
 
+  // Handles date click on calendar - supports single date and date range selection
   const handleDateClick = (dateStr) => {
-    // If no date is selected yet, select single date
     if (!selectedDate && !selectedStartDate) {
       setSelectedDate(dateStr);
       setSelectedStartDate(null);
       setSelectedEndDate(null);
       onDateRangeChange("custom", dateStr);
     }
-    // If a single date is selected, start a range
     else if (selectedDate && !selectedStartDate) {
-      // If clicking the same date, keep it as single date
       if (selectedDate === dateStr) {
-        return; // Keep the single date selection
+        return;
       }
-      // Otherwise, convert to date range
       const start = new Date(selectedDate);
       const end = new Date(dateStr);
       const startDate = end < start ? dateStr : selectedDate;
@@ -98,15 +94,12 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
         endDate: endDate
       });
     }
-    // If a range is already selected, start a new selection
     else if (selectedStartDate && selectedEndDate) {
-      // Start a new single date selection
       setSelectedDate(dateStr);
       setSelectedStartDate(null);
       setSelectedEndDate(null);
       onDateRangeChange("custom", dateStr);
     }
-    // If only start date is selected (shouldn't happen with new logic, but handle it)
     else if (selectedStartDate && !selectedEndDate) {
       const start = new Date(selectedStartDate);
       const end = new Date(dateStr);
@@ -127,6 +120,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
     }
   };
 
+  // Navigates both calendars by specified direction (months)
   const navigateMonths = (direction) => {
     setViewMonth1(prev => {
       const newDate = new Date(prev);
@@ -140,6 +134,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
     });
   };
 
+  // Gets array of dates to highlight based on selected range
   const getHighlightedDates = () => {
     const { startDate, endDate } = getDateRange(selectedRange, customDateValue);
     const dates = [];
@@ -164,13 +159,13 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
       marginBottom: isMobile ? "20px" : "24px",
       position: "relative"
     }}>
-        <Button
-          ref={buttonRef}
-          onClick={() => setIsOpen(!isOpen)}
-          variant={selectedRange !== "all" ? "primary" : "primary"}
-        >
-          Date Range
-        </Button>
+      <Button
+        ref={buttonRef}
+        onClick={() => setIsOpen(!isOpen)}
+        variant={selectedRange !== "all" ? "primary" : "primary"}
+      >
+        Date Range
+      </Button>
 
       {isOpen && (
         <>
@@ -212,7 +207,6 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
               flexDirection: isMobile ? "column" : "row",
               gap: isMobile ? "12px" : "16px"
             }}>
-              {/* Filter Buttons Sidebar */}
               <div style={{
                 display: "flex",
                 flexDirection: "column",
@@ -272,9 +266,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                 ))}
               </div>
 
-              {/* Calendars Section */}
               <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: isMobile ? "10px" : "12px" }}>
-                {/* Navigation */}
                 <div style={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -358,7 +350,6 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                   </button>
                 </div>
 
-                {/* Two Calendars */}
                 <div style={{
                   display: "flex",
                   gap: isMobile ? "10px" : "12px",
@@ -392,47 +383,46 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
   );
 }
 
-// Calendar Component
+// Calendar component for rendering a single month with date selection
 function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, selectedEndDate, onDateClick, isMobile }) {
   const year = month.getFullYear();
   const monthIndex = month.getMonth();
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  const firstDay = new Date(year, monthIndex, 1);
-  const lastDay = new Date(year, monthIndex + 1, 0);
-  const startingDayOfWeek = firstDay.getDay();
-  const daysInMonth = lastDay.getDate();
-  const days = [];
+  const firstDayOfMonth = new Date(year, monthIndex, 1);
+  const lastDayOfMonth = new Date(year, monthIndex + 1, 0);
+  const daysInMonth = lastDayOfMonth.getDate();
+  const startingDayOfWeek = firstDayOfMonth.getDay();
 
-  // Add empty cells for days before the first day of the month
+  const days = [];
   for (let i = 0; i < startingDayOfWeek; i++) {
     days.push(null);
   }
-
-  // Add all days of the month
   for (let day = 1; day <= daysInMonth; day++) {
     days.push(day);
   }
 
   const getDateString = (day) => {
-    if (!day) return null;
+    if (day === null) return null;
     return `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
   };
 
-  const isDateHighlighted = (dateStr) => highlightedDates.includes(dateStr);
-
-  const isDateInRange = (dateStr) => {
-    if (!selectedStartDate || !selectedEndDate) return false;
+  const isInRange = (dateStr) => {
+    if (!selectedStartDate || !selectedEndDate || !dateStr) return false;
     const date = new Date(dateStr);
     const start = new Date(selectedStartDate);
     const end = new Date(selectedEndDate);
     return date >= start && date <= end;
   };
 
+  const isStartDate = (dateStr) => {
+    return dateStr === selectedStartDate;
+  };
 
-  const today = new Date();
-  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const isEndDate = (dateStr) => {
+    return dateStr === selectedEndDate;
+  };
 
   return (
     <div style={{
@@ -440,96 +430,78 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
       ...glassStyles.subtle,
       borderRadius: borderRadius.md,
       padding: isMobile ? spacing.sm : spacing.md,
-      overflow: "hidden",
-      minWidth: isMobile ? "0" : "auto",
-      transition: "all 0.3s ease",
+      minWidth: isMobile ? "100%" : "280px",
     }}>
       <div style={{
-        textAlign: "center",
-        fontSize: isMobile ? typography.fontSize.sm : typography.fontSize.base,
+        fontSize: typography.fontSize.base,
         fontWeight: typography.fontWeight.bold,
         color: colors.text.primary,
-        marginBottom: isMobile ? spacing.md : spacing.md,
+        marginBottom: spacing.md,
+        textAlign: "center",
       }}>
         {monthNames[monthIndex]} {year}
       </div>
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(7, 1fr)",
-        gap: isMobile ? "2px" : "3px",
-        marginBottom: isMobile ? "6px" : "8px"
+        gap: spacing.xs,
       }}>
         {dayNames.map(day => (
-          <div key={day} style={{
-            textAlign: "center",
-            fontSize: isMobile ? typography.fontSize.xs : typography.fontSize.xs,
-            fontWeight: typography.fontWeight.bold,
-            color: colors.text.secondary,
-            padding: `${spacing.xs} ${spacing.xs}`,
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}>
+          <div
+            key={day}
+            style={{
+              fontSize: typography.fontSize.xs,
+              fontWeight: typography.fontWeight.bold,
+              color: colors.text.secondary,
+              textAlign: "center",
+              padding: spacing.xs,
+            }}
+          >
             {day}
           </div>
         ))}
-      </div>
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(7, 1fr)",
-        gap: isMobile ? "2px" : "3px"
-      }}>
         {days.map((day, index) => {
           const dateStr = getDateString(day);
-          if (!day) {
-            return <div key={`empty-${index}`} style={{ aspectRatio: "1", padding: isMobile ? "1px" : "3px", minWidth: 0 }} />;
-          }
+          const isHighlighted = highlightedDates.includes(dateStr);
+          const isSelected = dateStr === selectedDate;
+          const inRange = isInRange(dateStr);
+          const isStart = isStartDate(dateStr);
+          const isEnd = isEndDate(dateStr);
 
-          const isToday = dateStr === todayStr;
-          const isSelected = selectedDate === dateStr || isDateInRange(dateStr);
-          const isHighlighted = isDateHighlighted(dateStr);
-          const isStart = selectedStartDate === dateStr;
-          const isEnd = selectedEndDate === dateStr;
+          if (day === null) {
+            return <div key={`empty-${index}`} style={{ padding: spacing.xs }} />;
+          }
 
           return (
             <button
-              key={dateStr}
+              key={day}
               onClick={() => onDateClick(dateStr)}
               style={{
-                aspectRatio: "1",
-                padding: 0,
-                minWidth: 0,
-                minHeight: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: isSelected
-                  ? "rgba(99, 102, 241, 0.5)"
-                  : isHighlighted
-                  ? "rgba(99, 102, 241, 0.2)"
-                  : "transparent",
-                color: isSelected ? colors.text.white : isToday ? colors.brand[600] : colors.text.primary,
+                padding: spacing.xs,
+                fontSize: typography.fontSize.xs,
+                fontWeight: typography.fontWeight.semibold,
+                color: colors.text.primary,
                 borderRadius: borderRadius.sm,
                 cursor: "pointer",
-                fontSize: isMobile ? typography.fontSize.xs : typography.fontSize.xs,
-                fontWeight: isToday || isSelected ? typography.fontWeight.bold : typography.fontWeight.semibold,
-                transition: "all 0.3s ease",
-                position: "relative",
-                border: isStart || isEnd 
-                  ? "2px solid rgba(99, 102, 241, 0.6)"
-                  : "1px solid transparent",
-                boxSizing: "border-box",
-                overflow: "hidden",
-                width: "100%",
-                height: "100%",
+                border: "1px solid transparent",
+                background: isSelected || isStart || isEnd
+                  ? colors.brand[500]
+                  : inRange
+                    ? `${colors.brand[500]}20`
+                    : isHighlighted
+                      ? `${colors.brand[500]}15`
+                      : "transparent",
+                color: isSelected || isStart || isEnd ? colors.text.white : colors.text.primary,
+                transition: "all 0.2s ease",
               }}
-              onMouseOver={(e) => {
-                if (!isSelected) {
-                  e.currentTarget.style.background = "rgba(99, 102, 241, 0.15)";
+              onMouseEnter={(e) => {
+                if (!isSelected && !isStart && !isEnd && !inRange) {
+                  e.currentTarget.style.backgroundColor = colors.gray[100];
                 }
               }}
-              onMouseOut={(e) => {
-                if (!isSelected) {
-                  e.currentTarget.style.background = isHighlighted ? "rgba(99, 102, 241, 0.2)" : "transparent";
+              onMouseLeave={(e) => {
+                if (!isSelected && !isStart && !isEnd && !inRange) {
+                  e.currentTarget.style.backgroundColor = "transparent";
                 }
               }}
             >
@@ -541,6 +513,3 @@ function Calendar({ month, highlightedDates, selectedDate, selectedStartDate, se
     </div>
   );
 }
-
-// Export the getDateRange function for backward compatibility
-export { getDateRange } from "./DateFilterUtils";

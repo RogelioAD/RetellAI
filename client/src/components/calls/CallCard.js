@@ -15,9 +15,7 @@ import Icon from "../common/Icon";
 import Alert from "../common/Alert";
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Displays a single call transcript in a collapsible card with metadata and recording player.
- */
+// Displays a single call transcript in a collapsible card with metadata and recording player
 export default function CallCard({ 
   call, 
   mapping = {}, 
@@ -51,7 +49,6 @@ export default function CallCard({
         overflow: "hidden",
       }}
     >
-      {/* Collapsible Header */}
       <div
         onClick={() => setIsExpanded(!isExpanded)}
         style={{
@@ -126,7 +123,6 @@ export default function CallCard({
         </div>
       </div>
 
-      {/* Collapsible Content */}
       {isExpanded && (
         <div style={{ 
           padding: isMobile ? spacing.lg : spacing['2xl'],
@@ -134,7 +130,6 @@ export default function CallCard({
           borderBottomRightRadius: borderRadius.xl,
           overflow: "hidden",
         }}>
-          {/* Call Info and Recording */}
           {call && !hasError && (
             <div style={{
               marginBottom: isMobile ? spacing.lg : spacing.xl,
@@ -202,7 +197,6 @@ export default function CallCard({
             </Alert>
           )}
 
-          {/* Transcript Display */}
           {call && !hasError && (
             <div>
               {utterances && Array.isArray(utterances) && utterances.length > 0 ? (
@@ -249,7 +243,6 @@ export default function CallCard({
             </div>
           )}
 
-          {/* Full JSON details for admin */}
           {isAdmin && call && (
             <details style={{ marginTop: isMobile ? spacing.lg : spacing.xl }}>
               <summary style={{ 

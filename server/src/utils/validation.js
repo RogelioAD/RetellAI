@@ -1,10 +1,4 @@
-/**
- * Validation utilities for request inputs
- */
-
-/**
- * Validates username format, length, and character restrictions.
- */
+// Validates username format (3-50 chars, alphanumeric, underscores, hyphens) and returns sanitized value
 export function validateUsername(username) {
   if (!username || typeof username !== 'string') {
     return { valid: false, error: "Username is required" };
@@ -23,9 +17,7 @@ export function validateUsername(username) {
   return { valid: true, value: sanitized };
 }
 
-/**
- * Validates password format and length requirements.
- */
+// Validates password length (6-128 characters)
 export function validatePassword(password, fieldName = "Password") {
   if (!password || typeof password !== 'string') {
     return { valid: false, error: `${fieldName} is required` };
@@ -38,12 +30,10 @@ export function validatePassword(password, fieldName = "Password") {
   return { valid: true };
 }
 
-/**
- * Validates email format (email is optional).
- */
+// Validates email format (optional field, returns null if empty) and returns sanitized lowercase value
 export function validateEmail(email) {
   if (!email || email.trim() === "") {
-    return { valid: true, value: null }; // Email is optional
+    return { valid: true, value: null };
   }
 
   const sanitized = email.trim().toLowerCase();
@@ -60,9 +50,7 @@ export function validateEmail(email) {
   return { valid: true, value: sanitized };
 }
 
-/**
- * Validates call ID format and length.
- */
+// Validates call ID format (non-empty string, max 255 chars) and returns sanitized value
 export function validateCallId(callId) {
   if (!callId || typeof callId !== 'string') {
     return { valid: false, error: "Call ID is required" };
@@ -77,9 +65,7 @@ export function validateCallId(callId) {
   return { valid: true, value: sanitized };
 }
 
-/**
- * Validates user ID format and presence.
- */
+// Validates user ID is a non-empty string
 export function validateUserId(userId) {
   if (!userId || typeof userId !== 'string' || userId.trim() === '') {
     return { valid: false, error: "User ID is required" };
@@ -87,4 +73,3 @@ export function validateUserId(userId) {
 
   return { valid: true };
 }
-

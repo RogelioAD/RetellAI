@@ -2,14 +2,11 @@ import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import { colors, spacing, typography } from "../../constants/horizonTheme";
 
-/**
- * SectionHeader component for consistent page and section titles
- * Standardizes typography, spacing, and hierarchy across the app
- */
+// SectionHeader component for consistent page and section titles with standardized typography
 export default function SectionHeader({
   title,
   subtitle,
-  level = 1, // 1 = page title, 2 = section title, 3 = subsection
+  level = 1,
   style = {},
   ...props
 }) {
@@ -62,4 +59,3 @@ export default function SectionHeader({
     </div>
   );
 }
-

@@ -1,8 +1,6 @@
 import { useState } from "react";
 
-/**
- * Manages authentication state and provides login/logout functions.
- */
+// Manages authentication state and provides login/logout functions using localStorage
 export function useAuth() {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
   const [user, setUser] = useState(() => {
@@ -16,6 +14,7 @@ export function useAuth() {
     }
   });
 
+  // Stores token and user in localStorage and updates state
   const login = ({ token, user }) => {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
@@ -23,6 +22,7 @@ export function useAuth() {
     setUser(user);
   };
 
+  // Removes token and user from localStorage and clears state
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -40,4 +40,3 @@ export function useAuth() {
     logout
   };
 }
-

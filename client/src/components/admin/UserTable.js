@@ -6,10 +6,7 @@ import EmptyState from "../common/EmptyState";
 import SectionHeader from "../common/SectionHeader";
 import { colors, spacing, typography, tableStyles, borderRadius, glassStyles } from "../../constants/horizonTheme";
 
-/**
- * Table component for displaying users with Horizon UI styling
- * Clean table design with proper spacing and visual hierarchy
- */
+// Table component for displaying users with Horizon UI styling (mobile card view, desktop table view)
 export default function UserTable({ users, loading, onDeleteUser, currentUserId }) {
   const { isMobile } = useResponsive();
   const [deletingUserId, setDeletingUserId] = useState(null);
@@ -26,6 +23,7 @@ export default function UserTable({ users, loading, onDeleteUser, currentUserId 
     );
   }
 
+  // Handles user deletion with confirmation dialog
   const handleDelete = async (userId, username) => {
     if (!window.confirm(`You as the admin can still view and access call transcripts and any other related information to the user. However, once deleted this deactivates the user's account and their ability to access their transcripts. Are you sure you want to delete "${username}"?`)) {
       return;
@@ -41,7 +39,6 @@ export default function UserTable({ users, loading, onDeleteUser, currentUserId 
     }
   };
 
-  // Mobile card view
   if (isMobile) {
     return (
       <div>
@@ -153,7 +150,6 @@ export default function UserTable({ users, loading, onDeleteUser, currentUserId 
     );
   }
 
-  // Desktop table view
   return (
     <div>
       <SectionHeader 

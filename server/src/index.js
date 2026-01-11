@@ -12,14 +12,12 @@ import { seedAdmin } from "./services/adminService.js";
 
 const app = express();
 
-// CORS configuration - restrict to specific origins in production
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim()).filter(origin => origin)
   : ['http://localhost:3000', 'http://localhost:3001'];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (mobile apps, Postman, etc.) in development
     if (!origin) {
       if (process.env.NODE_ENV !== 'production') {
         return callback(null, true);
@@ -27,27 +25,22 @@ app.use(cors({
       return callback(new Error('Origin required in production'));
     }
     
-    // Check if origin is in allowed list
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
     
-    // In development, allow all origins
     if (process.env.NODE_ENV !== 'production') {
       return callback(null, true);
     }
     
-    // Reject in production if not in allowed list
     callback(new Error('Not allowed by CORS'));
   },
   credentials: true
 }));
 
-// Body parser with size limits
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
-// Security headers
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
@@ -55,30 +48,23 @@ app.use((req, res, next) => {
   next();
 });
 
-// Validate JWT_SECRET is set in production
 if (process.env.NODE_ENV === 'production' && (!jwtSecret || jwtSecret === "your-secret-key-change-in-production")) {
   console.error("❌ CRITICAL: JWT_SECRET must be set in production environment!");
   process.exit(1);
 }
 
-// Routes
 app.use("/auth", authRoute);
 app.use("/admin", adminRoute);
 app.use("/api", callsRoute);
 app.use("/webhooks", webhookRoute);
 
-// Health check
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// Error handler middleware (must be last)
 app.use(errorHandler);
 
-
-/**
- * Initializes database connection and starts the Express server.
- */
+// Main server startup function - connects to database, syncs models, seeds admin, starts server
 async function start() {
   try {
     console.log("🔌 Connecting to database...");

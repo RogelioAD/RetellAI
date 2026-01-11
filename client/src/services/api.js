@@ -1,8 +1,6 @@
 const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:3001";
 
-/**
- * Extracts error message from API response, attempting JSON parse first, then falling back to text.
- */
+// Extracts error message from API response, attempting JSON parse first, then falling back to text
 async function extractErrorMessage(res, defaultMessage) {
   try {
     const text = await res.text();
@@ -17,9 +15,7 @@ async function extractErrorMessage(res, defaultMessage) {
   }
 }
 
-/**
- * Handles fetch request with standardized error handling.
- */
+// Handles fetch request with standardized error handling and JSON response parsing
 async function fetchWithErrorHandling(url, options, defaultErrorMessage) {
   const res = await fetch(url, options);
   if (!res.ok) {
@@ -29,9 +25,7 @@ async function fetchWithErrorHandling(url, options, defaultErrorMessage) {
   return res.json();
 }
 
-/**
- * Authenticates user with username and password and returns JWT token.
- */
+// Authenticates user with username and password, returns JWT token and user data
 export async function login({ username, password }) {
   return fetchWithErrorHandling(
     `${API_BASE}/auth/login`,
@@ -44,9 +38,7 @@ export async function login({ username, password }) {
   );
 }
 
-/**
- * Fetches all calls for the authenticated user.
- */
+// Fetches all calls for the authenticated user
 export async function fetchMyCalls(token) {
   return fetchWithErrorHandling(
     `${API_BASE}/api/my-calls`,
@@ -57,9 +49,7 @@ export async function fetchMyCalls(token) {
   );
 }
 
-/**
- * Fetches all calls from Retell API with optional filters.
- */
+// Fetches all calls from Retell API with optional filters (admin only)
 export async function fetchAllCalls(token, filters = {}) {
   return fetchWithErrorHandling(
     `${API_BASE}/api/list-calls`,
@@ -75,9 +65,7 @@ export async function fetchAllCalls(token, filters = {}) {
   );
 }
 
-/**
- * Changes the password for the authenticated user.
- */
+// Changes the password for the authenticated user
 export async function changePassword(token, { currentPassword, newPassword }) {
   return fetchWithErrorHandling(
     `${API_BASE}/auth/change-password`,
@@ -93,9 +81,7 @@ export async function changePassword(token, { currentPassword, newPassword }) {
   );
 }
 
-/**
- * Fetches all users (admin only).
- */
+// Fetches all users (admin only)
 export async function fetchAllUsers(token) {
   return fetchWithErrorHandling(
     `${API_BASE}/admin/users`,
@@ -106,9 +92,7 @@ export async function fetchAllUsers(token) {
   );
 }
 
-/**
- * Refreshes agent names from RetellAI and re-links calls (admin only).
- */
+// Refreshes agent names from RetellAI and re-links calls (admin only)
 export async function refreshAgentNames(token) {
   return fetchWithErrorHandling(
     `${API_BASE}/admin/refresh-agent-names`,
@@ -123,9 +107,7 @@ export async function refreshAgentNames(token) {
   );
 }
 
-/**
- * Creates a new customer user (admin only).
- */
+// Creates a new customer user (admin only)
 export async function createCustomer(token, { username, password, email }) {
   return fetchWithErrorHandling(
     `${API_BASE}/admin/create-customer`,
@@ -141,9 +123,7 @@ export async function createCustomer(token, { username, password, email }) {
   );
 }
 
-/**
- * Deletes a user and all associated data (admin only).
- */
+// Deletes a user and all associated data (admin only)
 export async function deleteUser(token, userId) {
   return fetchWithErrorHandling(
     `${API_BASE}/admin/users/${userId}`,
@@ -157,4 +137,3 @@ export async function deleteUser(token, userId) {
     "Failed to delete user"
   );
 }
-

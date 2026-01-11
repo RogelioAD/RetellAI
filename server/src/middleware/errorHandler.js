@@ -1,12 +1,5 @@
-/**
- * Centralized error handling middleware
- */
-
-/**
- * Central error handler middleware that formats and returns appropriate error responses.
- */
+// Centralized error handler middleware - catches errors and returns appropriate HTTP responses
 export function errorHandler(err, req, res, next) {
-  // Log error for debugging (only in development or log to external service in production)
   if (process.env.NODE_ENV !== 'production') {
     console.error('Error:', {
       message: err.message,
@@ -16,7 +9,6 @@ export function errorHandler(err, req, res, next) {
     });
   }
 
-  // Handle known error types
   if (err.name === 'ValidationError') {
     return res.status(400).json({ error: err.message });
   }
@@ -33,8 +25,6 @@ export function errorHandler(err, req, res, next) {
     return res.status(400).json({ error: "Resource already exists" });
   }
 
-  // Default to 500 for unknown errors
-  // Don't leak error details in production
   const message = process.env.NODE_ENV === 'production' 
     ? "Server error" 
     : err.message || "Server error";
@@ -42,14 +32,9 @@ export function errorHandler(err, req, res, next) {
   res.status(err.statusCode || 500).json({ error: message });
 }
 
-/**
- * Async handler wrapper to catch errors in async route handlers
- * @param {Function} fn - Async route handler function
- * @returns {Function} Wrapped function
- */
+// Wraps async route handlers to automatically catch errors and pass to error handler
 export function asyncHandler(fn) {
   return (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
 }
-

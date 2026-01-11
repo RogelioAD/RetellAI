@@ -18,15 +18,12 @@ db.sequelize = sequelizeInstance;
 db.User = userModel(sequelizeInstance);
 db.CallRecord = callRecordModel(sequelizeInstance);
 
-// Associations
 db.User.hasMany(db.CallRecord, { foreignKey: "userId" });
 db.CallRecord.belongsTo(db.User, { foreignKey: "userId" });
 
-// Export named exports for easier importing
 export const User = db.User;
 export const CallRecord = db.CallRecord;
 export const sequelize = db.sequelize;
 export const Sequelize = db.Sequelize;
 
 export default db;
-

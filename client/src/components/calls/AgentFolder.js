@@ -5,9 +5,7 @@ import Button from "../common/Button";
 import { extractCallId, extractCreatedAt } from "../../utils/callDataTransformers";
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Collapsible folder component for grouping calls by agent with Horizon UI styling
- */
+// Collapsible folder component for grouping calls by agent with Horizon UI styling
 export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
   const { isMobile } = useResponsive();
   const [isOpen, setIsOpen] = useState(defaultOpen);
@@ -20,6 +18,7 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
     setDisplayLimit(INITIAL_DISPLAY_LIMIT);
   }, [calls.length]);
 
+  // Sorts calls by date (newest first) within this agent folder
   const sortedCalls = useMemo(() => {
     return [...calls].sort((a, b) => {
       const mappingA = a.mapping || {};
@@ -38,6 +37,7 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
   const hasMoreCalls = sortedCalls.length > displayLimit;
   const remainingCount = sortedCalls.length - displayLimit;
 
+  // Handles "Load More" button click to display more calls
   const handleLoadMore = () => {
     setDisplayLimit(prev => prev + LOAD_MORE_INCREMENT);
   };

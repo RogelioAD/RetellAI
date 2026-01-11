@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { breakpoints } from "../utils/responsive";
 
-/**
- * Provides responsive breakpoint information based on window width.
- */
+// Provides responsive breakpoint information based on window width with resize listener
 export function useResponsive() {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 1200
@@ -15,7 +13,7 @@ export function useResponsive() {
     }
 
     window.addEventListener('resize', handleResize);
-    handleResize(); // Set initial size
+    handleResize();
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -26,4 +24,3 @@ export function useResponsive() {
     isMobile
   };
 }
-

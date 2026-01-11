@@ -1,70 +1,54 @@
-import React, { useEffect, useRef } from "react";
-import { useResponsive } from "../../hooks/useResponsive";
-import { glassStyles, borderRadius, spacing, shadows } from "../../constants/horizonTheme";
+import React, { useEffect } from "react";
+import { colors, spacing, borderRadius, glassStyles } from "../../constants/horizonTheme";
 
-/**
- * Modal component for overlays, dropdowns, and dialogs
- * Standardized glass effect and positioning
- */
-export default function Modal({
-  children,
-  isOpen,
-  onClose,
-  position = "absolute", // absolute, fixed
-  style = {},
-  overlayStyle = {},
-  ...props
-}) {
-  const { isMobile } = useResponsive();
-  const modalRef = useRef(null);
-
+// Modal component with backdrop and glass effect styling
+export default function Modal({ isOpen, onClose, children, style = {} }) {
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target) && onClose) {
-        onClose();
-      }
-    };
-
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
     }
-  }, [isOpen, onClose]);
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const defaultStyle = {
-    position,
-    zIndex: 1000,
-    ...glassStyles.base,
-    borderRadius: borderRadius.lg,
-    padding: isMobile ? spacing.md : spacing.lg,
-    maxHeight: "75vh",
-    overflow: "auto",
-    ...style,
-  };
-
   return (
-    <>
-      {position === "fixed" && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
-            zIndex: 999,
-            ...overlayStyle,
-          }}
-          onClick={onClose}
-        />
-      )}
-      <div ref={modalRef} style={defaultStyle} {...props}>
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 1000,
+        padding: spacing.xl,
+      }}
+      onClick={onClose}
+    >
+      <div
+        style={{
+          ...glassStyles.base,
+          borderRadius: borderRadius.xl,
+          padding: spacing['3xl'],
+          maxWidth: "600px",
+          width: "100%",
+          maxHeight: "90vh",
+          overflowY: "auto",
+          position: "relative",
+          ...style,
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
         {children}
       </div>
-    </>
+    </div>
   );
 }
-

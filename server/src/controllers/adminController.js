@@ -1,17 +1,13 @@
 import { getAllUsers, createCustomer, deleteUser } from "../services/userService.js";
 import { linkCallsByAgent, refreshAgentNames } from "../services/callService.js";
 
-/**
- * Returns all users (admin only).
- */
+// HTTP handler for getting all users (admin only)
 export async function getUsers(req, res) {
   const users = await getAllUsers();
   res.json({ users });
 }
 
-/**
- * Creates a new customer user and returns credentials.
- */
+// HTTP handler for creating a new customer user (admin only)
 export async function createUser(req, res) {
   const { username, password, email } = req.body;
   const result = await createCustomer({ username, password, email });
@@ -23,9 +19,7 @@ export async function createUser(req, res) {
   });
 }
 
-/**
- * Deletes a user and all associated data (admin only).
- */
+// HTTP handler for deleting a user (admin only)
 export async function deleteUserById(req, res) {
   const { userId } = req.params;
   const result = await deleteUser(userId, req.user.id);
@@ -37,19 +31,14 @@ export async function deleteUserById(req, res) {
   });
 }
 
-/**
- * Links existing calls to users based on agent_name matching username.
- */
+// HTTP handler for linking calls to users by agent name (admin only)
 export async function linkCalls(req, res) {
   const result = await linkCallsByAgent();
   res.json(result);
 }
 
-/**
- * Re-fetches all calls from RetellAI and updates agent names.
- */
+// HTTP handler for refreshing agent names and updating call associations (admin only)
 export async function refreshAgents(req, res) {
   const result = await refreshAgentNames();
   res.json(result);
 }
-

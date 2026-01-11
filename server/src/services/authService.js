@@ -3,9 +3,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/index.js";
 import { jwtSecret } from "../config.js";
 
-/**
- * Authenticates a user with username and password and returns a JWT token.
- */
+// Authenticates a user by verifying username and password, returns JWT token and user data
 export async function authenticateUser(username, password) {
   if (!jwtSecret) {
     throw new Error("JWT_SECRET is not configured");
@@ -36,9 +34,7 @@ export async function authenticateUser(username, password) {
   };
 }
 
-/**
- * Changes a user's password after validating the current password.
- */
+// Changes user password after verifying current password is correct
 export async function changePassword(userId, currentPassword, newPassword) {
   const user = await User.findByPk(userId);
   if (!user) {
@@ -58,4 +54,3 @@ export async function changePassword(userId, currentPassword, newPassword) {
   user.passwordHash = newPasswordHash;
   await user.save();
 }
-

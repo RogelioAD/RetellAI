@@ -4,9 +4,7 @@ import { usePasswordChange } from "../hooks/usePasswordChange";
 import SectionHeader from "../components/common/SectionHeader";
 import { spacing } from "../constants/horizonTheme";
 
-/**
- * Settings page component that renders password change functionality.
- */
+// Settings page component that renders password change functionality
 export default function Settings({ token }) {
   const passwordChange = usePasswordChange(token);
 

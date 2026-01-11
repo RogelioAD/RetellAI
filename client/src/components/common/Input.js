@@ -1,10 +1,7 @@
 import React from "react";
-import { useResponsive } from "../../hooks/useResponsive";
-import { inputStyles, colors, typography, spacing, borderRadius } from "../../constants/horizonTheme";
+import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Reusable input component with label, error state, and focus styles.
- */
+// Reusable input component with label, error state, and Horizon UI styling
 export default function Input({
   label,
   type = "text",
@@ -16,24 +13,8 @@ export default function Input({
   error = null,
   ...props
 }) {
-  const { isMobile } = useResponsive();
-  const [isFocused, setIsFocused] = React.useState(false);
-
-  const inputStyle = {
-    ...inputStyles.base,
-    ...(isFocused && inputStyles.focus),
-    ...(error && {
-      borderColor: colors.error,
-      boxShadow: `0 0 0 2px rgba(227, 26, 26, 0.1)`,
-    }),
-    outline: 'none',
-    outlineWidth: 0,
-    borderWidth: '1px',
-    ...props.style,
-  };
-
   return (
-    <div style={{ marginBottom: isMobile ? spacing.lg : spacing.md }}>
+    <div style={{ marginBottom: spacing.lg, width: "100%" }}>
       {label && (
         <label
           style={{
@@ -44,37 +25,41 @@ export default function Input({
             color: colors.text.primary,
           }}
         >
-          {label} {required && <span style={{ color: colors.error }}>*</span>}
+          {label}
+          {required && (
+            <span style={{ color: colors.error[500], marginLeft: spacing.xs }}>
+              *
+            </span>
+          )}
         </label>
       )}
       <input
         type={type}
         value={value}
         onChange={onChange}
+        placeholder={placeholder}
         required={required}
         disabled={disabled}
-        placeholder={placeholder}
-        style={inputStyle}
-        onFocus={(e) => {
-          setIsFocused(true);
-          if (props.onFocus) props.onFocus(e);
-        }}
-        onBlur={(e) => {
-          setIsFocused(false);
-          if (props.onBlur) props.onBlur(e);
+        style={{
+          width: "100%",
+          padding: spacing.md,
+          border: `1px solid ${error ? colors.error[500] : colors.gray[300]}`,
+          borderRadius: borderRadius.md,
+          fontSize: typography.fontSize.base,
+          fontWeight: typography.fontWeight.medium,
+          color: colors.text.primary,
+          backgroundColor: disabled ? colors.gray[100] : colors.white,
+          opacity: disabled ? 0.6 : 1,
         }}
         {...props}
       />
       {error && (
         <div
           style={{
-            color: colors.error,
-            fontSize: typography.fontSize.xs,
             marginTop: spacing.xs,
-            padding: spacing.sm,
-            backgroundColor: "rgba(227, 26, 26, 0.08)",
-            border: `1px solid rgba(227, 26, 26, 0.2)`,
-            borderRadius: borderRadius.md,
+            fontSize: typography.fontSize.sm,
+            color: colors.error[500],
+            fontWeight: typography.fontWeight.medium,
           }}
         >
           {error}

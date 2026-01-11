@@ -1,22 +1,19 @@
 import React from "react";
 import { buttonStyles, colors } from "../../constants/horizonTheme";
 
-/**
- * Reusable button component with primary, secondary, and outline variants.
- */
+// Reusable button component with primary, secondary, and outline variants
 const Button = React.forwardRef(function Button({
   children,
   onClick,
   type = "button",
   disabled = false,
   fullWidth = false,
-  variant = "primary", // primary, secondary, outline
+  variant = "primary",
   style: customStyle = {},
   ...props
 }, ref) {
   const [isHovered, setIsHovered] = React.useState(false);
 
-  // Get variant-specific styles
   const variantStyles = {
     primary: {
       ...buttonStyles.base,
@@ -40,7 +37,6 @@ const Button = React.forwardRef(function Button({
     ...customStyle,
   };
 
-  // Hover styles
   const hoverStyle = {
     primary: {
       backgroundColor: colors.brand[600],

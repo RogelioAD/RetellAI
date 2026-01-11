@@ -1,10 +1,4 @@
-/**
- * Date formatting utilities
- */
-
-/**
- * Formats date to full locale string with weekday, date, and time.
- */
+// Formats date to full locale string with weekday, date, and time
 export function formatFullDate(date) {
   return new Date(date).toLocaleString('en-US', {
     weekday: 'long',
@@ -16,23 +10,17 @@ export function formatFullDate(date) {
   });
 }
 
-/**
- * Formats date to short locale date string.
- */
+// Formats date to short locale date string
 export function formatShortDate(date) {
   return new Date(date).toLocaleDateString();
 }
 
-/**
- * Formats date to locale time string.
- */
+// Formats date to locale time string
 export function formatTime(date) {
   return new Date(date).toLocaleTimeString();
 }
 
-/**
- * Formats date range label for display in stats based on selected range type.
- */
+// Formats date range label for display in stats based on selected range type
 export function formatDateRangeLabel(selectedRange, customDate) {
   const rangeLabels = {
     all: "All Time",
@@ -43,14 +31,13 @@ export function formatDateRangeLabel(selectedRange, customDate) {
     year: "Year to Date",
     last3months: "Last 3 Months",
     last4months: "Last 4 Months",
-    custom: null, // Will format from customDate
-    daterange: null, // Will format from customDate
+    custom: null,
+    daterange: null,
   };
 
   if (selectedRange === "custom" && customDate) {
-    // Parse date string (YYYY-MM-DD) to avoid timezone issues
     const [year, month, day] = customDate.split('-').map(Number);
-    const date = new Date(year, month - 1, day); // month is 0-indexed
+    const date = new Date(year, month - 1, day);
     return date.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -61,7 +48,6 @@ export function formatDateRangeLabel(selectedRange, customDate) {
   if (selectedRange === "daterange" && customDate) {
     const { startDate, endDate } = customDate;
     if (startDate && endDate) {
-      // Parse date strings to avoid timezone issues
       const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
       const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
       const start = new Date(startYear, startMonth - 1, startDay);

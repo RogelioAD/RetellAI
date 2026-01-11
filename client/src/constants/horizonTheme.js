@@ -1,10 +1,4 @@
-/**
- * Horizon UI Design System Tokens
- * Clean, modern admin dashboard aesthetic with card-based layouts
- */
-
 export const colors = {
-  // Brand colors
   brand: {
     50: '#E9E3FF',
     100: '#C0B8FE',
@@ -17,7 +11,6 @@ export const colors = {
     800: '#190793',
     900: '#11047A',
   },
-  // Navy/Dark colors
   navy: {
     50: '#d0dcfb',
     100: '#aac0fe',
@@ -30,7 +23,6 @@ export const colors = {
     800: '#111c44',
     900: '#0b1437',
   },
-  // Gray scale
   gray: {
     50: '#f4f7fe',
     100: '#E0E5F2',
@@ -43,26 +35,23 @@ export const colors = {
     800: '#111C44',
     900: '#0B1437',
   },
-  // Semantic colors
   success: '#01B574',
   warning: '#FFB547',
   error: '#E31A1A',
   info: '#4318FF',
-  // Background
   background: {
     main: '#F4F7FE',
     card: '#FFFFFF',
     secondary: '#FAFCFE',
   },
-  // Text
   text: {
-    primary: '#0F172A',      // Primary text
-    secondary: '#475569',    // Secondary text
-    muted: '#64748B',       // Muted text
-    accent: '#1E3A8A',      // Links / Accent
-    disabled: '#94A3B8',   // Disabled text
-    white: '#FFFFFF',       // White text (kept for glass backgrounds where needed)
-    tertiary: '#64748B',    // Alias for muted for backward compatibility
+    primary: '#0F172A',
+    secondary: '#475569',
+    muted: '#64748B',
+    accent: '#1E3A8A',
+    disabled: '#94A3B8',
+    white: '#FFFFFF',
+    tertiary: '#64748B',
   },
 };
 
@@ -76,10 +65,10 @@ export const shadows = {
 };
 
 export const borderRadius = {
-  sm: '12px',      // Small elements - rounded bubble look
-  md: '16px',      // Medium elements - more rounded
-  lg: '24px',      // Large elements - very rounded
-  xl: '32px',      // Extra large (cards) - very bubbly and rounded
+  sm: '12px',
+  md: '16px',
+  lg: '24px',
+  xl: '32px',
   full: '9999px',
 };
 
@@ -118,7 +107,6 @@ export const typography = {
   },
 };
 
-// Card component styles
 export const cardStyles = {
   base: {
     backgroundColor: colors.background.card,
@@ -133,7 +121,6 @@ export const cardStyles = {
   },
 };
 
-// Button component styles
 export const buttonStyles = {
   base: {
     padding: `${spacing.md} ${spacing.xl}`,
@@ -162,7 +149,6 @@ export const buttonStyles = {
   },
 };
 
-// Input component styles
 export const inputStyles = {
   base: {
     width: '100%',
@@ -171,7 +157,7 @@ export const inputStyles = {
     fontSize: typography.fontSize.sm,
     border: `1px solid ${colors.gray[200]}`,
     backgroundColor: colors.background.card,
-    color: '#1B2559',  // Keep dark text inside inputs for readability
+    color: '#1B2559',
     fontWeight: typography.fontWeight.semibold,
     transition: 'all 0.2s ease',
     outline: 'none',
@@ -188,7 +174,6 @@ export const inputStyles = {
   },
 };
 
-// Stat card styles (for QuickStats)
 export const statCardStyles = {
   base: {
     backgroundColor: colors.background.card,
@@ -219,7 +204,6 @@ export const statCardStyles = {
   },
 };
 
-// Table styles
 export const tableStyles = {
   header: {
     fontSize: typography.fontSize.xs,
@@ -238,7 +222,6 @@ export const tableStyles = {
   },
 };
 
-// Sidebar navigation styles
 export const sidebarStyles = {
   base: {
     backgroundColor: colors.background.card,
@@ -265,7 +248,6 @@ export const sidebarStyles = {
   },
 };
 
-// Glass effect styles (glassmorphism) - standardized across the app
 export const glassStyles = {
   base: {
     backgroundColor: 'rgba(255, 255, 255, 0.25)',
@@ -318,4 +300,3 @@ const horizonTheme = {
 };
 
 export default horizonTheme;
-

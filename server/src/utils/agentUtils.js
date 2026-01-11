@@ -1,12 +1,10 @@
-/**
- * Extracts agent name from Retell call data using multiple possible field names.
- */
+// Extracts agent name from call data, trying multiple possible field names
+// Handles various API response formats where agent info may be in different locations
 export function extractAgentName(callData) {
   if (!callData) {
     return null;
   }
 
-  // Try multiple possible field names and structures
   return (
     callData.agent_name ||
     callData.agent?.name ||
@@ -17,4 +15,3 @@ export function extractAgentName(callData) {
     null
   );
 }
-

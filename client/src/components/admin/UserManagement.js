@@ -7,9 +7,7 @@ import UserTable from "./UserTable";
 import SectionHeader from "../common/SectionHeader";
 import { colors, spacing, typography, borderRadius, glassStyles } from "../../constants/horizonTheme";
 
-/**
- * User management component with tabbed interface for creating and viewing users.
- */
+// User management component with tabbed interface for creating and viewing users
 export default function UserManagement({ token, users, loading, error, onUserCreated, currentUserId }) {
   const { isMobile } = useResponsive();
   const [activeTab, setActiveTab] = useState("create");
@@ -18,11 +16,13 @@ export default function UserManagement({ token, users, loading, error, onUserCre
   const [userError, setUserError] = useState(null);
   const [createdUserCredentials, setCreatedUserCredentials] = useState(null);
 
+  // Updates form field value and clears errors
   const handleChange = (field, value) => {
     setNewUser(prev => ({ ...prev, [field]: value }));
     setUserError(null);
   };
 
+  // Handles user creation form submission with validation and API call
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUserError(null);
@@ -65,7 +65,6 @@ export default function UserManagement({ token, users, loading, error, onUserCre
         level={1}
       />
       
-      {/* Tab Navigation */}
       <div style={{
         display: "flex",
         gap: spacing.md,
@@ -151,7 +150,6 @@ export default function UserManagement({ token, users, loading, error, onUserCre
         </button>
       </div>
 
-      {/* Tab Content */}
       {activeTab === "create" && (
         <CreateUserForm
           newUser={newUser}

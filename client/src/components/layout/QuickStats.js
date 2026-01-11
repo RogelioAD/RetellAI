@@ -6,10 +6,7 @@ import Icon from "../common/Icon";
 import Card from "../common/Card";
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
-/**
- * Quick stats component with Horizon UI stat card design
- * Clean, modern stat cards with icons and clear hierarchy
- */
+// Quick stats component displaying call statistics in card format (total calls, today, this week)
 export default function QuickStats({ 
   calls, 
   filteredCalls, 
@@ -20,9 +17,6 @@ export default function QuickStats({
 }) {
   const { isMobile } = useResponsive();
 
-  // Calculate stats - always use filteredCalls if available, otherwise use calls
-  // This ensures consistency between "all time" and filtered ranges
-  // NOTE: Uses full array length - calls array contains ALL paginated calls from backend (not capped at 100)
   const totalCalls = filteredCalls ? filteredCalls.length : calls.length;
   
   const today = new Date();

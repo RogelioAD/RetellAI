@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchAllUsers } from "../services/api";
 
-/**
- * Manages user data fetching and state for admin users.
- */
+// Manages user data fetching and state for admin users (only fetches when enabled)
 export function useUsers(token, isAdmin, enabled = false) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -29,9 +27,7 @@ export function useUsers(token, isAdmin, enabled = false) {
       });
   }, [token, isAdmin, enabled]);
 
-  /**
-   * Refreshes the users list by fetching from the API.
-   */
+  // Refreshes the users list by fetching from the API
   const refreshUsers = async () => {
     if (!isAdmin) return;
     
@@ -49,4 +45,3 @@ export function useUsers(token, isAdmin, enabled = false) {
 
   return { users, loading, error, refreshUsers };
 }
-

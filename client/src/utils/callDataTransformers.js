@@ -1,10 +1,4 @@
-/**
- * Utility functions for transforming call data
- */
-
-/**
- * Extracts agent name from call object using multiple possible field names.
- */
+// Extracts agent name from call object using multiple possible field names, with fallback to "Unknown Agent"
 export function extractAgentName(call, mapping = {}) {
   return (
     call?.agent_name ||
@@ -17,9 +11,7 @@ export function extractAgentName(call, mapping = {}) {
   );
 }
 
-/**
- * Extracts call ID from call object or mapping with fallback to index-based ID.
- */
+// Extracts call ID from call object or mapping with fallback to index-based ID
 export function extractCallId(call, mapping = {}, index = null) {
   return (
     mapping?.retellCallId ||
@@ -30,30 +22,21 @@ export function extractCallId(call, mapping = {}, index = null) {
   );
 }
 
-/**
- * Extracts creation timestamp from call object with multiple fallback options.
- * IMPORTANT: Prefers call object's date fields over mapping.createdAt, because
- * mapping.createdAt is the database record creation date, not necessarily the call date.
- */
+// Extracts creation timestamp from call object, preferring call's date fields over mapping.createdAt (which is DB record date)
 export function extractCreatedAt(call, mapping = {}) {
-  // Prefer call object's date fields first (actual call date)
-  // Only use mapping.createdAt if call object doesn't have a date
   return (
     call?.created_at ||
     call?.createdAt ||
     call?.start_timestamp ||
-    mapping?.createdAt || // Fallback to mapping (database record date) only if call has no date
+    mapping?.createdAt ||
     new Date().toISOString()
   );
 }
 
-/**
- * Extracts phone number from call object checking multiple possible field names.
- */
+// Extracts phone number from call object checking multiple possible field names
 export function extractPhoneNumber(call) {
   if (!call) return null;
   
-  // Try various possible field names
   const phoneNumber = 
     call.from_number ||
     call.fromNumber ||
@@ -85,13 +68,10 @@ export function extractPhoneNumber(call) {
   return phoneNumber;
 }
 
-/**
- * Extracts call duration in seconds, calculating from timestamps if needed.
- */
+// Extracts call duration in seconds, calculating from timestamps if duration not found directly
 export function extractCallDuration(call) {
   if (!call) return null;
   
-  // Try to get duration directly
   let duration = 
     call.duration ||
     call.call_duration ||
@@ -104,7 +84,6 @@ export function extractCallDuration(call) {
     call.metadata?.call_duration ||
     null;
   
-  // If duration not found directly, try calculating from timestamps
   if (duration === null || duration === undefined) {
     const startTime = 
       call.start_timestamp ||
@@ -128,7 +107,7 @@ export function extractCallDuration(call) {
       const start = new Date(startTime).getTime();
       const end = new Date(endTime).getTime();
       if (!isNaN(start) && !isNaN(end) && end > start) {
-        duration = Math.floor((end - start) / 1000); // Convert milliseconds to seconds
+        duration = Math.floor((end - start) / 1000);
       }
     }
   }
@@ -137,7 +116,6 @@ export function extractCallDuration(call) {
     return null;
   }
   
-  // If duration is in milliseconds (typically > 10000 for calls), convert to seconds
   if (duration > 10000) {
     return Math.floor(duration / 1000);
   }
@@ -145,9 +123,7 @@ export function extractCallDuration(call) {
   return Math.floor(duration);
 }
 
-/**
- * Formats duration in seconds to human-readable format (MM:SS or HH:MM:SS).
- */
+// Formats duration in seconds to human-readable format (MM:SS or HH:MM:SS)
 export function formatDuration(seconds) {
   if (!seconds || seconds < 0) return "0:00";
   
@@ -161,9 +137,7 @@ export function formatDuration(seconds) {
   return `${minutes}:${String(secs).padStart(2, '0')}`;
 }
 
-/**
- * Extracts recording URL from call object checking multiple possible field names.
- */
+// Extracts recording URL from call object checking multiple possible field names
 export function extractRecordingUrl(call) {
   return (
     call?.recording_url ||
@@ -177,9 +151,7 @@ export function extractRecordingUrl(call) {
   );
 }
 
-/**
- * Extracts transcript and utterances data from call object.
- */
+// Extracts transcript and utterances data from call object
 export function extractTranscriptData(call) {
   return {
     transcript: call?.transcript || call?.transcripts || call?.conversation || null,
@@ -187,9 +159,7 @@ export function extractTranscriptData(call) {
   };
 }
 
-/**
- * Transforms admin call data to unified format preserving metadata.
- */
+// Transforms admin call data to unified format preserving metadata from response
 export function transformAdminCallData(data, metadata = {}) {
   let callsArray = [];
   
@@ -197,12 +167,10 @@ export function transformAdminCallData(data, metadata = {}) {
     callsArray = data;
   } else if (data.calls && Array.isArray(data.calls)) {
     callsArray = data.calls;
-    // Preserve metadata from data object
     if (data.total_count !== undefined) metadata.total_count = data.total_count;
     if (data.fetched_count !== undefined) metadata.fetched_count = data.fetched_count;
   } else if (data.data && Array.isArray(data.data)) {
     callsArray = data.data;
-    // Preserve metadata from data object
     if (data.total_count !== undefined) metadata.total_count = data.total_count;
     if (data.fetched_count !== undefined) metadata.fetched_count = data.fetched_count;
   } else {
@@ -219,7 +187,6 @@ export function transformAdminCallData(data, metadata = {}) {
     call
   }));
   
-  // Attach metadata to the array if present
   if (metadata.total_count !== undefined || metadata.fetched_count !== undefined) {
     transformed._metadata = metadata;
   }
@@ -227,9 +194,7 @@ export function transformAdminCallData(data, metadata = {}) {
   return transformed;
 }
 
-/**
- * Groups calls by agent name and sorts by last updated timestamp.
- */
+// Groups calls by agent name and sorts groups by last updated timestamp
 export function groupCallsByAgent(items) {
   const groups = {};
   

@@ -1,4 +1,3 @@
-// Retell API client using axios
 import axios from "axios";
 import { retell } from "../config.js";
 
@@ -18,9 +17,7 @@ const client = axios.create({
   },
 });
 
-/**
- * Fetches a specific call by ID from Retell API.
- */
+// Fetches a single call by ID from Retell API
 async function getCall(callId) {
   if (!callId) {
     throw new Error("Call ID is required");
@@ -30,7 +27,6 @@ async function getCall(callId) {
     const res = await client.get(`/calls/${callId}`);
     return res.data;
   } catch (err) {
-    // Only log errors in development
     if (process.env.NODE_ENV !== 'production') {
       console.error(`Error fetching call ${callId}:`, err.response?.data || err.message);
     }
@@ -38,9 +34,7 @@ async function getCall(callId) {
   }
 }
 
-/**
- * Lists calls using GET endpoint with optional query parameters.
- */
+// Lists calls from Retell API using GET request with query parameters
 async function listCalls(query = {}) {
   try {
     const res = await client.get("/calls", { params: query });
@@ -53,9 +47,7 @@ async function listCalls(query = {}) {
   }
 }
 
-/**
- * Lists calls using POST endpoint with filter parameters.
- */
+// Lists calls from Retell API using POST request (preferred method with filters)
 async function listCallsPost(filters = {}) {
   if (!retell.apiKey) {
     throw new Error("RETELL_API_KEY is not configured");
@@ -68,7 +60,6 @@ async function listCallsPost(filters = {}) {
     const res = await client.post("/v2/list-calls", filters);
     return res.data;
   } catch (err) {
-    // Only log detailed errors in development
     if (process.env.NODE_ENV !== 'production') {
       console.error("Error listing calls (POST):", {
         message: err.message,
@@ -81,16 +72,14 @@ async function listCallsPost(filters = {}) {
   }
 }
 
-/**
- * Fetches all calls with automatic pagination support handling multiple response formats.
- */
+// Fetches all calls from Retell API using pagination (handles multiple response formats)
 async function listAllCallsPost(filters = {}) {
   const allCalls = [];
   let hasMore = true;
   let cursor = null;
   let page = 0;
   let totalCount = null;
-  const maxPages = 100; // Safety limit to prevent infinite loops
+  const maxPages = 100;
   const limit = filters.limit || 100;
   
   while (hasMore && page < maxPages) {
@@ -100,7 +89,6 @@ async function listAllCallsPost(filters = {}) {
         limit: limit,
       };
       
-      // Add pagination cursor if available
       if (cursor) {
         requestBody.cursor = cursor;
         if (!requestBody.cursor) {
@@ -110,14 +98,12 @@ async function listAllCallsPost(filters = {}) {
           requestBody.offset = cursor;
         }
       } else if (page > 0) {
-        // If no cursor but we're past page 1, try offset-based pagination
         requestBody.offset = page * limit;
       }
       
       const res = await client.post("/v2/list-calls", requestBody);
       const data = res.data;
       
-      // Extract calls array and metadata from response
       let callsArray = [];
       let pageTotalCount = null;
       
@@ -163,7 +149,6 @@ async function listAllCallsPost(filters = {}) {
           hasMore = callsArray.length === limit;
         }
       } else {
-        // If response structure is unexpected, try to extract any array
         const keys = Object.keys(data);
         for (const key of keys) {
           if (Array.isArray(data[key]) && data[key].length > 0) {
@@ -176,7 +161,6 @@ async function listAllCallsPost(filters = {}) {
       
       allCalls.push(...callsArray);
       
-      // If we got fewer results than the limit, we've reached the end
       if (callsArray.length < limit) {
         hasMore = false;
       } else if (callsArray.length === 0 && page > 0) {
@@ -185,21 +169,17 @@ async function listAllCallsPost(filters = {}) {
       
       page++;
     } catch (err) {
-      // If it's the first page, throw the error
       if (page === 0) {
         throw err;
       }
-      // Otherwise, return what we have so far
       hasMore = false;
     }
   }
   
-  // Check if we might have missed some calls
   if (totalCount !== null && allCalls.length < totalCount && process.env.NODE_ENV !== 'production') {
     console.warn(`⚠️  Warning: Fetched ${allCalls.length} calls but API indicates ${totalCount} total. Some calls may be missing.`);
   }
   
-  // Always return an object with metadata to ensure we can track total counts
   return {
     calls: allCalls,
     total_count: totalCount !== null ? totalCount : allCalls.length,
@@ -208,9 +188,7 @@ async function listAllCallsPost(filters = {}) {
   };
 }
 
-/**
- * Lists all active agents from Retell API trying multiple endpoint patterns.
- */
+// Fetches list of agents from Retell API, tries multiple endpoint paths
 async function listAgents() {
   if (!retell.apiKey) {
     throw new Error("RETELL_API_KEY is not configured");
@@ -219,7 +197,6 @@ async function listAgents() {
     throw new Error("RETELL_BASE_URL is not configured");
   }
   
-  // Try common endpoint patterns
   const endpointsToTry = [
     "/v2/list-agents",
     "/list-agents",
@@ -245,12 +222,10 @@ async function listAgents() {
         return agents;
       }
     } catch (err) {
-      // Continue to next endpoint
       continue;
     }
   }
   
-  // If all endpoints failed, return empty array (filtering will be skipped)
   if (process.env.NODE_ENV !== 'production') {
     console.warn("⚠️  Could not fetch agents list from Retell API. Tried endpoints:", endpointsToTry.join(", "));
   }

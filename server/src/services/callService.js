@@ -4,9 +4,7 @@ import { extractAgentName } from "../utils/agentUtils.js";
 
 const { getCall, listCallsPost, listAgents } = retellClient;
 
-/**
- * Extracts calls array from Retell API response handling multiple response shapes.
- */
+// Extracts calls array from Retell API response, handling multiple response formats
 function extractCallsFromResponse(response) {
   if (Array.isArray(response)) return response;
   if (response?.calls && Array.isArray(response.calls)) return response.calls;
@@ -14,19 +12,12 @@ function extractCallsFromResponse(response) {
   return [];
 }
 
-/**
- * Extracts the next cursor from Retell API response.
- * IMPORTANT: Retell only supports `next_cursor`.
- */
+// Extracts pagination cursor from API response
 function extractNextCursor(response) {
   return response?.next_cursor ?? null;
 }
 
-/**
- * Fetches ALL calls from Retell using cursor-based pagination.
- * IMPORTANT: Retell API returns max 100 calls per request. This function loops until next_cursor is null
- * to fetch the complete dataset. Always use this for analytics, displays, or when the full dataset is required.
- */
+// Fetches all calls from Retell API using pagination (calls API until no more pages)
 async function fetchAllRetellCalls(filters = {}) {
   let allCalls = [];
   let cursor = null;
@@ -34,7 +25,7 @@ async function fetchAllRetellCalls(filters = {}) {
   do {
     const requestBody = {
       ...filters,
-      limit: 100, // Retell API maximum per request
+      limit: 100,
       ...(cursor ? { cursor } : {}),
     };
 
@@ -48,26 +39,29 @@ async function fetchAllRetellCalls(filters = {}) {
   return allCalls;
 }
 
-/**
- * Extracts creation timestamp from call object with multiple fallback options.
- * Prefers call object's date fields over mapping.createdAt, because
- * mapping.createdAt is the database record creation date, not necessarily the call date.
- */
+// Extracts call date from call object or database mapping, with fallback to current time
 function extractCallDate(call, mapping = {}) {
-  // Prefer call object's date fields first (actual call date)
-  // Only use mapping.createdAt if call object doesn't have a date
   return (
     call?.created_at ||
     call?.createdAt ||
     call?.start_timestamp ||
-    mapping?.createdAt || // Fallback to mapping (database record date) only if call has no date
+    mapping?.createdAt ||
     new Date().toISOString()
   );
 }
 
-/**
- * Retrieves all calls for a specific user.
- */
+// Sorts call results by date (newest first)
+function sortCallsByDate(results) {
+  return results.sort((a, b) => {
+    const aDate = extractCallDate(a.call, a.mapping);
+    const bDate = extractCallDate(b.call, b.mapping);
+    const aTime = new Date(aDate).getTime();
+    const bTime = new Date(bDate).getTime();
+    return bTime - aTime;
+  });
+}
+
+// Gets all calls for a specific user, auto-linking calls by agent name before fetching
 export async function getUserCalls(userId) {
   const user = await User.findByPk(userId);
   if (!user) throw new Error("User not found");
@@ -76,31 +70,20 @@ export async function getUserCalls(userId) {
 
   const callRecords = await CallRecord.findAll({
     where: { userId },
-    order: [["createdAt", "DESC"]], // Initial sort by DB record date for efficiency
+    order: [["createdAt", "DESC"]],
   });
 
   const results = await fetchCallDetails(callRecords);
-
-  // Sort by actual call date (not database record creation date) - newest first
-  return results.sort((a, b) => {
-    const aDate = extractCallDate(a.call, a.mapping);
-    const bDate = extractCallDate(b.call, b.mapping);
-    const aTime = new Date(aDate).getTime();
-    const bTime = new Date(bDate).getTime();
-    return bTime - aTime; // Descending order (newest first)
-  });
+  return sortCallsByDate(results);
 }
 
-/**
- * Automatically links unlinked calls to a user by agent name.
- */
+// Automatically links unlinked calls to a user by matching agent name with username
 async function autoLinkCallsByAgent(username) {
   const user = await User.findOne({ where: { username } });
   if (!user) return 0;
 
   let linkedCount = 0;
 
-  // Link recent unlinked CallRecords first
   const unlinkedRecords = await CallRecord.findAll({
     where: { userId: null },
     limit: 100,
@@ -122,7 +105,6 @@ async function autoLinkCallsByAgent(username) {
     }
   }
 
-  // Fetch ALL Retell calls once (paginated)
   const retellCalls = await fetchAllRetellCalls();
 
   for (const call of retellCalls) {
@@ -152,9 +134,7 @@ async function autoLinkCallsByAgent(username) {
   return linkedCount;
 }
 
-/**
- * Fetches Retell call details for mapped CallRecords.
- */
+// Fetches full call details from Retell API for database call records
 async function fetchCallDetails(callRecords) {
   if (!callRecords.length) return [];
 
@@ -197,64 +177,32 @@ async function fetchCallDetails(callRecords) {
   return results;
 }
 
-/**
- * Retrieves all calls from the database (for admin view).
- * This ensures consistency with regular users who also see database-linked calls.
- * Only returns calls that are linked to users (userId is not null), matching
- * what regular users see when they query their own calls.
- */
+// Gets all calls from database after auto-linking for all users (admin function)
 export async function getAllCallsFromDatabase() {
-  // First, refresh all user links to ensure database is up to date
   const users = await User.findAll();
   for (const user of users) {
     await autoLinkCallsByAgent(user.username);
   }
 
-  // Get all CallRecords from database that are linked to users
-  // This matches what regular users see - only calls linked to a userId
   const callRecords = await CallRecord.findAll({
-    where: { userId: { [Sequelize.Op.ne]: null } }, // Only linked calls
+    where: { userId: { [Sequelize.Op.ne]: null } },
     order: [["createdAt", "DESC"]],
   });
 
   const results = await fetchCallDetails(callRecords);
-
-  // Sort by actual call date (not database record creation date) - newest first
-  return results.sort((a, b) => {
-    const aDate = extractCallDate(a.call, a.mapping);
-    const bDate = extractCallDate(b.call, b.mapping);
-    const aTime = new Date(aDate).getTime();
-    const bTime = new Date(bDate).getTime();
-    return bTime - aTime; // Descending order (newest first)
-  });
+  return sortCallsByDate(results);
 }
 
-/**
- * Lists calls with optional filtering and pagination support.
- * NOTE: When fetchAll=false, only the first 100 calls are returned (Retell API limit).
- * For analytics or display purposes requiring the complete dataset, always use fetchAll=true.
- * IMPORTANT: When fetchAll=true, this function now uses the database as source of truth
- * to ensure consistency with regular user views. This fixes the discrepancy where regular
- * users see database-linked calls while admins only see calls from Retell API.
- */
+// Lists calls either from database (fetchAll=true) or directly from Retell API with filters
 export async function listCalls(filters = {}, fetchAll = false) {
-  // For admin views with fetchAll=true, use database as source of truth
-  // This ensures consistency with regular users who see database-linked calls
-  // We return raw call objects which transformAdminCallData will convert to {mapping, call} format
   if (fetchAll) {
     const results = await getAllCallsFromDatabase();
-    // Extract raw call objects from the database results
-    // Don't override call dates with database record creation dates - use actual call dates
-    // transformAdminCallData expects raw call objects and will create {mapping, call} format
+    
     const calls = results.map(result => {
       if (result.call) {
-        // Return call object as-is, preserving its original date fields
-        // extractCreatedAt will prefer call dates over mapping dates
         return result.call;
       }
-      // Call was deleted from Retell but still exists in database
-      // Use mapping metadata to create a synthetic call object
-      // For deleted calls, use mapping createdAt as best approximation
+      
       const dbCreatedAt = result.mapping?.createdAt;
       return {
         call_id: result.mapping?.retellCallId,
@@ -264,7 +212,7 @@ export async function listCalls(filters = {}, fetchAll = false) {
         createdAt: dbCreatedAt,
         start_timestamp: dbCreatedAt,
         metadata: result.mapping?.metadata || {},
-        _isDeleted: true, // Flag to indicate this call was deleted from Retell
+        _isDeleted: true,
       };
     });
     
@@ -274,7 +222,6 @@ export async function listCalls(filters = {}, fetchAll = false) {
     };
   }
 
-  // For single-page fetches (fetchAll=false), still use Retell API
   const apiFilters = { ...filters };
   delete apiFilters.fetchAll;
 
@@ -289,9 +236,7 @@ export async function listCalls(filters = {}, fetchAll = false) {
   };
 }
 
-/**
- * Retrieves active agents from Retell.
- */
+// Gets list of active agents from Retell API (returns empty array on error)
 async function getActiveAgents() {
   try {
     return await listAgents();
@@ -300,10 +245,7 @@ async function getActiveAgents() {
   }
 }
 
-/**
- * Filters calls to only include calls from active agents.
- * NOTE: This function is intentionally permissive to avoid hiding valid calls.
- */
+// Filters calls to only include those from active agents (or calls with no agent info)
 function filterCallsByActiveAgents(calls, activeAgents) {
   if (!activeAgents?.length) return calls;
 
@@ -323,14 +265,11 @@ function filterCallsByActiveAgents(calls, activeAgents) {
     if (name && names.has(String(name))) return true;
     if (!id && !name) return true;
 
-    // Permissive fallback — do NOT hide calls
     return true;
   });
 }
 
-/**
- * Links existing calls to users by matching agent_name to username.
- */
+// Links calls to all users by agent name matching (admin function)
 export async function linkCallsByAgent() {
   const users = await User.findAll();
   let totalLinked = 0;
@@ -343,9 +282,7 @@ export async function linkCallsByAgent() {
   return { linked: totalLinked };
 }
 
-/**
- * Refreshes agent names and relinks calls.
- */
+// Refreshes call-to-user associations by re-matching agent names (admin function)
 export async function refreshAgentNames() {
   const calls = await fetchAllRetellCalls();
   const records = await CallRecord.findAll();
@@ -372,9 +309,7 @@ export async function refreshAgentNames() {
   return { updated };
 }
 
-/**
- * Handles Retell webhook events.
- */
+// Handles incoming webhook event from Retell AI, creates/updates call record and links to user
 export async function handleWebhookEvent(event) {
   const retellCallId = String(event.id).trim();
   const metadata = event.metadata || {};
