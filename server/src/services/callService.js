@@ -318,6 +318,7 @@ export async function linkCallsByAgent() {
 }
 
 // Refreshes call-to-user associations by re-matching agent names (admin function)
+// Also creates missing call records from Retell API to sync with local database
 export async function refreshAgentNames() {
   const calls = await fetchAllRetellCalls();
   const records = await CallRecord.findAll();
@@ -327,21 +328,37 @@ export async function refreshAgentNames() {
   const userMap = new Map(users.map(u => [u.username, u]));
 
   let updated = 0;
+  let created = 0;
 
   for (const call of calls) {
-    const callId = call.call_id || call.id;
+    const callId = call.call_id || call.id || call.callId;
+    if (!callId) continue;
+    
     const agentName = extractAgentName(call);
-    const record = recordMap.get(callId);
+    let record = recordMap.get(callId);
+    
+    // Create record if it doesn't exist
+    if (!record) {
+      const userId = userMap.get(agentName)?.id || null;
+      record = await CallRecord.create({
+        retellCallId: callId,
+        userId: userId,
+        metadata: call.metadata || {},
+      });
+      created++;
+      recordMap.set(callId, record); // Add to map for subsequent iterations
+    }
+    
+    // Link to user if unlinked and agent name matches a user
     const user = userMap.get(agentName);
-
-    if (record && user && record.userId !== user.id) {
+    if (user && record.userId !== user.id) {
       record.userId = user.id;
       await record.save();
       updated++;
     }
   }
 
-  return { updated };
+  return { updated, created };
 }
 
 // Handles incoming webhook event from Retell AI, creates/updates call record and links to user
