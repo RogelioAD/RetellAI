@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useResponsive } from "../../hooks/useResponsive";
-import { extractCreatedAt } from "../../utils/callDataTransformers";
+import { extractCreatedAt, extractAgentName } from "../../utils/callDataTransformers";
 import { formatDateRangeLabel } from "../../utils/dateFormatters";
 import Icon from "../common/Icon";
 import Card from "../common/Card";
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
+
+// Helper function to filter out calls with "Unknown Agent"
+function filterOutUnknownAgentCalls(calls) {
+  if (!calls || !Array.isArray(calls)) return [];
+  return calls.filter((item) => {
+    const mapping = item.mapping || {};
+    const call = item.call || item;
+    const agentName = extractAgentName(call, mapping);
+    return agentName !== "Unknown Agent";
+  });
+}
 
 // Quick stats component displaying call statistics in card format (total calls, today, this week)
 export default function QuickStats({ 
@@ -17,11 +28,18 @@ export default function QuickStats({
 }) {
   const { isMobile } = useResponsive();
 
-  const totalCalls = filteredCalls ? filteredCalls.length : calls.length;
+  // Filter out "Unknown Agent" calls from all stats
+  const validCalls = useMemo(() => filterOutUnknownAgentCalls(calls), [calls]);
+  const validFilteredCalls = useMemo(() => 
+    filteredCalls ? filterOutUnknownAgentCalls(filteredCalls) : null, 
+    [filteredCalls]
+  );
+
+  const totalCalls = validFilteredCalls ? validFilteredCalls.length : validCalls.length;
   
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const todayCalls = calls.filter((item) => {
+  const todayCalls = validCalls.filter((item) => {
     const mapping = item.mapping || {};
     const call = item.call || item;
     const callDate = new Date(extractCreatedAt(call, mapping));
@@ -32,7 +50,7 @@ export default function QuickStats({
   const thisWeek = new Date();
   thisWeek.setDate(thisWeek.getDate() - thisWeek.getDay());
   thisWeek.setHours(0, 0, 0, 0);
-  const weekCalls = calls.filter((item) => {
+  const weekCalls = validCalls.filter((item) => {
     const mapping = item.mapping || {};
     const call = item.call || item;
     const callDate = new Date(extractCreatedAt(call, mapping));

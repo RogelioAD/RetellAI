@@ -195,6 +195,7 @@ export function transformAdminCallData(data, metadata = {}) {
 }
 
 // Groups calls by agent name and sorts groups by last updated timestamp
+// Filters out "Unknown Agent" groups as they don't represent real users
 export function groupCallsByAgent(items) {
   const groups = {};
   
@@ -202,6 +203,13 @@ export function groupCallsByAgent(items) {
     const mapping = item.mapping || {};
     const call = item.call || item;
     const agentName = extractAgentName(call, mapping);
+    
+    // Skip "Unknown Agent" - these are calls without valid agent information
+    // and don't represent real users in the system
+    if (agentName === "Unknown Agent") {
+      return;
+    }
+    
     const createdAt = extractCreatedAt(call, mapping);
     const timestamp = new Date(createdAt).getTime();
 

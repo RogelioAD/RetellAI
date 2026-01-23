@@ -61,19 +61,25 @@ function sortCallsByDate(results) {
   });
 }
 
-// Gets all calls for a specific user, auto-linking calls by agent name before fetching
-export async function getUserCalls(userId) {
+// Gets all calls for a specific user
+// Note: Auto-linking is skipped for performance - it should be run manually via the refresh endpoint
+export async function getUserCalls(userId, skipAutoLink = true) {
   const user = await User.findByPk(userId);
   if (!user) throw new Error("User not found");
 
-  await autoLinkCallsByAgent(user.username);
+  // Skip expensive auto-linking on every load - only run when explicitly requested
+  if (!skipAutoLink) {
+    await autoLinkCallsByAgent(user.username);
+  }
 
   const callRecords = await CallRecord.findAll({
     where: { userId },
     order: [["createdAt", "DESC"]],
   });
 
-  const results = await fetchCallDetails(callRecords);
+  // Fetch Retell calls once and reuse
+  const retellCalls = await fetchAllRetellCalls();
+  const results = await fetchCallDetails(callRecords, retellCalls);
   return sortCallsByDate(results);
 }
 
@@ -135,10 +141,12 @@ async function autoLinkCallsByAgent(username) {
 }
 
 // Fetches full call details from Retell API for database call records
-async function fetchCallDetails(callRecords) {
+// Accepts optional pre-fetched retellCalls array to avoid duplicate API calls
+async function fetchCallDetails(callRecords, preFetchedRetellCalls = null) {
   if (!callRecords.length) return [];
 
-  const retellCalls = await fetchAllRetellCalls();
+  // Use pre-fetched calls if provided, otherwise fetch them
+  const retellCalls = preFetchedRetellCalls || await fetchAllRetellCalls();
   const retellMap = new Map();
 
   retellCalls.forEach(call => {
@@ -147,15 +155,25 @@ async function fetchCallDetails(callRecords) {
   });
 
   const results = [];
+  const missingCallIds = [];
 
+  // First pass: match records with pre-fetched calls
   for (const record of callRecords) {
     const call = retellMap.get(record.retellCallId);
 
     if (call) {
       results.push({ mapping: record, call });
-      continue;
+    } else {
+      missingCallIds.push(record);
     }
+  }
 
+  // Second pass: only fetch missing calls individually (these are likely deleted)
+  // Limit to avoid too many API calls - batch process if needed
+  const MAX_INDIVIDUAL_FETCHES = 50;
+  const toFetch = missingCallIds.slice(0, MAX_INDIVIDUAL_FETCHES);
+  
+  for (const record of toFetch) {
     try {
       const fetched = await getCall(record.retellCallId);
       results.push({ mapping: record, call: fetched });
@@ -174,14 +192,29 @@ async function fetchCallDetails(callRecords) {
     }
   }
 
+  // For remaining missing calls, mark as potentially deleted without fetching
+  for (let i = MAX_INDIVIDUAL_FETCHES; i < missingCallIds.length; i++) {
+    const record = missingCallIds[i];
+    results.push({
+      mapping: record,
+      call: null,
+      error: "Call not found in Retell",
+      isDeleted: true,
+    });
+  }
+
   return results;
 }
 
-// Gets all calls from database after auto-linking for all users (admin function)
-export async function getAllCallsFromDatabase() {
-  const users = await User.findAll();
-  for (const user of users) {
-    await autoLinkCallsByAgent(user.username);
+// Gets all calls from database (admin function)
+// Note: Auto-linking is skipped for performance - it should be run manually via the refresh endpoint
+export async function getAllCallsFromDatabase(skipAutoLink = true) {
+  // Skip expensive auto-linking on every load - only run when explicitly requested
+  if (!skipAutoLink) {
+    const users = await User.findAll();
+    for (const user of users) {
+      await autoLinkCallsByAgent(user.username);
+    }
   }
 
   const callRecords = await CallRecord.findAll({
@@ -189,7 +222,9 @@ export async function getAllCallsFromDatabase() {
     order: [["createdAt", "DESC"]],
   });
 
-  const results = await fetchCallDetails(callRecords);
+  // Fetch all Retell calls once and reuse for all records
+  const retellCalls = await fetchAllRetellCalls();
+  const results = await fetchCallDetails(callRecords, retellCalls);
   return sortCallsByDate(results);
 }
 
