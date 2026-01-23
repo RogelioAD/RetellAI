@@ -207,7 +207,7 @@ async function fetchCallDetails(callRecords, preFetchedRetellCalls = null) {
 }
 
 // Gets all calls from database (admin function)
-// Note: Auto-linking is skipped for performance - it should be run manually via the refresh endpoint
+// Automatically syncs missing calls from Retell API to ensure database is up-to-date
 export async function getAllCallsFromDatabase(skipAutoLink = true) {
   // Skip expensive auto-linking on every load - only run when explicitly requested
   if (!skipAutoLink) {
@@ -217,13 +217,50 @@ export async function getAllCallsFromDatabase(skipAutoLink = true) {
     }
   }
 
+  // Automatically sync missing calls from Retell API
+  // This ensures calls that came in via webhook to a different server are still visible
+  const retellCalls = await fetchAllRetellCalls();
+  const existingRecords = await CallRecord.findAll();
+  const recordMap = new Map(existingRecords.map(r => [r.retellCallId, r]));
+  const users = await User.findAll();
+  const userMap = new Map(users.map(u => [u.username, u]));
+
+  // Create missing call records and link them to users
+  for (const call of retellCalls) {
+    const callId = call.call_id || call.id || call.callId;
+    if (!callId) continue;
+
+    let record = recordMap.get(callId);
+    
+    // Create record if it doesn't exist
+    if (!record) {
+      const agentName = extractAgentName(call);
+      const userId = userMap.get(agentName)?.id || null;
+      
+      record = await CallRecord.create({
+        retellCallId: callId,
+        userId: userId,
+        metadata: call.metadata || {},
+      });
+      recordMap.set(callId, record);
+    } else if (!record.userId) {
+      // Link existing unlinked record if agent name matches a user
+      const agentName = extractAgentName(call);
+      const user = userMap.get(agentName);
+      if (user) {
+        record.userId = user.id;
+        await record.save();
+      }
+    }
+  }
+
+  // Fetch only linked calls (calls from users you've created)
   const callRecords = await CallRecord.findAll({
     where: { userId: { [Sequelize.Op.ne]: null } },
     order: [["createdAt", "DESC"]],
   });
 
-  // Fetch all Retell calls once and reuse for all records
-  const retellCalls = await fetchAllRetellCalls();
+  // Reuse the already-fetched Retell calls
   const results = await fetchCallDetails(callRecords, retellCalls);
   return sortCallsByDate(results);
 }
