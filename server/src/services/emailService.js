@@ -30,10 +30,10 @@ const createTransporter = async () => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-      // Increased timeout settings for Railway/cloud environments
-      connectionTimeout: 30000, // 30 seconds
-      greetingTimeout: 30000,
-      socketTimeout: 30000,
+      // Shorter timeouts so background send fails fast
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
       // Pool connections for better reliability
       pool: true,
       maxConnections: 1,
@@ -54,10 +54,9 @@ const createTransporter = async () => {
     tls: {
       rejectUnauthorized: false, // Accept self-signed certificates if needed
     },
-    // Connection timeout settings
-    connectionTimeout: 15000, // 15 seconds
-    greetingTimeout: 15000,
-    socketTimeout: 15000,
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
     requireTLS: false,
   };
 

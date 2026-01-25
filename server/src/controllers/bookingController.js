@@ -25,17 +25,13 @@ export async function submitBooking(req, res, next) {
       });
     }
 
-    // Send email
-    await sendBookingEmail({
-      name,
-      email,
-      company,
-      website,
-      useCase,
-      phone,
-    });
+    // Send email in background so we never hang the request (avoids 502 when SMTP times out)
+    const payload = { name, email, company, website, useCase, phone };
+    sendBookingEmail(payload)
+      .then(() => console.log("Booking email sent successfully for:", email))
+      .catch((err) => console.error("Booking email failed (request already succeeded):", err.message));
 
-    console.log("Booking email sent successfully for:", email);
+    // Return immediately with success — user gets 200, CORS headers included
     res.json({
       success: true,
       message: "Booking request submitted successfully",
