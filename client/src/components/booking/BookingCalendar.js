@@ -229,20 +229,22 @@ export default function BookingCalendar({ onBookingSelect }) {
                 value={formData.countryCode}
                 onChange={(e) => handleFormChange("countryCode", e.target.value)}
                 style={{
-                  padding: `${spacing.md} ${spacing.md}`,
+                  padding: `${spacing.md} ${isMobile ? spacing.sm : spacing.md}`,
                   borderRadius: borderRadius.lg,
                   border: `2px solid ${colors.gray[200]}`,
                   backgroundColor: colors.background.card,
                   color: colors.text.primary,
-                  fontSize: typography.fontSize.base,
+                  fontSize: isMobile ? typography.fontSize.sm : typography.fontSize.base,
                   cursor: "pointer",
                   outline: "none",
                   transition: 'all 0.2s ease',
+                  minWidth: isMobile ? "80px" : "auto",
+                  maxWidth: isMobile ? "100px" : "none",
                 }}
               >
                 {countryCodes.map(cc => (
                   <option key={cc.code} value={cc.code}>
-                    {cc.flag} {cc.code}
+                    {isMobile ? cc.code : `${cc.flag} ${cc.code}`}
                   </option>
                 ))}
               </select>
@@ -253,6 +255,7 @@ export default function BookingCalendar({ onBookingSelect }) {
                 placeholder="Phone number"
                 style={{
                   flex: 1,
+                  minWidth: 0,
                   padding: `${spacing.md} ${spacing.lg}`,
                   borderRadius: borderRadius.md,
                   border: `1px solid ${colors.gray[200]}`,
