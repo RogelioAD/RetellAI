@@ -1,14 +1,43 @@
 import nodemailer from "nodemailer";
+import dns from "dns";
+import { promisify } from "util";
+
+const dnsLookup = promisify(dns.lookup);
 
 // Create reusable transporter object using SMTP transport
-const createTransporter = () => {
+const createTransporter = async () => {
   // Use environment variables for email configuration
   // For production, you'll need to set these in your .env file:
   // EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS, EMAIL_FROM
   const emailHost = process.env.EMAIL_HOST || "smtp.gmail.com";
   const emailPort = parseInt(process.env.EMAIL_PORT || "587");
   
-  // Configure transporter with DNS and connection options
+  // Try to resolve DNS first to catch EBADNAME errors early
+  try {
+    await dnsLookup(emailHost);
+    console.log(`DNS resolution successful for ${emailHost}`);
+  } catch (dnsError) {
+    console.error(`DNS resolution failed for ${emailHost}:`, dnsError.message);
+    // Continue anyway - sometimes DNS fails but connection works
+  }
+  
+  // For Gmail, use the service option which handles DNS better
+  if (emailHost.includes('gmail.com')) {
+    console.log(`Using Gmail service configuration`);
+    return nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+      // Connection timeout settings
+      connectionTimeout: 15000,
+      greetingTimeout: 15000,
+      socketTimeout: 15000,
+    });
+  }
+  
+  // For other email providers, use SMTP configuration
   const transporterConfig = {
     host: emailHost,
     port: emailPort,
@@ -17,21 +46,18 @@ const createTransporter = () => {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-    // DNS and connection options to fix EBADNAME errors
+    // TLS options
     tls: {
       rejectUnauthorized: false, // Accept self-signed certificates if needed
     },
     // Connection timeout settings
-    connectionTimeout: 10000, // 10 seconds
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
-    // DNS resolution options
-    dns: {
-      servers: ['8.8.8.8', '8.8.4.4'], // Google DNS as fallback
-    },
+    connectionTimeout: 15000, // 15 seconds
+    greetingTimeout: 15000,
+    socketTimeout: 15000,
+    requireTLS: false,
   };
 
-  console.log(`Creating email transporter for ${emailHost}:${emailPort}`);
+  console.log(`Creating SMTP transporter for ${emailHost}:${emailPort}`);
   return nodemailer.createTransport(transporterConfig);
 };
 
@@ -46,7 +72,7 @@ export async function sendBookingEmail(formData) {
       throw new Error("Email configuration missing: EMAIL_USER and EMAIL_PASS required");
     }
 
-    transporter = createTransporter();
+    transporter = await createTransporter();
     
     // Verify connection before sending
     try {
