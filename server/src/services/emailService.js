@@ -30,11 +30,33 @@ const createTransporter = async () => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-      // Shorter timeouts so background send fails fast
       connectionTimeout: 10000,
       greetingTimeout: 10000,
       socketTimeout: 10000,
-      // Pool connections for better reliability
+      pool: true,
+      maxConnections: 1,
+      maxMessages: 3,
+    });
+  }
+  
+  // For SendGrid, optimize configuration
+  if (emailHost.includes('sendgrid.net')) {
+    console.log(`Using SendGrid SMTP configuration`);
+    return nodemailer.createTransport({
+      host: emailHost,
+      port: emailPort,
+      secure: emailPort === 465,
+      auth: {
+        user: process.env.EMAIL_USER || 'apikey', // SendGrid uses 'apikey' as username
+        pass: process.env.EMAIL_PASS,
+      },
+      tls: {
+        rejectUnauthorized: true, // SendGrid has valid certificates
+      },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
+      requireTLS: emailPort === 587, // Require TLS for port 587
       pool: true,
       maxConnections: 1,
       maxMessages: 3,
@@ -45,14 +67,13 @@ const createTransporter = async () => {
   const transporterConfig = {
     host: emailHost,
     port: emailPort,
-    secure: emailPort === 465, // true for 465, false for other ports
+    secure: emailPort === 465,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-    // TLS options
     tls: {
-      rejectUnauthorized: false, // Accept self-signed certificates if needed
+      rejectUnauthorized: false,
     },
     connectionTimeout: 10000,
     greetingTimeout: 10000,

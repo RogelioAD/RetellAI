@@ -38,3 +38,8 @@ Thumbs.db
 *.tmp
 .cache/
 
+# Documentation with sensitive information
+*_CORS_FIX.md
+*_SETUP_RAILWAY.md
+*_DEPLOYMENT.md
+
