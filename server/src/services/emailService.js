@@ -30,10 +30,14 @@ const createTransporter = async () => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-      // Connection timeout settings
-      connectionTimeout: 15000,
-      greetingTimeout: 15000,
-      socketTimeout: 15000,
+      // Increased timeout settings for Railway/cloud environments
+      connectionTimeout: 30000, // 30 seconds
+      greetingTimeout: 30000,
+      socketTimeout: 30000,
+      // Pool connections for better reliability
+      pool: true,
+      maxConnections: 1,
+      maxMessages: 3,
     });
   }
   
@@ -74,13 +78,18 @@ export async function sendBookingEmail(formData) {
 
     transporter = await createTransporter();
     
-    // Verify connection before sending
-    try {
-      await transporter.verify();
-      console.log("Email server connection verified");
-    } catch (verifyError) {
-      console.error("Email server verification failed:", verifyError.message);
-      // Continue anyway - sometimes verification fails but sending works
+    // Skip verification in production to avoid timeouts
+    // Railway and other cloud providers may block verification but allow actual sending
+    if (process.env.NODE_ENV !== 'production') {
+      try {
+        await transporter.verify();
+        console.log("Email server connection verified");
+      } catch (verifyError) {
+        console.warn("Email server verification failed (continuing anyway):", verifyError.message);
+        // Continue anyway - sometimes verification fails but sending works
+      }
+    } else {
+      console.log("Skipping email verification in production (to avoid timeouts)");
     }
     
     // Get recipient email from environment or use a default
@@ -138,9 +147,13 @@ export async function sendBookingEmail(formData) {
     } else if (error.code === 'EAUTH') {
       console.error("Email authentication failed. Check EMAIL_USER and EMAIL_PASS.");
       throw new Error("Email authentication failed. Check your email credentials.");
-    } else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
+    } else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED' || error.code === 'ESOCKETTIMEDOUT') {
       console.error("Email server connection failed:", error.message);
-      throw new Error(`Cannot connect to email server. Check EMAIL_HOST and EMAIL_PORT. Original error: ${error.message}`);
+      console.error("This often happens on Railway due to network restrictions. Consider using:");
+      console.error("1. A dedicated email service (SendGrid, Mailgun, AWS SES)");
+      console.error("2. Railway's private networking if available");
+      console.error("3. Or try port 465 (SSL) instead of 587 (TLS)");
+      throw new Error(`Cannot connect to email server. Railway may be blocking SMTP connections. Try using a dedicated email service or port 465. Original error: ${error.message}`);
     } else {
       console.error("Error sending email:", {
         message: error.message,
