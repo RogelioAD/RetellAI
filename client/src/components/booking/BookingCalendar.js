@@ -46,7 +46,16 @@ export default function BookingCalendar({ onBookingSelect }) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to submit booking");
+        // Try to extract error message from response
+        let errorMessage = "Failed to submit booking";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch {
+          const errorText = await response.text();
+          errorMessage = errorText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
 
       setSubmitStatus("success");
@@ -66,7 +75,7 @@ export default function BookingCalendar({ onBookingSelect }) {
       }
     } catch (error) {
       console.error("Error submitting booking:", error);
-      setSubmitStatus("error");
+      setSubmitStatus(error.message || "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -282,7 +291,7 @@ export default function BookingCalendar({ onBookingSelect }) {
             </div>
           )}
 
-          {submitStatus === "error" && (
+          {submitStatus && submitStatus !== "success" && (
             <div style={{
               padding: spacing.md,
               borderRadius: borderRadius.md,
@@ -291,7 +300,9 @@ export default function BookingCalendar({ onBookingSelect }) {
               fontSize: typography.fontSize.sm,
               fontWeight: typography.fontWeight.medium,
             }}>
-              Failed to submit request. Please try again.
+              {submitStatus === "error" 
+                ? "Failed to submit request. Please try again." 
+                : submitStatus}
             </div>
           )}
 

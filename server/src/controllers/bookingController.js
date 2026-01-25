@@ -3,6 +3,11 @@ import { sendBookingEmail } from "../services/emailService.js";
 // Handle booking form submission and send email
 export async function submitBooking(req, res, next) {
   try {
+    console.log("Booking submission received:", {
+      origin: req.headers.origin,
+      body: { ...req.body, useCase: req.body.useCase?.substring(0, 50) + "..." }
+    });
+
     const {
       name,
       email,
@@ -14,6 +19,7 @@ export async function submitBooking(req, res, next) {
 
     // Validate required fields
     if (!name || !email || !company || !website || !useCase) {
+      console.warn("Missing required fields:", { name: !!name, email: !!email, company: !!company, website: !!website, useCase: !!useCase });
       return res.status(400).json({
         error: "Missing required fields",
       });
@@ -29,6 +35,7 @@ export async function submitBooking(req, res, next) {
       phone,
     });
 
+    console.log("Booking email sent successfully for:", email);
     res.json({
       success: true,
       message: "Booking request submitted successfully",
@@ -36,7 +43,7 @@ export async function submitBooking(req, res, next) {
   } catch (error) {
     console.error("Error submitting booking:", error);
     res.status(500).json({
-      error: "Failed to submit booking request",
+      error: error.message || "Failed to submit booking request",
     });
   }
 }
