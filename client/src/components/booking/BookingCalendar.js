@@ -56,7 +56,6 @@ export default function BookingCalendar({ onBookingSelect }) {
         email: "",
         company: "",
         website: "",
-        monthlyCalls: "",
         useCase: "",
         countryCode: "+1",
         phoneNumber: "",
@@ -97,6 +96,8 @@ export default function BookingCalendar({ onBookingSelect }) {
         padding: isMobile ? `${spacing['3xl']} ${spacing.xl}` : `${spacing['3xl']} ${spacing['3xl']}`,
         maxWidth: isMobile ? "100%" : "560px",
         width: "100%",
+        minWidth: 0,
+        boxSizing: "border-box",
         border: `2px solid ${colors.gray[100]}`,
         transition: 'all 0.3s ease',
       }}

@@ -1154,20 +1154,17 @@ export default function PatientJourney() {
     <div
       style={{
         width: "100%",
+        minWidth: 0,
+        maxWidth: "100%",
         marginTop: spacing["5xl"],
         marginBottom: spacing["5xl"],
         position: "relative",
       }}
     >
-      {/* Full-width header */}
+      {/* Section header */}
       <div
         style={{
-          width: "100vw",
-          position: "relative",
-          left: "50%",
-          right: "50%",
-          marginLeft: "-50vw",
-          marginRight: "-50vw",
+          width: "100%",
           paddingLeft: isMobile ? spacing.xl : spacing["4xl"],
           paddingRight: isMobile ? spacing.xl : spacing["4xl"],
           paddingTop: spacing["3xl"],

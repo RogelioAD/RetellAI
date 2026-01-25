@@ -15,6 +15,7 @@ export default function VideoHero() {
     <div
       style={{
         width: "100%",
+        maxWidth: "100%",
         height: isMobile ? "85vh" : "70vh",
         minHeight: isMobile ? "580px" : "500px",
         position: "relative",

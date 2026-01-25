@@ -21,6 +21,9 @@ export default function Home() {
         flexDirection: "column",
         position: "relative",
         backgroundColor: colors.background.card,
+        overflowX: "hidden",
+        width: "100%",
+        maxWidth: "100%",
       }}
     >
       {/* Video Hero Section */}
@@ -57,6 +60,8 @@ export default function Home() {
           maxWidth: "1400px",
           margin: "0 auto",
           backgroundColor: colors.background.card,
+          overflowX: "hidden",
+          boxSizing: "border-box",
         }}
       >
         {/* Page Intro Section */}
