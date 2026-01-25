@@ -156,7 +156,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
 
   return (
     <div style={{ 
-      marginBottom: isMobile ? "20px" : "24px",
+      marginBottom: 0,
       position: "relative"
     }}>
       <Button
@@ -219,12 +219,13 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                   color: colors.text.primary,
                   marginBottom: spacing.xs,
                   textTransform: "uppercase",
-                  letterSpacing: "0.5px",
+                  letterSpacing: typography.letterSpacing.wider,
                   padding: `${spacing.xs} ${spacing.sm}`,
                   ...glassStyles.subtle,
-                  borderRadius: borderRadius.md,
+                  borderRadius: borderRadius.lg,
                   display: "inline-block",
                   width: "fit-content",
+                  fontFamily: typography.fontFamily.heading,
                 }}>
                   Quick Filters
                 </div>
@@ -237,7 +238,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       fontSize: typography.fontSize.xs,
                       ...(selectedRange === range.value ? glassStyles.active : glassStyles.subtle),
                       color: colors.text.primary,
-                      borderRadius: borderRadius.md,
+                      borderRadius: borderRadius.lg,
                       cursor: "pointer",
                       fontWeight: selectedRange === range.value ? typography.fontWeight.bold : typography.fontWeight.semibold,
                       transition: "all 0.3s ease",
@@ -280,7 +281,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       fontSize: typography.fontSize.xs,
                       ...glassStyles.subtle,
                       color: colors.text.primary,
-                      borderRadius: borderRadius.md,
+                      borderRadius: borderRadius.lg,
                       cursor: "pointer",
                       fontWeight: typography.fontWeight.bold,
                       transition: "all 0.3s ease",
@@ -305,7 +306,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       fontSize: typography.fontSize.xs,
                       ...glassStyles.subtle,
                       color: colors.text.primary,
-                      borderRadius: borderRadius.md,
+                      borderRadius: borderRadius.lg,
                       cursor: "pointer",
                       fontWeight: typography.fontWeight.bold,
                       transition: "all 0.3s ease",
@@ -330,7 +331,7 @@ export default function DateFilter({ onDateRangeChange, selectedRange = "all", c
                       fontSize: typography.fontSize.xs,
                       ...glassStyles.subtle,
                       color: colors.text.primary,
-                      borderRadius: borderRadius.md,
+                      borderRadius: borderRadius.lg,
                       cursor: "pointer",
                       fontWeight: typography.fontWeight.bold,
                       transition: "all 0.3s ease",

@@ -22,7 +22,7 @@ export default function PasswordChangeForm({
   return (
     <Card 
       variant="glass"
-      style={{ borderRadius: borderRadius.xl }}
+      style={{ borderRadius: borderRadius['2xl'] }}
     >
       <SectionHeader 
         title="Change Password"
@@ -82,7 +82,7 @@ export default function PasswordChangeForm({
             type="button" 
             onClick={onCancel} 
             disabled={changing}
-            variant="primary"
+            variant="outline"
             fullWidth={isMobile}
           >
             Cancel

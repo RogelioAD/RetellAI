@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import { 
   extractCreatedAt, 
@@ -16,7 +16,7 @@ import Alert from "../common/Alert";
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
 // Displays a single call transcript in a collapsible card with metadata and recording player
-export default function CallCard({ 
+function CallCard({ 
   call, 
   mapping = {}, 
   createdAt, 
@@ -27,17 +27,18 @@ export default function CallCard({
 }) {
   const { isMobile } = useResponsive();
   const [isExpanded, setIsExpanded] = useState(false);
-  const { transcript, utterances } = extractTranscriptData(call);
-  
-  const finalCreatedAt = createdAt || extractCreatedAt(call, mapping);
-  const phoneNumber = extractPhoneNumber(call);
-  const durationSeconds = extractCallDuration(call);
-  const recordingUrl = extractRecordingUrl(call);
+
+  const { transcript, utterances } = useMemo(() => extractTranscriptData(call), [call]);
+  const finalCreatedAt = useMemo(() => createdAt || extractCreatedAt(call, mapping), [createdAt, call, mapping]);
+  const phoneNumber = useMemo(() => extractPhoneNumber(call), [call]);
+  const durationSeconds = useMemo(() => extractCallDuration(call), [call]);
+  const recordingUrl = useMemo(() => extractRecordingUrl(call), [call]);
 
   return (
     <Card
       padding="0"
       variant={hasError ? "solid" : "glass"}
+      hover={!hasError}
       style={{
         marginBottom: isMobile ? spacing.md : spacing.lg,
         ...(hasError && {
@@ -45,7 +46,7 @@ export default function CallCard({
           backgroundColor: `${colors.error}08`,
           boxShadow: `0 8px 32px 0 rgba(227, 26, 26, 0.2)`,
         }),
-        borderRadius: borderRadius.xl,
+        borderRadius: borderRadius['2xl'],
         overflow: "hidden",
       }}
     >
@@ -62,8 +63,8 @@ export default function CallCard({
           userSelect: "none",
           minHeight: "44px",
           transition: "all 0.2s ease",
-          borderTopLeftRadius: borderRadius.xl,
-          borderTopRightRadius: borderRadius.xl,
+          borderTopLeftRadius: borderRadius['2xl'],
+          borderTopRightRadius: borderRadius['2xl'],
         }}
       >
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -73,7 +74,8 @@ export default function CallCard({
             marginBottom: spacing.xs,
             fontWeight: typography.fontWeight.bold,
             textTransform: "uppercase",
-            letterSpacing: "0.5px",
+            letterSpacing: typography.letterSpacing.wider,
+            fontFamily: typography.fontFamily.heading,
           }}>
             Call Transcript
           </div>
@@ -83,6 +85,8 @@ export default function CallCard({
             color: colors.text.primary,
             wordBreak: "break-word",
             marginBottom: spacing.xs,
+            fontFamily: typography.fontFamily.heading,
+            letterSpacing: typography.letterSpacing.tight,
           }}>
             {formatFullDate(finalCreatedAt)}
           </div>
@@ -135,7 +139,7 @@ export default function CallCard({
               marginBottom: isMobile ? spacing.lg : spacing.xl,
               padding: isMobile ? spacing.lg : spacing.xl,
               background: colors.gray[50],
-              borderRadius: borderRadius.xl,
+              borderRadius: borderRadius['2xl'],
               border: `1px solid ${colors.gray[100]}`,
             }}>
               <div style={{ 
@@ -211,7 +215,7 @@ export default function CallCard({
                   wordBreak: "break-word",
                   padding: spacing.lg,
                   backgroundColor: colors.gray[50],
-                  borderRadius: borderRadius.xl,
+                  borderRadius: borderRadius['2xl'],
                 }}>
                   {typeof transcript === 'string' ? transcript : JSON.stringify(transcript, null, 2)}
                 </div>
@@ -249,7 +253,7 @@ export default function CallCard({
                 cursor: "pointer", 
                 padding: `${spacing.md} ${spacing.lg}`,
                 background: colors.gray[50],
-                borderRadius: borderRadius.xl,
+                borderRadius: borderRadius['2xl'],
                 fontWeight: typography.fontWeight.bold,
                 color: '#1B2559',
                 fontSize: typography.fontSize.sm,
@@ -264,7 +268,7 @@ export default function CallCard({
                 color: '#1B2559',
                 fontWeight: typography.fontWeight.medium,
                 padding: isMobile ? spacing.md : spacing.lg,
-                borderRadius: borderRadius.xl,
+                borderRadius: borderRadius['2xl'],
                 marginTop: spacing.sm,
                 maxHeight: isMobile ? "300px" : "400px",
                 overflow: "auto",
@@ -280,3 +284,5 @@ export default function CallCard({
     </Card>
   );
 }
+
+export default React.memo(CallCard);

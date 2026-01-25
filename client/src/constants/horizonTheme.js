@@ -69,6 +69,7 @@ export const borderRadius = {
   md: '16px',
   lg: '24px',
   xl: '32px',
+  '2xl': '40px',
   full: '9999px',
 };
 
@@ -84,9 +85,22 @@ export const spacing = {
   '5xl': '48px',
 };
 
+/** Shared navbar dimensions – use in LandingHeader and AppHeader for consistent height */
+export const navbarStyles = {
+  outerPadding: { mobile: '16px', desktop: '20px' },
+  barPadding: `${spacing.md} ${spacing.xl}`,
+  barMinHeight: { mobile: '64px', desktop: '72px' },
+  logoSize: { mobile: '40px', desktop: '48px' },
+  borderRadius: borderRadius.xl,
+};
+
 export const typography = {
   fontFamily: {
-    base: "'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif",
+    base: "'Inter', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif",
+    display: "'Space Grotesk', 'Inter', 'DM Sans', sans-serif",
+    heading: "'Inter', 'DM Sans', sans-serif",
+    body: "'Inter', 'DM Sans', sans-serif",
+    accent: "'Outfit', 'Inter', sans-serif",
   },
   fontSize: {
     xs: '12px',
@@ -94,16 +108,25 @@ export const typography = {
     base: '16px',
     lg: '18px',
     xl: '20px',
-    '2xl': '24px',
-    '3xl': '30px',
-    '4xl': '36px',
-    '5xl': '48px',
+    '2xl': '28px',
+    '3xl': '36px',
+    '4xl': '44px',
+    '5xl': '56px',
+    '6xl': '72px',
   },
   fontWeight: {
     normal: 400,
     medium: 500,
     semibold: 600,
     bold: 700,
+    extrabold: 800,
+  },
+  letterSpacing: {
+    tighter: '-0.05em',
+    tight: '-0.03em',
+    normal: '0em',
+    wide: '0.02em',
+    wider: '0.05em',
   },
 };
 
@@ -124,18 +147,19 @@ export const cardStyles = {
 export const buttonStyles = {
   base: {
     padding: `${spacing.md} ${spacing.xl}`,
-    borderRadius: borderRadius.md,
+    borderRadius: borderRadius.lg,
     fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.medium,
-    transition: 'all 0.2s ease',
+    fontWeight: typography.fontWeight.semibold,
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
     cursor: 'pointer',
     border: 'none',
     outline: 'none',
+    letterSpacing: typography.letterSpacing.wide,
   },
   primary: {
     backgroundColor: colors.brand[500],
     color: colors.text.white,
-    boxShadow: shadows.sm,
+    boxShadow: '0 4px 14px 0 rgba(66, 42, 251, 0.25)',
   },
   secondary: {
     backgroundColor: colors.gray[100],
@@ -145,7 +169,7 @@ export const buttonStyles = {
   outline: {
     backgroundColor: 'transparent',
     color: colors.brand[500],
-    border: `1px solid ${colors.brand[500]}`,
+    border: `2px solid ${colors.brand[500]}`,
   },
 };
 
@@ -248,6 +272,14 @@ export const sidebarStyles = {
   },
 };
 
+/** Cards matching page background, no glass/shadow/border; use for home-page cards. Keep hover where used. */
+export const plainCardStyles = {
+  base: {
+    backgroundColor: colors.background.main,
+    transition: 'all 0.3s ease',
+  },
+};
+
 export const glassStyles = {
   base: {
     backgroundColor: 'rgba(255, 255, 255, 0.25)',
@@ -290,12 +322,14 @@ const horizonTheme = {
   borderRadius,
   spacing,
   typography,
+  navbarStyles,
   cardStyles,
   buttonStyles,
   inputStyles,
   statCardStyles,
   tableStyles,
   sidebarStyles,
+  plainCardStyles,
   glassStyles,
 };
 

@@ -15,27 +15,32 @@ export default function SectionHeader({
   const styles = {
     1: {
       fontSize: isMobile ? typography.fontSize['2xl'] : typography.fontSize['3xl'],
-      fontWeight: typography.fontWeight.bold,
+      fontWeight: typography.fontWeight.extrabold,
       marginBottom: spacing['2xl'],
       marginTop: 0,
+      fontFamily: typography.fontFamily.display,
+      letterSpacing: typography.letterSpacing.tight,
     },
     2: {
       fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
-      fontWeight: typography.fontWeight.semibold,
+      fontWeight: typography.fontWeight.bold,
       marginBottom: spacing.lg,
       marginTop: 0,
+      fontFamily: typography.fontFamily.heading,
+      letterSpacing: typography.letterSpacing.tight,
     },
     3: {
       fontSize: isMobile ? typography.fontSize.base : typography.fontSize.lg,
       fontWeight: typography.fontWeight.semibold,
       marginBottom: spacing.md,
       marginTop: 0,
+      fontFamily: typography.fontFamily.heading,
+      letterSpacing: typography.letterSpacing.tight,
     },
   };
 
   const headerStyle = {
     color: colors.text.primary,
-    fontWeight: typography.fontWeight.bold,
     ...styles[level],
     ...style,
   };

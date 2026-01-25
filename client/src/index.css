@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -9,7 +12,7 @@ html {
 }
 
 body {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Inter', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     Arial, sans-serif;
   background: #F4F7FE;
@@ -19,8 +22,20 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #0F172A;
-  font-weight: 600;
+  font-weight: 500;
   color-scheme: light;
+  overflow-x: hidden;
+  letter-spacing: -0.01em;
+}
+
+/* Hide scrollbars globally */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 input {
@@ -220,10 +235,85 @@ pre {
 
 /* Brand gradient text effect */
 .brand-gradient-text {
-  background: linear-gradient(135deg, #422AFB 0%, #7551FF 100%);
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  background: linear-gradient(135deg, #422AFB 0%, #7551FF 50%, #A195FD 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+/* Hero key points – Outfit font, modern & approachable */
+.hero-keypoints {
+  font-family: 'Outfit', 'Inter', sans-serif;
+}
+
+.hero-keypoint-num {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #fff;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7551FF 0%, #422AFB 50%, #A195FD 100%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 6px 20px rgba(66, 42, 251, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-keypoints:hover .hero-keypoint-num {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 24px rgba(66, 42, 251, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+@media (min-width: 769px) {
+  .hero-keypoint-num {
+    font-size: 1.75rem;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced card hover animations */
+@keyframes cardLift {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-6px) scale(1.02);
+  }
+}
+
+/* Subtle pulse animation for CTAs */
+@keyframes subtlePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Audio player styling for Horizon UI */
@@ -243,5 +333,15 @@ audio::-webkit-media-controls-current-time-display,
 audio::-webkit-media-controls-time-remaining-display {
   color: #707EAE;
   font-size: 0.85em;
+}
+
+/* Hide scrollbars for specific elements */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 

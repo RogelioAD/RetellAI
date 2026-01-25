@@ -18,7 +18,7 @@ function filterOutUnknownAgentCalls(calls) {
 }
 
 // Quick stats component displaying call statistics in card format (total calls, today, this week)
-export default function QuickStats({ 
+function QuickStats({ 
   calls, 
   filteredCalls, 
   isAdmin, 
@@ -36,52 +36,41 @@ export default function QuickStats({
   );
 
   const totalCalls = validFilteredCalls ? validFilteredCalls.length : validCalls.length;
-  
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const todayCalls = validCalls.filter((item) => {
-    const mapping = item.mapping || {};
-    const call = item.call || item;
-    const callDate = new Date(extractCreatedAt(call, mapping));
-    callDate.setHours(0, 0, 0, 0);
-    return callDate.getTime() === today.getTime();
-  }).length;
 
-  const thisWeek = new Date();
-  thisWeek.setDate(thisWeek.getDate() - thisWeek.getDay());
-  thisWeek.setHours(0, 0, 0, 0);
-  const weekCalls = validCalls.filter((item) => {
-    const mapping = item.mapping || {};
-    const call = item.call || item;
-    const callDate = new Date(extractCreatedAt(call, mapping));
-    return callDate >= thisWeek;
-  }).length;
+  const todayCalls = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return validCalls.filter((item) => {
+      const mapping = item.mapping || {};
+      const call = item.call || item;
+      const callDate = new Date(extractCreatedAt(call, mapping));
+      callDate.setHours(0, 0, 0, 0);
+      return callDate.getTime() === today.getTime();
+    }).length;
+  }, [validCalls]);
+
+  const weekCalls = useMemo(() => {
+    const thisWeek = new Date();
+    thisWeek.setDate(thisWeek.getDate() - thisWeek.getDay());
+    thisWeek.setHours(0, 0, 0, 0);
+    return validCalls.filter((item) => {
+      const mapping = item.mapping || {};
+      const call = item.call || item;
+      const callDate = new Date(extractCreatedAt(call, mapping));
+      return callDate >= thisWeek;
+    }).length;
+  }, [validCalls]);
 
   const totalCallsLabel = formatDateRangeLabel(selectedRange, customDate);
 
-  const stats = [
-    { 
-      label: totalCallsLabel, 
-      value: totalCalls, 
-      icon: "phone",
-      color: colors.brand[500],
-      bgColor: `${colors.brand[500]}15`,
-    },
-    { 
-      label: "Today", 
-      value: todayCalls, 
-      icon: "chart",
-      color: '#EC4899',
-      bgColor: `#EC489915`,
-    },
-    { 
-      label: "This Week", 
-      value: weekCalls, 
-      icon: "chart",
-      color: '#9333EA',
-      bgColor: `#9333EA15`,
-    },
-  ];
+  const stats = useMemo(
+    () => [
+      { label: totalCallsLabel, value: totalCalls, icon: "phone", color: colors.brand[500], bgColor: `${colors.brand[500]}15` },
+      { label: "Today", value: todayCalls, icon: "chart", color: "#EC4899", bgColor: "#EC489915" },
+      { label: "This Week", value: weekCalls, icon: "chart", color: "#9333EA", bgColor: "#9333EA15" },
+    ],
+    [totalCallsLabel, totalCalls, todayCalls, weekCalls]
+  );
 
   return (
     <div
@@ -89,15 +78,16 @@ export default function QuickStats({
         display: "grid",
         gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
         gap: isMobile ? spacing.md : spacing.xl,
-        marginBottom: isMobile ? spacing.xl : spacing['2xl'],
+        marginBottom: 0,
       }}
     >
       {stats.map((stat, index) => (
         <Card
           key={index}
           variant="glass"
+          hover
           padding={isMobile ? spacing.lg : spacing['2xl']}
-          style={{ borderRadius: borderRadius.xl }}
+          style={{ borderRadius: borderRadius['2xl'] }}
         >
           <div
             style={{
@@ -111,8 +101,10 @@ export default function QuickStats({
                 style={{
                   fontSize: typography.fontSize.sm,
                   color: colors.text.secondary,
-                  fontWeight: typography.fontWeight.bold,
+                  fontWeight: typography.fontWeight.semibold,
                   marginBottom: spacing.sm,
+                  fontFamily: typography.fontFamily.heading,
+                  letterSpacing: typography.letterSpacing.wide,
                 }}
               >
                 {stat.label}
@@ -120,9 +112,11 @@ export default function QuickStats({
               <div
                 style={{
                   fontSize: isMobile ? typography.fontSize['2xl'] : typography.fontSize['3xl'],
-                  fontWeight: typography.fontWeight.bold,
+                  fontWeight: typography.fontWeight.extrabold,
                   color: colors.text.primary,
                   lineHeight: 1,
+                  fontFamily: typography.fontFamily.display,
+                  letterSpacing: typography.letterSpacing.tight,
                 }}
               >
                 {stat.value}
@@ -149,3 +143,5 @@ export default function QuickStats({
     </div>
   );
 }
+
+export default React.memo(QuickStats);

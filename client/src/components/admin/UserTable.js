@@ -3,23 +3,42 @@ import { useResponsive } from "../../hooks/useResponsive";
 import { formatShortDate } from "../../utils/dateFormatters";
 import Card from "../common/Card";
 import EmptyState from "../common/EmptyState";
+import LoadingSpinner from "../common/LoadingSpinner";
 import SectionHeader from "../common/SectionHeader";
 import { colors, spacing, typography, tableStyles, borderRadius, glassStyles } from "../../constants/horizonTheme";
 
 // Table component for displaying users with Horizon UI styling (mobile card view, desktop table view)
-export default function UserTable({ users, loading, onDeleteUser, currentUserId }) {
+export default function UserTable({ users, loading, onDeleteUser, currentUserId, onEmptyStateAction }) {
   const { isMobile } = useResponsive();
   const [deletingUserId, setDeletingUserId] = useState(null);
 
   if (loading) {
     return (
-      <EmptyState message="Loading users..." style={{ padding: isMobile ? spacing.lg : spacing.xl }} />
+      <div
+        style={{
+          padding: isMobile ? spacing['3xl'] : spacing['4xl'],
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <LoadingSpinner size="lg" />
+      </div>
     );
   }
 
   if (users.length === 0) {
     return (
-      <EmptyState message="No users found." />
+      <EmptyState
+        icon="users"
+        message="No users yet"
+        description="Create your first customer account to get started."
+        action={
+          onEmptyStateAction
+            ? { label: "Create your first user", onClick: onEmptyStateAction }
+            : undefined
+        }
+      />
     );
   }
 
@@ -54,6 +73,7 @@ export default function UserTable({ users, loading, onDeleteUser, currentUserId 
                 key={u.id} 
                 padding={spacing.lg}
                 variant="glass"
+                hover
                 style={{ borderRadius: borderRadius.xl }}
               >
                 <div style={{ marginBottom: spacing.md }}>

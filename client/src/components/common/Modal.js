@@ -34,6 +34,7 @@ export default function Modal({ isOpen, onClose, children, style = {} }) {
       onClick={onClose}
     >
       <div
+        className="hide-scrollbar"
         style={{
           ...glassStyles.base,
           borderRadius: borderRadius.xl,

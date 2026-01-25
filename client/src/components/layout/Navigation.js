@@ -25,7 +25,7 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
         width: isMobile ? "calc(100% - 32px)" : "auto",
         minWidth: isMobile ? "auto" : "300px",
         ...glassStyles.base,
-        borderRadius: "36px",
+        borderRadius: borderRadius['2xl'],
         padding: `${spacing.xs} ${spacing.sm}`,
         display: "flex",
         justifyContent: "space-around",
@@ -54,7 +54,7 @@ export default function Navigation({ currentSection, onSectionChange, isAdmin })
                 background: isHovered ? "rgba(99, 102, 241, 0.1)" : "transparent", 
                 border: isHovered ? "1px solid rgba(99, 102, 241, 0.2)" : "1px solid transparent" 
               }),
-              borderRadius: borderRadius.lg,
+              borderRadius: borderRadius.xl,
               color: isActive || isHovered ? colors.brand[600] : colors.text.secondary,
               fontSize: typography.fontSize.xs,
               fontWeight: isActive ? typography.fontWeight.semibold : typography.fontWeight.medium,

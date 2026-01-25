@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useResponsive } from "../hooks/useResponsive";
 import { login } from "../services/api";
 import Input from "../components/common/Input";
@@ -11,7 +12,7 @@ const MAX_ATTEMPTS = 3;
 const LOCKOUT_DURATION_MS = 5 * 60 * 1000;
 
 // Login form component with account lockout protection after failed attempts
-export default function Login({ onLogin, onNavigateToHome }) {
+export default function Login({ onLogin }) {
   const { isMobile } = useResponsive();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -146,13 +147,15 @@ export default function Login({ onLogin, onNavigateToHome }) {
           padding: isMobile ? spacing['2xl'] : spacing['3xl'],
           position: "relative",
           zIndex: 1,
-          borderRadius: borderRadius.xl,
+          borderRadius: borderRadius['2xl'],
         }}
       >
         <div style={{ textAlign: "center", marginBottom: spacing['2xl'] }}>
           <img
             src="/logo.png"
             alt="Quantum Consulting Logo"
+            loading="lazy"
+            decoding="async"
             style={{
               width: "64px",
               height: "64px",
@@ -165,7 +168,9 @@ export default function Login({ onLogin, onNavigateToHome }) {
             marginTop: 0,
             marginBottom: 0,
             color: colors.text.white,
-            fontWeight: typography.fontWeight.bold,
+            fontWeight: typography.fontWeight.extrabold,
+            fontFamily: typography.fontFamily.display,
+            letterSpacing: typography.letterSpacing.tight,
           }}>
             Welcome Back
           </h2>
@@ -222,22 +227,23 @@ export default function Login({ onLogin, onNavigateToHome }) {
             gap: spacing.md,
             marginTop: spacing.lg,
           }}>
-            {onNavigateToHome && (
-              <Button
-                type="button"
-                onClick={onNavigateToHome}
-                disabled={loading || isLockedOut}
-                variant="primary"
-                fullWidth
-              >
+            {(loading || isLockedOut) ? (
+              <Button type="button" disabled variant="primary" fullWidth style={{ flex: 1 }}>
                 Home
               </Button>
+            ) : (
+              <Link to="/" style={{ flex: 1, textDecoration: "none" }}>
+                <Button type="button" variant="primary" fullWidth>
+                  Home
+                </Button>
+              </Link>
             )}
             <Button
               type="submit"
               disabled={loading || isLockedOut}
               variant="primary"
               fullWidth
+              style={{ flex: 1 }}
             >
               {loading ? "Logging in..." : "Login"}
             </Button>

@@ -6,7 +6,7 @@ import { extractCallId, extractCreatedAt } from "../../utils/callDataTransformer
 import { colors, spacing, typography, borderRadius } from "../../constants/horizonTheme";
 
 // Collapsible folder component for grouping calls by agent with Horizon UI styling
-export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
+function AgentFolder({ agentName, calls, defaultOpen = false }) {
   const { isMobile } = useResponsive();
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [displayLimit, setDisplayLimit] = useState(20);
@@ -42,18 +42,31 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
     setDisplayLimit(prev => prev + LOAD_MORE_INCREMENT);
   };
 
+  const folderBase = "0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)";
+  const folderHover = "0 12px 40px 0 rgba(66, 42, 251, 0.2), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)";
+
   return (
-    <div style={{ 
-      marginBottom: isMobile ? spacing.lg : spacing.xl, 
-      borderRadius: borderRadius.xl, 
-      overflow: "hidden",
-      backgroundColor: "rgba(255, 255, 255, 0.25)",
-      backdropFilter: "blur(40px) saturate(180%)",
-      WebkitBackdropFilter: "blur(40px) saturate(180%)",
-      border: "1px solid rgba(255, 255, 255, 0.18)",
-      boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3)",
-      transition: "all 0.3s ease",
-    }}>
+    <div
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-2px)";
+        e.currentTarget.style.boxShadow = folderHover;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = folderBase;
+      }}
+      style={{ 
+        marginBottom: isMobile ? spacing.lg : spacing.xl, 
+        borderRadius: borderRadius['2xl'], 
+        overflow: "hidden",
+        backgroundColor: "rgba(255, 255, 255, 0.25)",
+        backdropFilter: "blur(40px) saturate(180%)",
+        WebkitBackdropFilter: "blur(40px) saturate(180%)",
+        border: "1px solid rgba(255, 255, 255, 0.18)",
+        boxShadow: folderBase,
+        transition: "all 0.3s ease",
+      }}
+    >
       <div
         onClick={() => setIsOpen(!isOpen)}
         style={{
@@ -141,3 +154,5 @@ export default function AgentFolder({ agentName, calls, defaultOpen = false }) {
     </div>
   );
 }
+
+export default React.memo(AgentFolder);

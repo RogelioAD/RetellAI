@@ -7,6 +7,7 @@ import authRoute from "./routes/authRoute.js";
 import adminRoute from "./routes/adminRoute.js";
 import callsRoute from "./routes/callsRoute.js";
 import webhookRoute from "./routes/webhookRoute.js";
+import bookingRoute from "./routes/bookingRoute.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { seedAdmin } from "./services/adminService.js";
 
@@ -56,6 +57,7 @@ if (process.env.NODE_ENV === 'production' && (!jwtSecret || jwtSecret === "your-
 app.use("/auth", authRoute);
 app.use("/admin", adminRoute);
 app.use("/api", callsRoute);
+app.use("/api", bookingRoute);
 app.use("/webhooks", webhookRoute);
 
 app.get("/health", (req, res) => {

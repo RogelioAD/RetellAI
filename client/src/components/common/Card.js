@@ -36,10 +36,11 @@ export default function Card({
 
   const baseStyle = {
     ...getBaseStyle(),
-    borderRadius: variant !== "solid" ? borderRadius.xl : cardStyles.base.borderRadius,
+    borderRadius: variant !== "solid" ? borderRadius['2xl'] : borderRadius.xl,
     padding: defaultPadding,
     ...(hover && isHovered && cardStyles.hover),
     cursor: onClick ? "pointer" : "default",
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
     ...style,
   };
 

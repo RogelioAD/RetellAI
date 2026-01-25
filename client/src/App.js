@@ -1,21 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
+import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import TalkToSales from "./pages/TalkToSales";
+import Voice from "./pages/Voice";
+import SMS from "./pages/SMS";
 
-// Main application component - handles routing between Home, Login, and Dashboard based on authentication state
 export default function App() {
   const { token, user, login, logout } = useAuth();
-  const [showLogin, setShowLogin] = useState(false);
+  const history = useHistory();
 
-  if (!token && !showLogin) {
-    return <Home onNavigateToLogin={() => setShowLogin(true)} />;
-  }
+  const handleLogin = (res) => {
+    login(res);
+    history.push("/dashboard");
+  };
 
-  if (!token && showLogin) {
-    return <Login onLogin={login} onNavigateToHome={() => setShowLogin(false)} />;
-  }
-
-  return <Dashboard token={token} user={user} onLogout={logout} />;
+  return (
+    <Switch>
+      <Route path="/login">
+        {token ? <Redirect to="/dashboard" /> : <Login onLogin={handleLogin} />}
+      </Route>
+      <Route path="/talk-to-sales">
+        {token ? <Redirect to="/dashboard" /> : <TalkToSales />}
+      </Route>
+      <Route path="/solutions/voice">
+        <Voice />
+      </Route>
+      <Route path="/solutions/sms">
+        <SMS />
+      </Route>
+      <Route path="/dashboard">
+        {!token ? <Redirect to="/login" /> : <Dashboard token={token} user={user} onLogout={logout} />}
+      </Route>
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <Redirect to="/" />
+    </Switch>
+  );
 }

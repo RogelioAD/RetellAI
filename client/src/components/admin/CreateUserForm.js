@@ -23,7 +23,7 @@ export default function CreateUserForm({
       variant="glass"
       style={{ 
         marginBottom: isMobile ? spacing.xl : spacing['2xl'],
-        borderRadius: borderRadius.xl,
+        borderRadius: borderRadius['2xl'],
       }}
     >
       <SectionHeader 

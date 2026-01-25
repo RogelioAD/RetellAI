@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { useResponsive } from "../../hooks/useResponsive";
 import { groupCallsByAgent, extractCallId, extractCreatedAt } from "../../utils/callDataTransformers";
 import CallCard from "./CallCard";
@@ -7,58 +7,54 @@ import Button from "../common/Button";
 import EmptyState from "../common/EmptyState";
 import { spacing } from "../../constants/horizonTheme";
 
+const INITIAL_DISPLAY_LIMIT = 50;
+const LOAD_MORE_INCREMENT = 50;
+
 // Main component for displaying a list of calls - supports both grouped (by agent) and ungrouped views
-export default function CallList({ items, groupByAgent = false }) {
+function CallList({ items, groupByAgent = false }) {
   const { isMobile } = useResponsive();
-  const [displayLimit, setDisplayLimit] = useState(50);
-  
-  const INITIAL_DISPLAY_LIMIT = 50;
-  const LOAD_MORE_INCREMENT = 50;
+  const [displayLimit, setDisplayLimit] = useState(INITIAL_DISPLAY_LIMIT);
 
   useEffect(() => {
     setDisplayLimit(INITIAL_DISPLAY_LIMIT);
-  }, [items.length]);
+  }, [items?.length]);
 
-  // Groups calls by agent name for admin view
+  const handleLoadMore = useCallback(() => {
+    setDisplayLimit((prev) => prev + LOAD_MORE_INCREMENT);
+  }, []);
+
   const groupedCalls = useMemo(() => {
-    if (!groupByAgent || !items || items.length === 0) {
-      return null;
-    }
+    if (!groupByAgent || !items || items.length === 0) return null;
     return groupCallsByAgent(items);
   }, [items, groupByAgent]);
 
-  // Sorts items by call date (newest first) for ungrouped view (regular users)
   const sortedItems = useMemo(() => {
-    if (groupByAgent || !items || items.length === 0) {
-      return items;
-    }
+    if (groupByAgent || !items || items.length === 0) return items;
     return [...items].sort((a, b) => {
       const mappingA = a.mapping || {};
       const callA = a.call || a;
       const mappingB = b.mapping || {};
       const callB = b.call || b;
-      
       const dateA = callA?.created_at || callA?.createdAt || callA?.start_timestamp || mappingA?.createdAt || new Date().toISOString();
       const dateB = callB?.created_at || callB?.createdAt || callB?.start_timestamp || mappingB?.createdAt || new Date().toISOString();
-      
-      const timeA = new Date(dateA).getTime();
-      const timeB = new Date(dateB).getTime();
-      return timeB - timeA;
+      return new Date(dateB).getTime() - new Date(dateA).getTime();
     });
   }, [items, groupByAgent]);
 
-  const displayedItems = sortedItems.slice(0, displayLimit);
+  const displayedItems = useMemo(
+    () => sortedItems.slice(0, displayLimit),
+    [sortedItems, displayLimit]
+  );
   const hasMoreItems = sortedItems.length > displayLimit;
   const remainingCount = sortedItems.length - displayLimit;
 
-  // Handles "Load More" button click to display more items
-  const handleLoadMore = () => {
-    setDisplayLimit(prev => prev + LOAD_MORE_INCREMENT);
-  };
-
   if (!items || items.length === 0) {
     return (
-      <EmptyState message="No calls yet." />
+      <EmptyState
+        icon="phone"
+        message="No calls yet"
+        description="Call transcripts will appear here once your voice AI handles incoming or outgoing calls."
+      />
     );
   }
 
@@ -119,3 +115,5 @@ export default function CallList({ items, groupByAgent = false }) {
     </div>
   );
 }
+
+export default React.memo(CallList);

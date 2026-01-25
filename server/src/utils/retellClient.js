@@ -27,9 +27,6 @@ async function getCall(callId) {
     const res = await client.get(`/calls/${callId}`);
     return res.data;
   } catch (err) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(`Error fetching call ${callId}:`, err.response?.data || err.message);
-    }
     throw err;
   }
 }

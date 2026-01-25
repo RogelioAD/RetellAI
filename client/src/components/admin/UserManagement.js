@@ -79,7 +79,7 @@ export default function UserManagement({ token, users, loading, error, onUserCre
               backgroundColor: glassStyles.active.backgroundColor,
               border: glassStyles.active.border,
             } : {}),
-            borderRadius: borderRadius.lg,
+            borderRadius: borderRadius.xl,
             padding: `${spacing.md} ${spacing.xl}`,
             fontSize: typography.fontSize.sm,
             fontWeight: activeTab === "create" ? typography.fontWeight.bold : typography.fontWeight.semibold,
@@ -118,7 +118,7 @@ export default function UserManagement({ token, users, loading, error, onUserCre
               backgroundColor: glassStyles.active.backgroundColor,
               border: glassStyles.active.border,
             } : {}),
-            borderRadius: borderRadius.lg,
+            borderRadius: borderRadius.xl,
             padding: `${spacing.md} ${spacing.xl}`,
             fontSize: typography.fontSize.sm,
             fontWeight: activeTab === "users" ? typography.fontWeight.bold : typography.fontWeight.semibold,
@@ -173,6 +173,7 @@ export default function UserManagement({ token, users, loading, error, onUserCre
             }
           }}
           currentUserId={currentUserId}
+          onEmptyStateAction={() => setActiveTab("create")}
         />
       )}
     </div>

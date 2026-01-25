@@ -40,17 +40,18 @@ const Button = React.forwardRef(function Button({
   const hoverStyle = {
     primary: {
       backgroundColor: colors.brand[600],
-      transform: "translateY(-1px)",
-      boxShadow: "0px 4px 12px rgba(66, 42, 251, 0.3)",
+      transform: "translateY(-2px) scale(1.02)",
+      boxShadow: "0px 8px 20px rgba(66, 42, 251, 0.4)",
     },
     secondary: {
       backgroundColor: colors.gray[200],
-      transform: "translateY(-1px)",
+      transform: "translateY(-2px) scale(1.02)",
     },
     outline: {
-      backgroundColor: colors.gray[50],
-      borderColor: colors.brand[500],
+      backgroundColor: colors.brand[50],
+      borderColor: colors.brand[600],
       color: colors.brand[600],
+      transform: "translateY(-1px)",
     },
   };
 
