@@ -8,12 +8,6 @@ export default function FeatureCards() {
 
   const features = [
     {
-      title: "Smart SMS Follow-up",
-      description: "If a caller hangs up or needs a link, the AI instantly sends a text message with your booking link or info.",
-      icon: "message",
-      iconColor: "#3B82F6", // Blue
-    },
-    {
       title: "Spam Blocker",
       description: "Robocalls don't get through. The AI screens every call so your phone only rings for real customers.",
       icon: "shield",
@@ -81,7 +75,7 @@ export default function FeatureCards() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
           gap: spacing.xl,
         }}
       >

@@ -7,9 +7,11 @@ import Icon from "./Icon";
  * Reusable FAQ Component
  * 
  * @param {Array} items - Array of FAQ items, each with { question: string, answer: string }
+ * @param {string} title - Optional header title for the FAQ section
  * 
  * @example
  * <FAQ
+ *   title="Frequently Asked Questions"
  *   items={[
  *     { question: "What is this?", answer: "This is an answer." },
  *     { question: "How does it work?", answer: "It works like this." }
@@ -23,7 +25,7 @@ import Icon from "./Icon";
  * - Responsive design
  * - Reusable on any page
  */
-export default function FAQ({ items = [] }) {
+export default function FAQ({ items = [], title }) {
   const { isMobile } = useResponsive();
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -45,6 +47,27 @@ export default function FAQ({ items = [] }) {
         gap: spacing.lg,
       }}
     >
+      {title && (
+        <div
+          style={{
+            textAlign: "center",
+            marginBottom: spacing['2xl'],
+          }}
+        >
+          <h2
+            style={{
+              fontSize: isMobile ? typography.fontSize['2xl'] : typography.fontSize['4xl'],
+              fontWeight: typography.fontWeight.bold,
+              color: colors.text.primary,
+              margin: 0,
+              fontFamily: typography.fontFamily.display,
+              letterSpacing: typography.letterSpacing.tight,
+            }}
+          >
+            {title}
+          </h2>
+        </div>
+      )}
       {items.map((item, index) => {
         const isOpen = openIndex === index;
         

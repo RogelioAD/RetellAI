@@ -118,26 +118,55 @@ export default function TalkToSales() {
           }}
         >
           <FAQ
+            title="Frequently Asked Questions"
             items={[
               {
-                question: "What is Quantum Consulting?",
-                answer: "Quantum Consulting provides AI-powered communication solutions including intelligent voice and SMS services to help businesses enhance customer interactions and streamline operations."
+                question: "What is an AI Receptionist and how is it different from an IVR system?",
+                answer: "An IVR is the old \"press 1 for sales, press 2 for support\" system which is robotic and frustrating. An AI receptionist is a voice agent that listens, understands, and takes action — just like a real person on the other end of the line. Callers speak naturally and the AI handles their request accordingly — booking appointments, answering questions, transferring calls. No menus. No repeating yourself. And if someone wants to speak to a human, they only have to ask once — not three times."
               },
               {
-                question: "How does the voice AI work?",
-                answer: "Our voice AI uses advanced natural language processing to handle customer calls with human-like conversations. It can answer questions, provide information, and assist customers 24/7 without human intervention."
+                question: "Can the AI integrate into our existing systems?",
+                answer: "Yes. Our team works directly with you to connect the AI receptionist to your existing CRM — we support hundreds of CRM integrations. Whether you're a medical office using AdvancedMD, a dentist on Dentrix, an HVAC company on ServiceTitan, or a barbershop using Booksy."
               },
               {
-                question: "What are the benefits of SMS AI?",
-                answer: "SMS AI delivers instant, context-aware responses to customer inquiries. It provides real-time support, keeps customers informed, and ensures consistent communication across all channels."
+                question: "Can we customize the AI receptionist to fit our business needs?",
+                answer: "Yes. Our consultants work with you to tailor everything to your liking — how the receptionist sounds (male or female voice, accent preferences) and how it handles requests unique to your industry."
               },
               {
-                question: "How do I get started?",
-                answer: "Fill out the form above to request a demo. Our team will reach out to discuss how we can help transform your customer communication."
+                question: "Is the AI HIPAA compliant?",
+                answer: "Yes. Our AI receptionist is fully HIPAA compliant. All data — including call recordings and transcripts — is encrypted in transit and at rest. We provide a Business Associate Agreement (BAA) to healthcare clients and maintain detailed audit trails for every interaction."
               },
               {
-                question: "Do I have to sign a contract?",
-                answer: "It's a fraction of the cost of an in-house receptionist, yet it works 24/7 and never takes a lunch break."
+                question: "How many calls can it handle at once?",
+                answer: "Unlimited. Whether it's 2 calls or 200, every caller gets answered immediately. No hold times means happier customers."
+              },
+              {
+                question: "What happens when the agent doesn't know the answer to a question asked by a customer?",
+                answer: "It transfers the call directly to your line. The AI briefs you on what the customer needs so you can jump right in without asking them to repeat themselves."
+              },
+              {
+                question: "Can the AI speak multiple languages?",
+                answer: "Yes. The AI can speak 30+ languages — Spanish, Portuguese, French, Arabic, and many more."
+              },
+              {
+                question: "Can I keep my existing phone number?",
+                answer: "Yes. The AI receptionist works with your current phone number — no need to change it."
+              },
+              {
+                question: "Can the AI make or receive phone calls?",
+                answer: "Yes. It can take inbound calls from customers — answering questions, booking appointments, providing quotes — and make outbound calls for appointment confirmations, form submission follow-ups, and canceled appointment rescheduling."
+              },
+              {
+                question: "Can the AI detect voicemail?",
+                answer: "Yes. The AI knows when it hits voicemail and can either hang up or leave a message automatically."
+              },
+              {
+                question: "Can we access call transcripts?",
+                answer: "Yes. We provide you with login credentials so you can review call transcripts and analytics anytime."
+              },
+              {
+                question: "Will the AI still work if my internet goes down?",
+                answer: "The AI receptionist works independently of your internet connection. Your customers always get answered 24/7."
               }
             ]}
           />

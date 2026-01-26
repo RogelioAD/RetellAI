@@ -110,6 +110,13 @@ export default function LandingHeader() {
                 fontWeight: typography.fontWeight.semibold,
                 fontFamily: typography.fontFamily.display,
                 cursor: "pointer",
+                transition: "background-color 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = colors.gray[50];
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
               }}
             >
               Solutions
@@ -161,30 +168,32 @@ export default function LandingHeader() {
                 >
                   Voice
                 </Link>
-                <Link
-                  to="/solutions/sms"
-                  role="menuitem"
-                  style={{
-                    display: "block",
-                    padding: `${spacing.md} ${spacing.lg}`,
-                    borderRadius: borderRadius.md,
-                    color: colors.text.primary,
-                    textDecoration: "none",
-                    fontSize: typography.fontSize.sm,
-                    fontWeight: typography.fontWeight.medium,
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = colors.gray[50];
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                  }}
-                >
-                  SMS
-                </Link>
               </div>
             )}
           </div>
+
+          {/* Pricing Link */}
+          <Link
+            to="/pricing"
+            style={{
+              textDecoration: "none",
+              padding: `${spacing.sm} ${spacing.md}`,
+              borderRadius: borderRadius.md,
+              color: colors.text.primary,
+              fontSize: typography.fontSize.base,
+              fontWeight: typography.fontWeight.semibold,
+              fontFamily: typography.fontFamily.display,
+              transition: "background-color 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = colors.gray[50];
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+            }}
+          >
+            Pricing
+          </Link>
 
           <Link to="/login" style={{ textDecoration: "none" }}>
             {isMobile ? (

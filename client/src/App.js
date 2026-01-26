@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import TalkToSales from "./pages/TalkToSales";
 import Voice from "./pages/Voice";
 import SMS from "./pages/SMS";
+import PricingPage from "./pages/Pricing";
 
 export default function App() {
   const { token, user, login, logout } = useAuth();
@@ -30,6 +31,9 @@ export default function App() {
       </Route>
       <Route path="/solutions/sms">
         <SMS />
+      </Route>
+      <Route path="/pricing">
+        <PricingPage />
       </Route>
       <Route path="/dashboard">
         {!token ? <Redirect to="/login" /> : <Dashboard token={token} user={user} onLogout={logout} />}
