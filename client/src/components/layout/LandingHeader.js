@@ -91,52 +91,85 @@ export default function LandingHeader() {
         <div style={{ display: "flex", alignItems: "center", gap: spacing.md }}>
           {/* Solutions dropdown */}
           <div ref={solutionsRef} style={{ position: "relative" }}>
-            <button
-              type="button"
-              onClick={() => setShowSolutions((prev) => !prev)}
-              aria-expanded={showSolutions}
-              aria-haspopup="true"
-              aria-label="Solutions menu"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: spacing.xs,
-                padding: `${spacing.sm} ${spacing.md}`,
-                borderRadius: borderRadius.md,
-                border: "none",
-                background: "transparent",
-                color: colors.text.primary,
-                fontSize: typography.fontSize.base,
-                fontWeight: typography.fontWeight.semibold,
-                fontFamily: typography.fontFamily.display,
-                cursor: "pointer",
-                transition: "background-color 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = colors.gray[50];
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
-            >
-              Solutions
-              <span
+            {isMobile ? (
+              <button
+                type="button"
+                onClick={() => setShowSolutions((prev) => !prev)}
+                aria-expanded={showSolutions}
+                aria-haspopup="true"
+                aria-label="Solutions menu"
                 style={{
-                  display: "inline-flex",
-                  transition: "transform 0.2s ease",
-                  transform: showSolutions ? "rotate(180deg)" : "rotate(0deg)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 44,
+                  height: 44,
+                  borderRadius: "50%",
+                  border: "none",
+                  background: "rgba(139, 92, 246, 0.15)",
+                  color: colors.brand[600],
+                  cursor: "pointer",
+                  padding: 0,
+                  transition: "background-color 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(139, 92, 246, 0.25)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(139, 92, 246, 0.15)";
                 }}
               >
-                <Icon name="chevronDown" size={16} color={colors.text.primary} strokeWidth="2.5" />
-              </span>
-            </button>
+                <Icon name="globe" size={22} color={colors.brand[600]} strokeWidth="2.5" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setShowSolutions((prev) => !prev)}
+                aria-expanded={showSolutions}
+                aria-haspopup="true"
+                aria-label="Solutions menu"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: spacing.xs,
+                  padding: `${spacing.sm} ${spacing.md}`,
+                  borderRadius: borderRadius.md,
+                  border: "none",
+                  background: "transparent",
+                  color: colors.text.primary,
+                  fontSize: typography.fontSize.base,
+                  fontWeight: typography.fontWeight.semibold,
+                  fontFamily: typography.fontFamily.display,
+                  cursor: "pointer",
+                  transition: "background-color 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = colors.gray[50];
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                }}
+              >
+                Solutions
+                <span
+                  style={{
+                    display: "inline-flex",
+                    transition: "transform 0.2s ease",
+                    transform: showSolutions ? "rotate(180deg)" : "rotate(0deg)",
+                  }}
+                >
+                  <Icon name="chevronDown" size={16} color={colors.text.primary} strokeWidth="2.5" />
+                </span>
+              </button>
+            )}
             {showSolutions && (
               <div
                 role="menu"
                 style={{
                   position: "absolute",
                   top: "100%",
-                  left: 0,
+                  right: isMobile ? 0 : "auto",
+                  left: isMobile ? "auto" : 0,
                   marginTop: spacing.sm,
                   minWidth: "160px",
                   padding: spacing.sm,
@@ -173,27 +206,61 @@ export default function LandingHeader() {
           </div>
 
           {/* Pricing Link */}
-          <Link
-            to="/pricing"
-            style={{
-              textDecoration: "none",
-              padding: `${spacing.sm} ${spacing.md}`,
-              borderRadius: borderRadius.md,
-              color: colors.text.primary,
-              fontSize: typography.fontSize.base,
-              fontWeight: typography.fontWeight.semibold,
-              fontFamily: typography.fontFamily.display,
-              transition: "background-color 0.2s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = colors.gray[50];
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-            }}
-          >
-            Pricing
-          </Link>
+          {isMobile ? (
+            <Link
+              to="/pricing"
+              style={{ textDecoration: "none" }}
+            >
+              <button
+                type="button"
+                aria-label="Pricing"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 44,
+                  height: 44,
+                  borderRadius: "50%",
+                  border: "none",
+                  background: "rgba(59, 130, 246, 0.15)",
+                  color: "#3B82F6",
+                  cursor: "pointer",
+                  padding: 0,
+                  transition: "background-color 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(59, 130, 246, 0.25)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(59, 130, 246, 0.15)";
+                }}
+              >
+                <Icon name="dollar" size={22} color="#3B82F6" strokeWidth="2.5" />
+              </button>
+            </Link>
+          ) : (
+            <Link
+              to="/pricing"
+              style={{
+                textDecoration: "none",
+                padding: `${spacing.sm} ${spacing.md}`,
+                borderRadius: borderRadius.md,
+                color: colors.text.primary,
+                fontSize: typography.fontSize.base,
+                fontWeight: typography.fontWeight.semibold,
+                fontFamily: typography.fontFamily.display,
+                transition: "background-color 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = colors.gray[50];
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+              }}
+            >
+              Pricing
+            </Link>
+          )}
 
           <Link to="/login" style={{ textDecoration: "none" }}>
             {isMobile ? (
