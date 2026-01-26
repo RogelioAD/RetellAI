@@ -2,7 +2,7 @@ import React from "react";
 import { useResponsive } from "../hooks/useResponsive";
 import LandingHeader from "../components/layout/LandingHeader";
 import PricingComponent from "../components/landing/Pricing";
-import { colors, spacing, typography } from "../constants/horizonTheme";
+import { colors, spacing } from "../constants/horizonTheme";
 import "../index.css";
 
 export default function PricingPage() {
