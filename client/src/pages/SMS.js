@@ -2,7 +2,7 @@ import React from "react";
 import { useResponsive } from "../hooks/useResponsive";
 import LandingHeader from "../components/layout/LandingHeader";
 import SMSUseCases from "../components/landing/SMSUseCases";
-import { BookingCalendar } from "../components/booking";
+import GoogleFormWrapper from "../components/booking/GoogleFormWrapper";
 import FAQ from "../components/common/FAQ";
 import { colors, spacing, typography } from "../constants/horizonTheme";
 import "../index.css";
@@ -86,11 +86,7 @@ export default function SMS() {
               Talk to the Team
             </h2>
           </div>
-          <BookingCalendar
-            onBookingSelect={(booking) => {
-              console.log("Booking selected:", booking);
-            }}
-          />
+          <GoogleFormWrapper />
         </div>
 
         {/* FAQ Section */}

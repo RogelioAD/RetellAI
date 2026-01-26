@@ -1,7 +1,7 @@
 import React from "react";
 import { useResponsive } from "../hooks/useResponsive";
 import LandingHeader from "../components/layout/LandingHeader";
-import { BookingCalendar } from "../components/booking";
+import GoogleFormWrapper from "../components/booking/GoogleFormWrapper";
 import FAQ from "../components/common/FAQ";
 import { colors, spacing, typography } from "../constants/horizonTheme";
 import "../index.css";
@@ -102,11 +102,7 @@ export default function TalkToSales() {
             marginBottom: spacing['5xl'],
           }}
         >
-          <BookingCalendar
-            onBookingSelect={(booking) => {
-              console.log('Booking selected:', booking);
-            }}
-          />
+          <GoogleFormWrapper />
         </div>
 
         {/* FAQ Section */}

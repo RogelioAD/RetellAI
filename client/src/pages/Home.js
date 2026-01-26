@@ -3,7 +3,7 @@ import { useResponsive } from "../hooks/useResponsive";
 import LandingHeader from "../components/layout/LandingHeader";
 import VideoHero from "../components/landing/VideoHero";
 import PageIntro from "../components/landing/PageIntro";
-import { BookingCalendar } from "../components/booking";
+import GoogleFormWrapper from "../components/booking/GoogleFormWrapper";
 import FAQ from "../components/common/FAQ";
 import FeatureCards from "../components/common/FeatureCards";
 import PatientJourney from "../components/landing/PatientJourney";
@@ -170,11 +170,7 @@ export default function Home() {
               Talk to the Team
             </h2>
           </div>
-          <BookingCalendar
-            onBookingSelect={(booking) => {
-              console.log('Booking selected:', booking);
-            }}
-          />
+          <GoogleFormWrapper />
         </div>
 
         {/* FAQ Section */}
