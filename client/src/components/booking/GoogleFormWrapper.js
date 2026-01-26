@@ -1,6 +1,6 @@
 import React from "react";
 import { useResponsive } from "../../hooks/useResponsive";
-import { colors, spacing, borderRadius } from "../../constants/horizonTheme";
+import { colors, borderRadius } from "../../constants/horizonTheme";
 
 // Google Forms wrapper component
 // Uses the Google Forms embed URL format
