@@ -35,7 +35,7 @@ export default function VoiceUseCases() {
         "Prescription refill requests",
         "Outbound appointment reminder calls"
       ],
-      icon: "shield",
+      icon: "hospital",
       iconColor: "#10B981" // Green for medical
     },
     {
@@ -48,7 +48,7 @@ export default function VoiceUseCases() {
         "Hours and location questions",
         "Walk-in availability"
       ],
-      icon: "user",
+      icon: "barberPole",
       iconColor: "#8B5CF6" // Purple
     },
     {
@@ -61,7 +61,7 @@ export default function VoiceUseCases() {
         "Case status updates",
         "Document request coordination"
       ],
-      icon: "shield",
+      icon: "gavel",
       iconColor: "#3B82F6" // Blue for legal
     },
     {
@@ -74,7 +74,7 @@ export default function VoiceUseCases() {
         "Large party and event inquiries",
         "Menu and dietary questions"
       ],
-      icon: "calendar",
+      icon: "plate",
       iconColor: "#EC4899" // Pink for restaurants
     }
   ];
@@ -139,7 +139,7 @@ export default function VoiceUseCases() {
               }}
             >
               <Icon
-                name="phone"
+                name="phoneInbound"
                 size={isMobile ? 28 : 32}
                 color={colors.brand[500]}
                 strokeWidth="2"
@@ -406,23 +406,23 @@ export default function VoiceUseCases() {
               {useCase.title}
             </h3>
 
-            {/* Problem Statement */}
+            {/* Problem Statement (Scenario) - same styling as Solution */}
             <div
               style={{
                 padding: spacing.md,
                 borderRadius: borderRadius.md,
-                backgroundColor: colors.gray[50],
+                backgroundColor: `${useCase.iconColor}08`,
                 marginBottom: spacing.md,
-                borderLeft: `3px solid ${useCase.iconColor}40`,
+                borderLeft: `3px solid ${useCase.iconColor}`,
               }}
             >
               <p
                 style={{
-                  fontSize: typography.fontSize.sm,
-                  color: colors.text.secondary,
+                  fontSize: typography.fontSize.base,
+                  color: colors.text.primary,
                   lineHeight: 1.6,
                   margin: 0,
-                  fontStyle: "italic",
+                  fontWeight: typography.fontWeight.medium,
                 }}
               >
                 {useCase.problem}

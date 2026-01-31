@@ -86,38 +86,66 @@ export default function Home() {
             display: "flex",
             justifyContent: "center",
             marginTop: spacing['5xl'],
+            paddingTop: spacing['5xl'],
+            paddingBottom: spacing['5xl'],
+            background: `linear-gradient(180deg, ${colors.gray[50]} 0%, ${colors.background.card} 100%)`,
+            borderTop: `3px solid ${colors.brand[200]}`,
+            boxSizing: "border-box",
           }}
         >
           <div
             style={{
               width: "100%",
-              maxWidth: "1200px",
+              maxWidth: "100%",
               textAlign: "center",
-              padding: isMobile ? `0 ${spacing.xl}` : `0 ${spacing['4xl']}`,
+              padding: isMobile ? `${spacing['4xl']} ${spacing.xl}` : `${spacing['5xl']} 8%`,
+              boxSizing: "border-box",
             }}
           >
-            <h2
-              style={{
-                fontSize: isMobile ? typography.fontSize['2xl'] : typography.fontSize['4xl'],
-                fontWeight: typography.fontWeight.bold,
-                color: colors.text.primary,
-                margin: 0,
-                marginBottom: spacing.lg,
-                fontFamily: typography.fontFamily.display,
-                letterSpacing: typography.letterSpacing.tight,
-              }}
-            >
-              Seamless Integration
-            </h2>
+            <div style={{ position: "relative", display: "inline-block", marginBottom: spacing['2xl'] }}>
+              <h2
+                style={{
+                  fontSize: isMobile ? typography.fontSize['3xl'] : typography.fontSize['5xl'],
+                  fontWeight: typography.fontWeight.extrabold,
+                  color: colors.text.primary,
+                  margin: 0,
+                  paddingBottom: 20,
+                  fontFamily: typography.fontFamily.display,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.18em",
+                  lineHeight: 1.15,
+                  transform: "scaleY(1.08)",
+                  transformOrigin: "center",
+                  display: "inline-block",
+                }}
+              >
+                Seamless Integration
+              </h2>
+              <span
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  width: 80,
+                  height: 4,
+                  borderRadius: 2,
+                  background: `linear-gradient(90deg, transparent, ${colors.brand[500]}, transparent)`,
+                }}
+              />
+            </div>
             <p
               style={{
-                fontSize: isMobile ? typography.fontSize.base : typography.fontSize.lg,
+                fontSize: isMobile ? typography.fontSize.lg : typography.fontSize['2xl'],
                 color: colors.text.secondary,
                 margin: 0,
-                maxWidth: "700px",
+                maxWidth: "100%",
                 marginLeft: "auto",
                 marginRight: "auto",
                 lineHeight: 1.6,
+                paddingLeft: isMobile ? 0 : "10%",
+                paddingRight: isMobile ? 0 : "10%",
+                letterSpacing: "0.02em",
               }}
             >
               Keep your existing number and sub header under neath You don't need to change a thing. We help you enable "Call Forwarding" on your current business line to route calls to Quantum Consulting

@@ -14,6 +14,8 @@ export default function Icon({ name, size = 20, color = "currentColor", strokeWi
     user: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
     users: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z",
     phone: "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z",
+    // phoneTransfer with arrow flipped on x-axis (arrow points into phone from left), shifted right
+    phoneInbound: "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z M12 3l-4 4m0 0l4 4m-4-4H20",
     message: "M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z",
     calendar: "M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z",
     clock: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z",
@@ -26,24 +28,46 @@ export default function Icon({ name, size = 20, color = "currentColor", strokeWi
     logOut: "M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1",
     alertCircle: "M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
     dollar: "M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6",
+    // Gavel (Boxicons, fill-based)
+    gavel: [
+      "M2 20H15V22H2z",
+      "m18.71,8.71c.39-.39.39-1.02,0-1.41l-5-5c-.39-.39-1.02-.39-1.41,0l-1.29,1.29,6.41,6.41,1.29-1.29Z",
+      "m8.29,17.71c.2.2.45.29.71.29s.51-.1.71-.29l1.29-1.29-6.41-6.41-1.29,1.29c-.39.39-.39,1.02,0,1.41l5,5Z",
+      "M13.5 13.91 20.29 20.71 21.71 19.29 14.91 12.5 16 11.41 9.59 5 6 8.59 12.41 15 13.5 13.91z",
+    ],
+    // Fork and knife / restaurant (fill-based)
+    plate: "M9 7H8V3H6v4H5V3H3v7a2 2 0 0 0 2 2h1v9h2v-9h1a2 2 0 0 0 2-2V3H9zm-4 3V9h4v1zM18.58 2.389a1.987 1.987 0 0 0-2.244.8l-1.088 1.637a9.017 9.017 0 0 0-1.456 4l-.662 5.955A2 2 0 0 0 15.117 17H18v4h2V4.3a1.988 1.988 0 0 0-1.42-1.911zM18 15h-2.883l.662-5.955a7.02 7.02 0 0 1 1.133-3.11L18 4.3z",
+    barberPole: "M8 2h8v20h-8V2zM8 2l8 5M8 7l8 5M8 12l8 5M8 17l8 5",
+    // Medical/hospital icon (fill-based, evenodd)
+    hospital: "M5.88937 4C5.88937 2.89543 6.7848 2 7.88937 2H15.784C16.8885 2 17.784 2.89543 17.784 4V7.71289H20C21.1046 7.71289 22 8.60832 22 9.71289V19.0059C22 20.1104 21.1046 21.0059 20 21.0059H4C2.89543 21.0059 2 20.1104 2 19.0059V9.71289C2 8.60832 2.89543 7.71289 4 7.71289H5.88937V4ZM5.88937 19.0059H4V9.71289H5.88937V19.0059ZM17.784 19.0059H20V9.71289H17.784V19.0059ZM12.8159 5.19495H10.8159V6.70699H9.30402V8.70699H10.8159V10.2188H12.8159V8.70699H14.3279V6.70699H12.8159V5.19495ZM13.5229 14.4101H10.109V19.1279H13.5229V14.4101Z",
   };
+
+  const fillIcons = new Set(["hospital", "gavel", "plate"]);
 
   const path = iconPaths[name];
   if (!path) return null;
+  const paths = Array.isArray(path) ? path : [path];
+  const useFill = fillIcons.has(name);
 
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
+      fill={useFill ? color : "none"}
+      stroke={useFill ? "none" : color}
       strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
     >
-      <path d={path} />
+      {paths.map((d, i) => (
+        <path
+          key={i}
+          d={d}
+          {...(useFill ? { fillRule: "evenodd", clipRule: "evenodd" } : {})}
+        />
+      ))}
     </svg>
   );
 }

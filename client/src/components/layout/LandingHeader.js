@@ -3,12 +3,16 @@ import { Link, useLocation } from "react-router-dom";
 import { useResponsive } from "../../hooks/useResponsive";
 import Button from "../common/Button";
 import Icon from "../common/Icon";
-import { colors, spacing, typography, glassStyles, navbarStyles, borderRadius } from "../../constants/horizonTheme";
+import { colors, spacing, typography, shadows, glassStyles, navbarStyles, borderRadius } from "../../constants/horizonTheme";
+
+// Hero is 85vh; use same ratio so navbar switches to glass once user scrolls past hero
+const HERO_VIEWPORT_RATIO = 0.85;
 
 // Header component for landing page with logo, Solutions dropdown, login, and talk-to-sales links
 export default function LandingHeader() {
   const { isMobile } = useResponsive();
   const [showSolutions, setShowSolutions] = useState(false);
+  const [isOverHero, setIsOverHero] = useState(true);
   const solutionsRef = useRef(null);
   const location = useLocation();
   const pad = navbarStyles.outerPadding;
@@ -28,6 +32,25 @@ export default function LandingHeader() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // On home page: white bar over hero, liquid glass after scrolling past hero. Other pages: always glass.
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      setIsOverHero(false);
+      return;
+    }
+    const update = () => {
+      const heroHeight = window.innerHeight * HERO_VIEWPORT_RATIO;
+      setIsOverHero(window.scrollY < heroHeight);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [location.pathname]);
 
   return (
     <header
@@ -50,7 +73,14 @@ export default function LandingHeader() {
           alignItems: "center",
           width: "100%",
           maxWidth: "1400px",
-          ...glassStyles.base,
+          ...(location.pathname === "/" && isOverHero
+            ? {
+                backgroundColor: colors.background.card,
+                border: `1px solid ${colors.gray[200]}`,
+                boxShadow: shadows.sm,
+                transition: "background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease",
+              }
+            : glassStyles.base),
           borderRadius: navbarStyles.borderRadius,
           padding: navbarStyles.barPadding,
           minHeight: isMobile ? bar.mobile : bar.desktop,

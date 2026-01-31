@@ -1165,41 +1165,66 @@ export default function PatientJourney() {
       <div
         style={{
           width: "100%",
-          paddingLeft: isMobile ? spacing.xl : spacing["4xl"],
-          paddingRight: isMobile ? spacing.xl : spacing["4xl"],
-          paddingTop: spacing["3xl"],
-          paddingBottom: spacing["3xl"],
+          paddingLeft: isMobile ? spacing.xl : "8%",
+          paddingRight: isMobile ? spacing.xl : "8%",
+          paddingTop: spacing["5xl"],
+          paddingBottom: spacing["5xl"],
           marginBottom: spacing["4xl"],
-          backgroundColor: colors.gray[50],
-          borderTop: `1px solid ${colors.gray[200]}`,
+          background: `linear-gradient(180deg, ${colors.gray[50]} 0%, rgba(255,255,255,0.6) 100%)`,
+          borderTop: `3px solid ${colors.brand[400]}`,
           borderBottom: `1px solid ${colors.gray[200]}`,
           textAlign: "center",
+          boxSizing: "border-box",
+          position: "relative",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8)",
         }}
       >
-        <h2
-          style={{
-            fontSize: isMobile ? typography.fontSize["3xl"] : typography.fontSize["5xl"],
-            fontWeight: typography.fontWeight.extrabold,
-            color: colors.text.primary,
-            margin: 0,
-            marginBottom: spacing.lg,
-            fontFamily: typography.fontFamily.display,
-            letterSpacing: typography.letterSpacing.tight,
-            textAlign: "center",
-          }}
-        >
-          The Journey
-        </h2>
+        <div style={{ position: "relative", display: "inline-block", marginBottom: spacing["2xl"], textAlign: "center" }}>
+          <h2
+            style={{
+              fontSize: isMobile ? typography.fontSize["3xl"] : typography.fontSize["5xl"],
+              fontWeight: typography.fontWeight.extrabold,
+              color: colors.text.primary,
+              margin: 0,
+              paddingBottom: 20,
+              fontFamily: typography.fontFamily.display,
+              textTransform: "uppercase",
+              letterSpacing: "0.2em",
+              lineHeight: 1.15,
+              transform: "scaleY(1.08)",
+              transformOrigin: "center",
+              display: "inline-block",
+              textAlign: "center",
+            }}
+          >
+            The Journey
+          </h2>
+          <span
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: 80,
+              height: 4,
+              borderRadius: 2,
+              background: `linear-gradient(90deg, transparent, ${colors.brand[500]}, transparent)`,
+            }}
+          />
+        </div>
         <p
           style={{
-            fontSize: isMobile ? typography.fontSize.base : typography.fontSize.lg,
+            fontSize: isMobile ? typography.fontSize.lg : typography.fontSize["2xl"],
             color: colors.text.secondary,
             margin: 0,
-            maxWidth: "800px",
+            maxWidth: "100%",
             marginLeft: "auto",
             marginRight: "auto",
+            paddingLeft: isMobile ? 0 : "10%",
+            paddingRight: isMobile ? 0 : "10%",
             lineHeight: 1.6,
             fontWeight: typography.fontWeight.medium,
+            letterSpacing: "0.02em",
           }}
         >
           Follow one patient from phone call to completed appointment—see how every system works together seamlessly.

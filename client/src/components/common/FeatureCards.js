@@ -15,7 +15,7 @@ export default function FeatureCards() {
     },
     {
       title: "Multilingual",
-      description: "Speak to your entire community. The AI fluently switches between English, Spanish, French, and 20+ others.",
+      description: "Speak to your entire community. The AI fluently switches between English, Spanish, Portuguese, French, and 30+ others.",
       icon: "globe",
       iconColor: "#EC4899", // Pink
     },
@@ -24,6 +24,12 @@ export default function FeatureCards() {
       description: "High-value lead on the line? The AI can patch the call directly to your personal cell phone instantly.",
       icon: "phoneTransfer",
       iconColor: "#3B82F6", // Blue
+    },
+    {
+      title: "Send SMS",
+      description: "The AI can handle an unlimited amount of simultaneous calls unlike a human receptionist.",
+      icon: "message",
+      iconColor: "#10B981", // Green
     },
   ];
 
@@ -75,7 +81,7 @@ export default function FeatureCards() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(4, 1fr)",
           gap: spacing.xl,
         }}
       >

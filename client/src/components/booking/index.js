@@ -1,1 +1,1 @@
-export { default as BookingCalendar } from './BookingCalendar';
+export { default as GoogleFormWrapper } from "./GoogleFormWrapper";
