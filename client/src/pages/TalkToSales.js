@@ -72,6 +72,7 @@ export default function TalkToSales() {
               lineHeight: 1.2,
               fontFamily: typography.fontFamily.display,
               letterSpacing: typography.letterSpacing.tight,
+              textTransform: "uppercase",
             }}
           >
             Talk to our Team

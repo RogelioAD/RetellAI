@@ -1,5 +1,5 @@
-import React from "react";
-import { Switch, Route, Redirect, useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Switch, Route, Redirect, useHistory, useLocation } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -12,6 +12,12 @@ import PricingPage from "./pages/Pricing";
 export default function App() {
   const { token, user, login, logout } = useAuth();
   const history = useHistory();
+  const location = useLocation();
+
+  // Scroll to top when route or tab changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const handleLogin = (res) => {
     login(res);

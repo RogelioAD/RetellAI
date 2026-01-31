@@ -193,6 +193,7 @@ export default function Home() {
                 marginBottom: spacing.lg,
                 fontFamily: typography.fontFamily.display,
                 letterSpacing: typography.letterSpacing.tight,
+                textTransform: "uppercase",
               }}
             >
               Talk to the Team
