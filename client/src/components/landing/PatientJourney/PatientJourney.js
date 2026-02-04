@@ -499,7 +499,6 @@ export default function PatientJourney() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: spacing.sm, fontSize: typography.fontSize.sm, alignItems: "center", textAlign: "center" }}>
             <div style={{ fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>{step.visitComplete.procedure}</div>
-            <div style={{ color: colors.text.secondary }}>{step.visitComplete.address}</div>
             <div style={{ fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>{step.visitComplete.patientName}</div>
           </div>
         </div>
@@ -1011,9 +1010,6 @@ export default function PatientJourney() {
             </div>
             <div style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>
               {v.procedure}
-            </div>
-            <div style={{ fontSize: typography.fontSize.sm, color: colors.text.secondary }}>
-              {v.address}
             </div>
             <div style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>
               {v.patientName}

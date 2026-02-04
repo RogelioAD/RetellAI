@@ -84,7 +84,7 @@ export default function Voice() {
               lineHeight: 1.6,
             }}
           >
-            Inbound and outbound—all on autopilot.
+            Inbound and outbound—all on autopilot
           </p>
         </div>
 

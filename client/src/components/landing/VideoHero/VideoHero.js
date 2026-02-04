@@ -8,15 +8,16 @@ export default function VideoHero() {
   const { isMobile } = useResponsive();
 
   // Reserve space for sticky navbar so hero text is not covered
-  const navbarReserve = isMobile ? 160 : 140;
+  const navbarReserve = isMobile ? 104 : 140;
 
   return (
     <div
       style={{
         width: "100%",
         maxWidth: "100%",
-        height: isMobile ? "85vh" : "85vh",
-        minHeight: isMobile ? "580px" : "680px",
+        height: isMobile ? "100vh" : "85vh",
+        minHeight: isMobile ? 0 : "680px",
+        maxHeight: isMobile ? "100vh" : "none",
         position: "relative",
         margin: 0,
         padding: 0,
@@ -71,14 +72,14 @@ export default function VideoHero() {
             paddingRight: isMobile ? spacing['3xl'] : "6%",
             bottom: 0,
             paddingTop: navbarReserve,
-            paddingBottom: isMobile ? spacing['2xl'] : spacing['4xl'],
+            paddingBottom: isMobile ? spacing.lg : spacing['4xl'],
             boxSizing: "border-box",
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
             alignItems: isMobile ? "center" : "stretch",
-            justifyContent: isMobile ? "flex-start" : "space-between",
-            gap: isMobile ? spacing['3xl'] : spacing['4xl'],
-            overflowY: isMobile ? "auto" : "visible",
+            justifyContent: isMobile ? "center" : "space-between",
+            gap: isMobile ? spacing.lg : spacing['4xl'],
+            overflowY: "hidden",
           }}
         >
           <div
@@ -110,7 +111,7 @@ export default function VideoHero() {
               flexDirection: "column",
               gap: isMobile ? spacing.xl : spacing['2xl'],
               width: "100%",
-              paddingTop: isMobile ? spacing['2xl'] : 0,
+              paddingTop: isMobile ? spacing.lg : 0,
               borderTop: isMobile ? "1px solid rgba(255, 255, 255, 0.15)" : "none",
               textAlign: isMobile ? "center" : "left",
             }}

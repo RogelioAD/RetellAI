@@ -89,7 +89,7 @@ export default function TalkToSales() {
               letterSpacing: typography.letterSpacing.normal,
             }}
           >
-            Schedule a personalized demo with our team to discover how Quantum Consulting can transform your customer communications and streamline your operations
+            Schedule a demo with our team to discover how Quantum Consulting can transform your customer communications and streamline your operations
           </p>
         </div>
 

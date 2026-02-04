@@ -86,7 +86,7 @@ export default function VoiceUseCases() {
         width: "100%",
         maxWidth: "1200px",
         margin: "0 auto",
-        marginTop: spacing['5xl'],
+        marginTop: 0,
         padding: isMobile ? `0 ${spacing.xl}` : `0 ${spacing['4xl']}`,
         scrollMarginTop: isMobile ? "120px" : "140px",
       }}
