@@ -2,7 +2,8 @@ import React from "react";
 import { useResponsive } from "../../../hooks/useResponsive";
 import { colors, spacing, typography, borderRadius } from "../../../constants/horizonTheme";
 
-const YOUTUBE_VIDEO_ID = "OWFy-ZTI6vw"; // https://youtu.be/OWFy-ZTI6vw
+// https://youtu.be/oxYF-DTw1wU and https://youtu.be/oO6MjX6-Uec
+const YOUTUBE_VIDEO_IDS = ["oxYF-DTw1wU", "oO6MjX6-Uec"];
 
 export default function PageIntro() {
   const { isMobile } = useResponsive();
@@ -52,43 +53,37 @@ export default function PageIntro() {
       </div>
       <div
         style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
+          gap: spacing.xl,
           margin: "0 auto",
-          maxWidth: isMobile ? "100%" : "800px",
-          borderRadius: borderRadius.xl,
-          overflow: "hidden",
-          boxShadow: "0 12px 40px rgba(0, 0, 0, 0.12)",
-          aspectRatio: "16 / 9",
-          backgroundColor: colors.gray[100],
+          maxWidth: isMobile ? "100%" : "900px",
         }}
       >
-        {YOUTUBE_VIDEO_ID ? (
-          <iframe
-            title="Hear How It Sounds"
-            src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0`}
-            style={{
-              width: "100%",
-              height: "100%",
-              border: "none",
-            }}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        ) : (
+        {YOUTUBE_VIDEO_IDS.map((videoId, index) => (
           <div
+            key={videoId}
             style={{
-              width: "100%",
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: colors.text.secondary,
-              fontSize: typography.fontSize.sm,
-              padding: spacing.xl,
+              borderRadius: borderRadius.xl,
+              overflow: "hidden",
+              boxShadow: "0 12px 40px rgba(0, 0, 0, 0.12)",
+              aspectRatio: "16 / 9",
+              backgroundColor: colors.gray[100],
             }}
           >
-            Video unavailable
+            <iframe
+              title={`Hear How It Sounds ${index + 1}`}
+              src={`https://www.youtube.com/embed/${videoId}?rel=0`}
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "none",
+              }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
-        )}
+        ))}
       </div>
     </div>
   );
