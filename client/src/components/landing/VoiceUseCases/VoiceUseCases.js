@@ -48,7 +48,7 @@ export default function VoiceUseCases() {
         "Hours and location questions",
         "Walk-in availability"
       ],
-      icon: "barberPole",
+      icon: "barbershop",
       iconColor: "#8B5CF6" // Purple
     },
     {
@@ -299,7 +299,7 @@ export default function VoiceUseCases() {
         </div>
       </div>
 
-      {/* Header */}
+      {/* Header - same style as Take Calls / Make Calls header and subheader */}
       <div
         style={{
           textAlign: "center",
@@ -317,11 +317,11 @@ export default function VoiceUseCases() {
             letterSpacing: typography.letterSpacing.tight,
           }}
         >
-          Voice AI Use Cases
+          Built For Your Industry
         </h2>
         <p
           style={{
-            fontSize: isMobile ? typography.fontSize.base : typography.fontSize.lg,
+            fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
             color: colors.text.secondary,
             margin: 0,
             maxWidth: "700px",
@@ -330,7 +330,7 @@ export default function VoiceUseCases() {
             lineHeight: 1.6,
           }}
         >
-          From customer service to sales, voice AI transforms how businesses communicate
+          See how AI receptionists work for businesses like yours
         </p>
       </div>
 
@@ -406,7 +406,7 @@ export default function VoiceUseCases() {
               {useCase.title}
             </h3>
 
-            {/* Problem Statement (Scenario) - same styling as Solution */}
+            {/* Before: Problem Statement (Scenario) */}
             <div
               style={{
                 padding: spacing.md,
@@ -416,6 +416,18 @@ export default function VoiceUseCases() {
                 borderLeft: `3px solid ${useCase.iconColor}`,
               }}
             >
+              <div
+                style={{
+                  fontSize: typography.fontSize.xs,
+                  fontWeight: typography.fontWeight.bold,
+                  color: useCase.iconColor,
+                  marginBottom: spacing.xs,
+                  textTransform: "uppercase",
+                  letterSpacing: typography.letterSpacing.wider,
+                }}
+              >
+                Before:
+              </div>
               <p
                 style={{
                   fontSize: typography.fontSize.base,
@@ -429,7 +441,7 @@ export default function VoiceUseCases() {
               </p>
             </div>
 
-            {/* Solution Statement */}
+            {/* After: Solution Statement */}
             <div
               style={{
                 padding: spacing.md,
@@ -439,6 +451,18 @@ export default function VoiceUseCases() {
                 borderLeft: `3px solid ${useCase.iconColor}`,
               }}
             >
+              <div
+                style={{
+                  fontSize: typography.fontSize.xs,
+                  fontWeight: typography.fontWeight.bold,
+                  color: useCase.iconColor,
+                  marginBottom: spacing.xs,
+                  textTransform: "uppercase",
+                  letterSpacing: typography.letterSpacing.wider,
+                }}
+              >
+                After:
+              </div>
               <p
                 style={{
                   fontSize: typography.fontSize.base,

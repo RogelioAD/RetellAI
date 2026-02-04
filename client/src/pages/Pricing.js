@@ -3,7 +3,7 @@ import { useResponsive } from "../hooks/useResponsive";
 import LandingHeader from "../components/layout/LandingHeader";
 import PricingComponent from "../components/landing/Pricing";
 import FAQ from "../components/common/FAQ";
-import { colors, spacing } from "../constants/horizonTheme";
+import { colors, spacing, typography } from "../constants/horizonTheme";
 import "../index.css";
 
 export default function PricingPage() {
@@ -52,6 +52,24 @@ export default function PricingPage() {
       >
         {/* Pricing Section */}
         <PricingComponent />
+
+        {/* Trial / no-commitment message */}
+        <p
+          style={{
+            width: "100%",
+            textAlign: "center",
+            fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
+            color: colors.text.secondary,
+            margin: 0,
+            marginTop: spacing["2xl"],
+            marginBottom: 0,
+            paddingBottom: spacing["5xl"],
+            lineHeight: 1.6,
+            fontWeight: typography.fontWeight.medium,
+          }}
+        >
+          Try it free for 2 weeks. No credit card, no contracts. Month-to-month, cancel anytime.
+        </p>
 
         {/* FAQs */}
         <div

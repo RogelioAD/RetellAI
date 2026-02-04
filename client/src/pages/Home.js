@@ -20,7 +20,7 @@ export default function Home() {
         display: "flex",
         flexDirection: "column",
         position: "relative",
-        backgroundColor: colors.background.card,
+        backgroundColor: colors.background.main,
         overflowX: "hidden",
         width: "100%",
         maxWidth: "100%",
@@ -43,7 +43,7 @@ export default function Home() {
         <LandingHeader />
       </div>
 
-      {/* Main Content with white background */}
+      {/* Main Content – centered, max-width container */}
       <main
         style={{
           flex: 1,
@@ -59,21 +59,33 @@ export default function Home() {
           width: "100%",
           maxWidth: "1400px",
           margin: "0 auto",
-          backgroundColor: colors.background.card,
+          backgroundColor: colors.background.main,
           overflowX: "hidden",
           boxSizing: "border-box",
         }}
       >
         {/* Page Intro Section */}
-        <PageIntro />
+        <div
+          style={{
+            width: "100%",
+            borderTop: `3px solid ${colors.brand[400]}`,
+            paddingTop: spacing['5xl'],
+            paddingBottom: spacing['5xl'],
+            boxSizing: "border-box",
+          }}
+        >
+          <PageIntro />
+        </div>
 
         {/* Feature Cards Section */}
         <div
           style={{
             width: "100%",
-            display: "flex",
-            justifyContent: "center",
             marginTop: spacing['5xl'],
+            borderTop: `3px solid ${colors.brand[400]}`,
+            paddingTop: spacing['5xl'],
+            paddingBottom: spacing['5xl'],
+            boxSizing: "border-box",
           }}
         >
           <FeatureCards />
@@ -83,25 +95,14 @@ export default function Home() {
         <div
           style={{
             width: "100%",
-            display: "flex",
-            justifyContent: "center",
             marginTop: spacing['5xl'],
+            borderTop: `3px solid ${colors.brand[400]}`,
             paddingTop: spacing['5xl'],
             paddingBottom: spacing['5xl'],
-            background: `linear-gradient(180deg, ${colors.gray[50]} 0%, ${colors.background.card} 100%)`,
-            borderTop: `3px solid ${colors.brand[200]}`,
+            textAlign: "center",
             boxSizing: "border-box",
           }}
         >
-          <div
-            style={{
-              width: "100%",
-              maxWidth: "100%",
-              textAlign: "center",
-              padding: isMobile ? `${spacing['4xl']} ${spacing.xl}` : `${spacing['5xl']} 8%`,
-              boxSizing: "border-box",
-            }}
-          >
             <div style={{ position: "relative", display: "inline-block", marginBottom: spacing['2xl'] }}>
               <h2
                 style={{
@@ -112,7 +113,7 @@ export default function Home() {
                   paddingBottom: 20,
                   fontFamily: typography.fontFamily.display,
                   textTransform: "uppercase",
-                  letterSpacing: "0.18em",
+                  letterSpacing: "0.2em",
                   lineHeight: 1.15,
                   transform: "scaleY(1.08)",
                   transformOrigin: "center",
@@ -148,57 +149,61 @@ export default function Home() {
                 letterSpacing: "0.02em",
               }}
             >
-              Keep your existing number and sub header under neath You don't need to change a thing. We help you enable "Call Forwarding" on your current business line to route calls to Quantum Consulting
+              Keep your existing number.
             </p>
-          </div>
+            <p
+              style={{
+                fontSize: isMobile ? typography.fontSize.lg : typography.fontSize['2xl'],
+                color: colors.text.secondary,
+                margin: 0,
+                marginTop: spacing['2xl'],
+                maxWidth: "100%",
+                marginLeft: "auto",
+                marginRight: "auto",
+                lineHeight: 1.6,
+                paddingLeft: isMobile ? 0 : "10%",
+                paddingRight: isMobile ? 0 : "10%",
+                letterSpacing: "0.02em",
+              }}
+            >
+              You don't need to change a thing. We help you enable "Call Forwarding" on your current business line to route calls to your AI Receptionist.
+            </p>
         </div>
 
         {/* Patient Journey Section */}
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            marginTop: spacing['5xl'],
-          }}
-        >
+        <div style={{ width: "100%", marginTop: spacing['5xl'] }}>
           <PatientJourney />
         </div>
 
-        {/* Booking Calendar */}
+        {/* Talk To Our Team */}
         <div
           style={{
             width: "100%",
+            marginTop: spacing['5xl'],
+            borderTop: `3px solid ${colors.brand[400]}`,
+            paddingTop: spacing['5xl'],
+            paddingBottom: spacing['4xl'],
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginTop: spacing['5xl'],
+            boxSizing: "border-box",
           }}
         >
-          {/* Header Section */}
-          <div
+          <h2
             style={{
-              textAlign: "center",
+              fontSize: isMobile ? typography.fontSize['2xl'] : typography.fontSize['4xl'],
+              fontWeight: typography.fontWeight.bold,
+              color: colors.text.primary,
+              margin: 0,
               marginBottom: spacing['4xl'],
+              fontFamily: typography.fontFamily.display,
+              letterSpacing: typography.letterSpacing.tight,
+              textAlign: "center",
               width: "100%",
-              maxWidth: "1200px",
             }}
           >
-            <h2
-              style={{
-                fontSize: isMobile ? typography.fontSize['2xl'] : typography.fontSize['4xl'],
-                fontWeight: typography.fontWeight.bold,
-                color: colors.text.primary,
-                margin: 0,
-                marginBottom: spacing.lg,
-                fontFamily: typography.fontFamily.display,
-                letterSpacing: typography.letterSpacing.tight,
-                textTransform: "uppercase",
-              }}
-            >
-              Talk to the Team
-            </h2>
-          </div>
+            Talk To Our Team
+          </h2>
           <GoogleFormWrapper />
         </div>
 
@@ -206,9 +211,14 @@ export default function Home() {
         <div
           style={{
             width: "100%",
-            display: "flex",
-            justifyContent: "center",
             marginTop: spacing['5xl'],
+            borderTop: `3px solid ${colors.brand[400]}`,
+            paddingTop: spacing['5xl'],
+            paddingBottom: spacing['5xl'],
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            boxSizing: "border-box",
           }}
         >
           <FAQ

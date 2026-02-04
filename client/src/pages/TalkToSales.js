@@ -64,18 +64,17 @@ export default function TalkToSales() {
         >
           <h1
             style={{
-              fontSize: isMobile ? typography.fontSize['3xl'] : typography.fontSize['5xl'],
-              fontWeight: typography.fontWeight.extrabold,
+              fontSize: isMobile ? typography.fontSize['2xl'] : typography.fontSize['4xl'],
+              fontWeight: typography.fontWeight.bold,
               color: colors.text.primary,
               margin: 0,
               marginBottom: spacing.lg,
               lineHeight: 1.2,
               fontFamily: typography.fontFamily.display,
               letterSpacing: typography.letterSpacing.tight,
-              textTransform: "uppercase",
             }}
           >
-            Talk to our Team
+            Talk To Our Team
           </h1>
           <p
             style={{
@@ -90,7 +89,7 @@ export default function TalkToSales() {
               letterSpacing: typography.letterSpacing.normal,
             }}
           >
-            Schedule a personalized demo with our team to discover how Quantum Consulting can transform your customer communications and streamline your operations.
+            Schedule a personalized demo with our team to discover how Quantum Consulting can transform your customer communications and streamline your operations
           </p>
         </div>
 

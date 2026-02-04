@@ -81,10 +81,9 @@ export default function SMS() {
                 marginBottom: spacing.lg,
                 fontFamily: typography.fontFamily.display,
                 letterSpacing: typography.letterSpacing.tight,
-                textTransform: "uppercase",
               }}
             >
-              Talk to the Team
+              Talk To Our Team
             </h2>
           </div>
           <GoogleFormWrapper />

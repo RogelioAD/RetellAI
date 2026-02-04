@@ -42,13 +42,13 @@ export default function PatientJourney() {
     {
       number: 1,
       time: "8:15 AM",
-      title: "Receptionist answers call",
-      description: "Sarah calls to schedule a follow-up appointment with her cardiologist after completing her heart catheter procedure. The AI receptionist answers instantly—no hold, no voicemail. A friendly greeting, then straight to helping her book.",
+      title: "AI Receptionist Answers The Call",
+      description: "Sarah calls to schedule a follow-up appointment with her cardiologist after completing her heart catheter procedure. The AI receptionist answers instantly—no hold, no voicemail. A friendly greeting, then straight to helping her book an appointment.",
       status: "ANSWERED ✓",
       conversation: {
-        ai: "Good morning! Thank you for calling. How can I help you today?",
+        ai: "Good morning! Thank you for calling Heartwell Cardiology. How can I help you?",
         patient: "Hi, I had a heart catheter procedure last week and need to schedule my follow-up with Dr. Martinez.",
-        aiResponse: "I can help with that. Let me look up your information and find available times for your follow-up with Dr. Martinez. We have availability next Tuesday at 2 PM. Would that work?",
+        aiResponse: "Sure, I can help with that. Can I please have your full name and date of birth?",
       },
       icon: "phone",
       color: stepPalette.blue,
@@ -57,30 +57,32 @@ export default function PatientJourney() {
     {
       number: 2,
       time: "8:16 AM",
-      title: "Look up patient info in CRM",
-      description: "The system looks up Sarah in the CRM—existing patient, contact details, and history. It shows her recent heart catheter procedure and previous appointments with Dr. Martinez. Everything the receptionist needs is right there. No digging through files or asking her to repeat herself.",
+      title: "Instantly Retrieve Patient Record In EHR",
+      description: "The AI pulls up Sarah's complete record from the clinic's EHR: contact details, insurance info, and her assigned provider. No hold time, no digging through files.",
       crmData: {
-        name: "Sarah",
+        fullName: "Sarah Parker",
+        dob: "05/07/1968",
+        sex: "Female",
         phone: "(555) 234-5678",
-        procedure: "Heart Catheter (completed)",
-        doctor: "Dr. Martinez",
-        appointmentDate: "Follow-up: Next Tuesday, 2:00 PM",
-        source: "Phone • 8:15 AM",
+        address: "123 Sunshine Blvd, San Francisco, CA 94110",
+        insurance: "Blue Cross Blue Shield",
+        memberId: "BCB-9847261",
+        provider: "Martinez, Gabriel",
       },
       icon: "search",
       color: stepPalette.purple,
-      imageryLabel: "Patient found",
+      imageryLabel: "Patient record",
     },
     {
       number: 3,
       time: "8:17 AM",
-      title: "Book into calendar",
-      description: "Sarah confirms the time. The AI checks Dr. Martinez's availability, finds the slot, and books the follow-up appointment into the calendar. Instant confirmation—no waiting, no back-and-forth.",
+      title: "Book Into Calendar",
+      description: "Sarah chooses a time that works. The AI checks Dr. Martinez's availability, finds the slot, and books the follow-up appointment into the calendar. Instant confirmation—no waiting, no back-and-forth.",
       calendar: {
-        date: "Next Tuesday",
+        date: "November 19, 2025",
         time: "2:00 PM",
         procedure: "Follow-up appointment",
-        followUp: "Post heart catheter procedure",
+        followUp: "Post-procedure follow-up",
         doctor: "Dr. Martinez",
       },
       icon: "calendar",
@@ -90,18 +92,18 @@ export default function PatientJourney() {
     {
       number: 4,
       time: "24hrs before",
-      title: "Call reminder 24hrs prior",
-      description: "The day before her follow-up appointment, Sarah gets an automated reminder call from City Medical. She can confirm, reschedule, or cancel during the call. No surprises, fewer no-shows.",
+      title: "Call Reminder 24hrs Prior",
+      description: "The day before, Sarah gets a reminder call from the AI. She can confirm, reschedule, or cancel on the spot. No surprises—and 40% fewer no-shows.",
       callReminder: {
-        caller: "City Medical",
-        label: "Reminder · 24hrs prior",
-        script: "Hi Sarah! Reminder: your follow-up appointment with Dr. Martinez is tomorrow at 2 PM. Please arrive 15 minutes early. Press 1 to confirm, 2 to reschedule, or 3 to cancel.",
+        caller: "Heartwell Cardiology",
+        label: "Reminder Call",
+        script: "Hi Sarah, just calling to confirm your appointment tomorrow at 2 PM with Dr. Martinez. Does that still work for you?",
       },
       messages: [
         {
           type: "reminder",
           sent: true,
-          content: "Hi Sarah! Reminder: your follow-up appointment with Dr. Martinez is tomorrow at 2 PM. Please arrive 15 minutes early. Press 1 to confirm, 2 to reschedule, or 3 to cancel.",
+          content: "Hi Sarah, just calling to confirm your appointment tomorrow at 2 PM with Dr. Martinez. Does that still work for you?",
         },
       ],
       icon: "phone",
@@ -111,28 +113,27 @@ export default function PatientJourney() {
     {
       number: 5,
       time: "Visit day",
-      title: "Patient visit complete",
+      title: "Patient Visit Complete",
       description: "Sarah arrives, checks in, and has her follow-up appointment with Dr. Martinez to review her heart catheter results. The visit is marked complete in the system. Care delivered, journey closed—seamlessly.",
       status: "VISIT COMPLETE ✓",
       visitComplete: {
-        patient: "Sarah",
-        procedure: "Follow-up appointment",
-        date: "Tuesday",
-        doctor: "Dr. Martinez",
+        procedure: "Follow-up Appointment",
+        address: "142 Maple Street",
+        patientName: "Sarah Parker",
       },
       icon: "check",
       color: stepPalette.blue,
-      imageryLabel: "Complete ✓",
+      imageryLabel: "Complete",
     },
     {
       number: 6,
       time: "After visit",
-      title: "5-Star Reviews",
-      description: "Sarah leaves a glowing 5-star review on Google, praising the seamless experience from booking to appointment. Her positive feedback joins hundreds of others, building trust and attracting new patients.",
+      title: "Generate 5-Star Reviews On Autopilot",
+      description: "After her visit, the AI automatically texts Sarah asking her to leave a review. She leaves a glowing 5-star on Google, praising the seamless experience from booking to appointment. Her feedback builds trust and attracts new patients.",
       reviews: {
         rating: 5,
         totalReviews: 200,
-        businessName: "City Medical Center",
+        businessName: "Heartwell Cardiology",
       },
       icon: "check",
       color: stepPalette.lavender,
@@ -216,7 +217,7 @@ export default function PatientJourney() {
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: spacing.xs }}>
-                    <span style={{ fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>Sarah C.</span>
+                    <span style={{ fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>Sarah P.</span>
                     <div style={{ display: "flex", gap: 1 }}>
                       {[...Array(5)].map((_, i) => (
                         <span key={i} style={{ fontSize: typography.fontSize.xs, color: "#F59E0B" }}>★</span>
@@ -301,7 +302,7 @@ export default function PatientJourney() {
 
   const renderStepHeader = (step) => (
     <div key={`header-${step.number}`} style={{ flex: "1 1 50%", minWidth: 0, display: "flex", flexDirection: "column", gap: spacing.xl, alignItems: "flex-start", alignSelf: "stretch" }}>
-      {/* Step icon first */}
+      {/* Step number circle – centered */}
       <div
         style={{
           width: isMobile ? 72 : 96,
@@ -316,6 +317,7 @@ export default function PatientJourney() {
           fontWeight: typography.fontWeight.extrabold,
           boxShadow: `0 12px 32px ${step.color}40`,
           flexShrink: 0,
+          alignSelf: "center",
         }}
       >
         {step.number}
@@ -409,7 +411,7 @@ export default function PatientJourney() {
               <div style={{ fontSize: typography.fontSize.sm, color: colors.text.primary, lineHeight: 1.5 }}>"{step.conversation.ai}"</div>
             </div>
             <div>
-              <div style={{ fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: colors.text.secondary, marginBottom: spacing.xs }}>Sarah:</div>
+              <div style={{ fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: "#059669", marginBottom: spacing.xs }}>Sarah:</div>
               <div style={{ fontSize: typography.fontSize.sm, color: colors.text.primary, lineHeight: 1.5 }}>"{step.conversation.patient}"</div>
             </div>
             {step.conversation.aiResponse && (
@@ -432,22 +434,24 @@ export default function PatientJourney() {
             ...glowStyle(step),
           }}
         >
-          <div style={{ fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold, color: colors.text.secondary, textTransform: "uppercase", letterSpacing: typography.letterSpacing.wider, marginBottom: spacing.md }}>Patient info · CRM lookup</div>
+          <div style={{ fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold, color: colors.text.secondary, textTransform: "uppercase", letterSpacing: typography.letterSpacing.wider, marginBottom: spacing.md }}>Patient record · EHR</div>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: spacing.sm, fontSize: typography.fontSize.sm }}>
-            <div><strong style={{ color: colors.text.primary }}>Patient Name:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.name}</span></div>
+            <div><strong style={{ color: colors.text.primary }}>Full Name:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.fullName}</span></div>
+            <div><strong style={{ color: colors.text.primary }}>DOB:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.dob}</span></div>
+            <div><strong style={{ color: colors.text.primary }}>Sex:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.sex}</span></div>
             <div><strong style={{ color: colors.text.primary }}>Phone:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.phone}</span></div>
-            <div><strong style={{ color: colors.text.primary }}>Procedure:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.procedure}</span></div>
-            <div><strong style={{ color: colors.text.primary }}>Doctor:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.doctor}</span></div>
-            <div><strong style={{ color: colors.text.primary }}>Appointment:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.appointmentDate}</span></div>
-            <div><strong style={{ color: colors.text.primary }}>Source:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.source}</span></div>
+            <div style={{ gridColumn: isMobile ? "1" : "1 / -1" }}><strong style={{ color: colors.text.primary }}>Address:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.address}</span></div>
+            <div><strong style={{ color: colors.text.primary }}>Insurance:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.insurance}</span></div>
+            <div><strong style={{ color: colors.text.primary }}>Member ID:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.memberId}</span></div>
+            <div><strong style={{ color: colors.text.primary }}>Provider:</strong> <span style={{ color: colors.text.secondary }}>{step.crmData.provider}</span></div>
           </div>
         </div>
       )}
 
       {step.calendar && (
-        <div style={{ padding: spacing.lg, backgroundColor: colors.gray[50], borderRadius: borderRadius.lg, border: `1px solid ${colors.gray[200]}`, ...glowStyle(step) }}>
+        <div style={{ padding: spacing.lg, backgroundColor: colors.gray[50], borderRadius: borderRadius.lg, border: `1px solid ${colors.gray[200]}`, ...glowStyle(step), display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
           <div style={{ fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold, color: colors.text.secondary, textTransform: "uppercase", letterSpacing: typography.letterSpacing.wider, marginBottom: spacing.md }}>Appointment Booked ✓</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: spacing.sm, fontSize: typography.fontSize.sm }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: spacing.sm, fontSize: typography.fontSize.sm, alignItems: "center", textAlign: "center" }}>
             <div><strong style={{ color: colors.text.primary }}>{step.calendar.procedure}</strong></div>
             <div style={{ color: colors.text.secondary }}>{step.calendar.date} · {step.calendar.time}</div>
             <div style={{ color: colors.text.secondary, marginTop: spacing.sm }}>{step.calendar.followUp} with {step.calendar.doctor}</div>
@@ -475,6 +479,10 @@ export default function PatientJourney() {
             borderRadius: borderRadius.lg,
             border: `2px solid ${colors.success}30`,
             ...glowStyle(step),
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
           }}
         >
           <div
@@ -489,9 +497,10 @@ export default function PatientJourney() {
           >
             Visit complete ✓
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: spacing.sm, fontSize: typography.fontSize.sm }}>
-            <div><strong style={{ color: colors.text.primary }}>{step.visitComplete.patient}</strong> · {step.visitComplete.procedure}</div>
-            <div style={{ color: colors.text.secondary }}>{step.visitComplete.date} · {step.visitComplete.doctor}</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: spacing.sm, fontSize: typography.fontSize.sm, alignItems: "center", textAlign: "center" }}>
+            <div style={{ fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>{step.visitComplete.procedure}</div>
+            <div style={{ color: colors.text.secondary }}>{step.visitComplete.address}</div>
+            <div style={{ fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>{step.visitComplete.patientName}</div>
           </div>
         </div>
       )}
@@ -563,7 +572,7 @@ export default function PatientJourney() {
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: spacing.xs, marginBottom: spacing.xs }}>
-                    <span style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>Sarah C.</span>
+                    <span style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>Sarah P.</span>
                     <div style={{ display: "flex", gap: 2 }}>
                       {[...Array(5)].map((_, i) => (
                         <span key={i} style={{ fontSize: typography.fontSize.xs, color: "#F59E0B" }}>★</span>
@@ -621,7 +630,7 @@ export default function PatientJourney() {
               <Icon name="phone" size={isMobile ? 28 : 36} color={colors.text.white} strokeWidth="2.5" />
             </div>
             <span style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold, color: step.color }}>
-              Answered in 2 seconds
+              Answered In 1 Second
             </span>
           </div>
           <div
@@ -645,7 +654,7 @@ export default function PatientJourney() {
                 <div style={{ fontSize: typography.fontSize.sm, color: colors.text.primary, lineHeight: 1.5 }}>"{step.conversation.ai}"</div>
               </div>
               <div>
-                <div style={{ fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: colors.text.secondary, marginBottom: spacing.xs }}>Sarah:</div>
+                <div style={{ fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: "#059669", marginBottom: spacing.xs }}>Sarah:</div>
                 <div style={{ fontSize: typography.fontSize.sm, color: colors.text.primary, lineHeight: 1.5 }}>"{step.conversation.patient}"</div>
               </div>
               {step.conversation.aiResponse && (
@@ -665,23 +674,6 @@ export default function PatientJourney() {
     if (step.number !== 2 || !step.crmData) return null;
     const glow = getGlow(step.color);
     const d = step.crmData;
-    const sectionStyle = {
-      padding: spacing.lg,
-      borderRadius: borderRadius.lg,
-      border: `1px solid ${colors.gray[200]}`,
-      backgroundColor: colors.gray[50],
-      display: "flex",
-      flexDirection: "column",
-      gap: spacing.sm,
-    };
-    const labelStyle = {
-      fontSize: typography.fontSize.xs,
-      fontWeight: typography.fontWeight.bold,
-      color: colors.text.secondary,
-      textTransform: "uppercase",
-      letterSpacing: typography.letterSpacing.wider,
-      marginBottom: spacing.xs,
-    };
     const rowStyle = { fontSize: typography.fontSize.sm };
     return (
       <div
@@ -718,25 +710,30 @@ export default function PatientJourney() {
               <Icon name="search" size={isMobile ? 28 : 36} color={colors.text.white} strokeWidth="2.5" />
             </div>
             <span style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold, color: step.color }}>
-              Patient found
+              Patient record
             </span>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: spacing.lg, flex: 1, minHeight: 0 }}>
-            <div style={sectionStyle}>
-              <div style={labelStyle}>Patient</div>
-              <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Name:</strong> <span style={{ color: colors.text.secondary }}>{d.name}</span></div>
-              <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Phone:</strong> <span style={{ color: colors.text.secondary }}>{d.phone}</span></div>
-            </div>
-            <div style={sectionStyle}>
-              <div style={labelStyle}>Care</div>
-              <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Procedure:</strong> <span style={{ color: colors.text.secondary }}>{d.procedure}</span></div>
-              <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Doctor:</strong> <span style={{ color: colors.text.secondary }}>{d.doctor}</span></div>
-            </div>
-            <div style={sectionStyle}>
-              <div style={labelStyle}>Booking</div>
-              <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Appointment:</strong> <span style={{ color: colors.text.secondary }}>{d.appointmentDate}</span></div>
-              <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Source:</strong> <span style={{ color: colors.text.secondary }}>{d.source}</span></div>
-            </div>
+          <div
+            style={{
+              padding: spacing.lg,
+              borderRadius: borderRadius.lg,
+              border: `1px solid ${colors.gray[200]}`,
+              backgroundColor: colors.gray[50],
+              display: "flex",
+              flexDirection: "column",
+              gap: spacing.sm,
+              flex: 1,
+              minHeight: 0,
+            }}
+          >
+            <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Full Name:</strong> <span style={{ color: colors.text.secondary }}>{d.fullName}</span></div>
+            <div style={rowStyle}><strong style={{ color: colors.text.primary }}>DOB:</strong> <span style={{ color: colors.text.secondary }}>{d.dob}</span></div>
+            <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Sex:</strong> <span style={{ color: colors.text.secondary }}>{d.sex}</span></div>
+            <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Phone:</strong> <span style={{ color: colors.text.secondary }}>{d.phone}</span></div>
+            <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Address:</strong> <span style={{ color: colors.text.secondary }}>{d.address}</span></div>
+            <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Insurance:</strong> <span style={{ color: colors.text.secondary }}>{d.insurance}</span></div>
+            <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Member ID:</strong> <span style={{ color: colors.text.secondary }}>{d.memberId}</span></div>
+            <div style={rowStyle}><strong style={{ color: colors.text.primary }}>Provider:</strong> <span style={{ color: colors.text.secondary }}>{d.provider}</span></div>
           </div>
         </div>
       </div>
@@ -817,6 +814,8 @@ export default function PatientJourney() {
               display: "flex",
               flexDirection: "column",
               gap: spacing.sm,
+              alignItems: "center",
+              textAlign: "center",
             }}
           >
             <div style={{ fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold, color: step.color, textTransform: "uppercase", letterSpacing: typography.letterSpacing.wider }}>
@@ -835,9 +834,9 @@ export default function PatientJourney() {
     if (step.number !== 4) return null;
     const glow = getGlow(step.color);
     const call = step.callReminder || {
-      caller: "City Medical",
-      label: "Reminder · 24hrs prior",
-      script: "Hi Sarah! Reminder: your follow-up appointment with Dr. Martinez is tomorrow at 2 PM. Please arrive 15 minutes early. Press 1 to confirm, 2 to reschedule, or 3 to cancel.",
+      caller: "Heartwell Cardiology",
+      label: "Reminder Call",
+      script: "Hi Sarah, just calling to confirm your appointment tomorrow at 2 PM with Dr. Martinez. Does that still work for you?",
     };
     return (
       <div
@@ -939,9 +938,9 @@ export default function PatientJourney() {
               "{call.script}"
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: spacing.sm, marginTop: spacing.sm }}>
-              <span style={{ padding: `${spacing.xs} ${spacing.md}`, borderRadius: borderRadius.sm, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: step.color, backgroundColor: `${step.color}18`, border: `1px solid ${step.color}40` }}>1 · Confirm</span>
-              <span style={{ padding: `${spacing.xs} ${spacing.md}`, borderRadius: borderRadius.sm, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: step.color, backgroundColor: `${step.color}18`, border: `1px solid ${step.color}40` }}>2 · Reschedule</span>
-              <span style={{ padding: `${spacing.xs} ${spacing.md}`, borderRadius: borderRadius.sm, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: step.color, backgroundColor: `${step.color}18`, border: `1px solid ${step.color}40` }}>3 · Cancel</span>
+              <span style={{ padding: `${spacing.xs} ${spacing.md}`, borderRadius: borderRadius.sm, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: step.color, backgroundColor: `${step.color}18`, border: `1px solid ${step.color}40` }}>Confirm</span>
+              <span style={{ padding: `${spacing.xs} ${spacing.md}`, borderRadius: borderRadius.sm, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: step.color, backgroundColor: `${step.color}18`, border: `1px solid ${step.color}40` }}>Reschedule</span>
+              <span style={{ padding: `${spacing.xs} ${spacing.md}`, borderRadius: borderRadius.sm, fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.semibold, color: step.color, backgroundColor: `${step.color}18`, border: `1px solid ${step.color}40` }}>Cancel</span>
             </div>
           </div>
         </div>
@@ -988,7 +987,7 @@ export default function PatientJourney() {
               <Icon name="check" size={isMobile ? 28 : 36} color={colors.text.white} strokeWidth="2.5" />
             </div>
             <span style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold, color: step.color }}>
-              Complete ✓
+              Complete
             </span>
           </div>
           <div
@@ -1003,16 +1002,21 @@ export default function PatientJourney() {
               flex: 1,
               minHeight: 0,
               overflow: "hidden",
+              alignItems: "center",
+              textAlign: "center",
             }}
           >
             <div style={{ fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold, color: colors.text.secondary, textTransform: "uppercase", letterSpacing: typography.letterSpacing.wider }}>
               Visit complete ✓
             </div>
-            <div style={{ fontSize: typography.fontSize.sm, color: colors.text.primary, lineHeight: 1.5 }}>
-              <strong>{v.patient}</strong> · {v.procedure}
+            <div style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>
+              {v.procedure}
             </div>
             <div style={{ fontSize: typography.fontSize.sm, color: colors.text.secondary }}>
-              {v.date} · {v.doctor}
+              {v.address}
+            </div>
+            <div style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>
+              {v.patientName}
             </div>
           </div>
         </div>
@@ -1059,9 +1063,11 @@ export default function PatientJourney() {
             >
               <Icon name="check" size={isMobile ? 28 : 36} color={colors.text.white} strokeWidth="2.5" />
             </div>
-            <span style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.bold, color: step.color }}>
-              5 Stars
-            </span>
+            <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+              {[...Array(5)].map((_, i) => (
+                <span key={i} style={{ fontSize: typography.fontSize.xl, color: starColor }}>★</span>
+              ))}
+            </div>
           </div>
           <div
             style={{
@@ -1093,7 +1099,7 @@ export default function PatientJourney() {
                   <span style={{ fontSize: typography.fontSize.sm, color: colors.text.secondary }}>S</span>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: spacing.xs, flexWrap: "wrap" }}>
-                  <span style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>Sarah C.</span>
+                  <span style={{ fontSize: typography.fontSize.sm, fontWeight: typography.fontWeight.semibold, color: colors.text.primary }}>Sarah P.</span>
                   <div style={{ display: "flex", gap: 1 }}>
                     {[...Array(5)].map((_, i) => (
                       <span key={i} style={{ fontSize: typography.fontSize.xs, color: starColor }}>★</span>
@@ -1170,13 +1176,9 @@ export default function PatientJourney() {
           paddingTop: spacing["5xl"],
           paddingBottom: spacing["5xl"],
           marginBottom: spacing["4xl"],
-          background: `linear-gradient(180deg, ${colors.gray[50]} 0%, rgba(255,255,255,0.6) 100%)`,
           borderTop: `3px solid ${colors.brand[400]}`,
-          borderBottom: `1px solid ${colors.gray[200]}`,
           textAlign: "center",
           boxSizing: "border-box",
-          position: "relative",
-          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8)",
         }}
       >
         <div style={{ position: "relative", display: "inline-block", marginBottom: spacing["2xl"], textAlign: "center" }}>

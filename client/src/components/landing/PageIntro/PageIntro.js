@@ -17,20 +17,39 @@ export default function PageIntro() {
         width: "100%",
       }}
     >
-      <h2
-        style={{
-          fontSize: isMobile ? typography.fontSize["2xl"] : typography.fontSize["4xl"],
-          fontWeight: typography.fontWeight.bold,
-          color: colors.text.primary,
-          margin: 0,
-          marginBottom: spacing["2xl"],
-          textAlign: "center",
-          letterSpacing: typography.letterSpacing.tight,
-          fontFamily: typography.fontFamily.display,
-        }}
-      >
-        Hear How It Sounds
-      </h2>
+      <div style={{ position: "relative", display: "inline-block", marginBottom: spacing["2xl"], textAlign: "center" }}>
+        <h2
+          style={{
+            fontSize: isMobile ? typography.fontSize["3xl"] : typography.fontSize["5xl"],
+            fontWeight: typography.fontWeight.extrabold,
+            color: colors.text.primary,
+            margin: 0,
+            paddingBottom: 20,
+            fontFamily: typography.fontFamily.display,
+            textTransform: "uppercase",
+            letterSpacing: "0.2em",
+            lineHeight: 1.15,
+            transform: "scaleY(1.08)",
+            transformOrigin: "center",
+            display: "inline-block",
+            textAlign: "center",
+          }}
+        >
+          Hear How It Sounds
+        </h2>
+        <span
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 80,
+            height: 4,
+            borderRadius: 2,
+            background: `linear-gradient(90deg, transparent, ${colors.brand[500]}, transparent)`,
+          }}
+        />
+      </div>
       <div
         style={{
           margin: "0 auto",

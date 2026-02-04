@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useResponsive } from "../../hooks/useResponsive";
 import Button from "../common/Button";
@@ -11,27 +11,11 @@ const HERO_VIEWPORT_RATIO = 0.85;
 // Header component for landing page with logo, Solutions dropdown, login, and talk-to-sales links
 export default function LandingHeader() {
   const { isMobile } = useResponsive();
-  const [showSolutions, setShowSolutions] = useState(false);
   const [isOverHero, setIsOverHero] = useState(true);
-  const solutionsRef = useRef(null);
   const location = useLocation();
   const pad = navbarStyles.outerPadding;
   const logo = navbarStyles.logoSize;
   const bar = navbarStyles.barMinHeight;
-
-  useEffect(() => {
-    setShowSolutions(false);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (solutionsRef.current && !solutionsRef.current.contains(e.target)) {
-        setShowSolutions(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   // On home page: white bar over hero, liquid glass after scrolling past hero. Other pages: always glass.
   useEffect(() => {
@@ -119,15 +103,12 @@ export default function LandingHeader() {
         </Link>
 
         <div style={{ display: "flex", alignItems: "center", gap: spacing.md }}>
-          {/* Solutions dropdown */}
-          <div ref={solutionsRef} style={{ position: "relative" }}>
+          {/* Voice link (single service) */}
+          <Link to="/solutions/voice" style={{ textDecoration: "none" }}>
             {isMobile ? (
               <button
                 type="button"
-                onClick={() => setShowSolutions((prev) => !prev)}
-                aria-expanded={showSolutions}
-                aria-haspopup="true"
-                aria-label="Solutions menu"
+                aria-label="Voice"
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -149,28 +130,20 @@ export default function LandingHeader() {
                   e.currentTarget.style.backgroundColor = "rgba(139, 92, 246, 0.15)";
                 }}
               >
-                <Icon name="globe" size={22} color={colors.brand[600]} strokeWidth="2.5" />
+                <Icon name="phone" size={22} color={colors.brand[600]} strokeWidth="2.5" />
               </button>
             ) : (
-              <button
-                type="button"
-                onClick={() => setShowSolutions((prev) => !prev)}
-                aria-expanded={showSolutions}
-                aria-haspopup="true"
-                aria-label="Solutions menu"
+              <span
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: spacing.xs,
                   padding: `${spacing.sm} ${spacing.md}`,
                   borderRadius: borderRadius.md,
-                  border: "none",
-                  background: "transparent",
                   color: colors.text.primary,
                   fontSize: typography.fontSize.base,
                   fontWeight: typography.fontWeight.semibold,
                   fontFamily: typography.fontFamily.display,
-                  cursor: "pointer",
                   transition: "background-color 0.2s ease",
                 }}
                 onMouseEnter={(e) => {
@@ -180,60 +153,10 @@ export default function LandingHeader() {
                   e.currentTarget.style.backgroundColor = "transparent";
                 }}
               >
-                Solutions
-                <span
-                  style={{
-                    display: "inline-flex",
-                    transition: "transform 0.2s ease",
-                    transform: showSolutions ? "rotate(180deg)" : "rotate(0deg)",
-                  }}
-                >
-                  <Icon name="chevronDown" size={16} color={colors.text.primary} strokeWidth="2.5" />
-                </span>
-              </button>
+                Voice
+              </span>
             )}
-            {showSolutions && (
-              <div
-                role="menu"
-                style={{
-                  position: "absolute",
-                  top: "100%",
-                  right: isMobile ? 0 : "auto",
-                  left: isMobile ? "auto" : 0,
-                  marginTop: spacing.sm,
-                  minWidth: "160px",
-                  padding: spacing.sm,
-                  borderRadius: borderRadius.lg,
-                  backgroundColor: colors.background.card,
-                  border: `1px solid ${colors.gray[200]}`,
-                  boxShadow: "0 12px 32px rgba(0,0,0,0.12)",
-                  zIndex: 200,
-                }}
-              >
-                <Link
-                  to="/solutions/voice"
-                  role="menuitem"
-                  style={{
-                    display: "block",
-                    padding: `${spacing.md} ${spacing.lg}`,
-                    borderRadius: borderRadius.md,
-                    color: colors.text.primary,
-                    textDecoration: "none",
-                    fontSize: typography.fontSize.sm,
-                    fontWeight: typography.fontWeight.medium,
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = colors.gray[50];
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                  }}
-                >
-                  Voice
-                </Link>
-              </div>
-            )}
-          </div>
+          </Link>
 
           {/* Pricing Link */}
           {isMobile ? (

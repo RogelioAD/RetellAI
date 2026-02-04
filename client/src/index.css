@@ -253,40 +253,228 @@ pre {
   font-weight: 700;
 }
 
-/* Hero key points – Outfit font, modern & approachable */
+/* ========== Hero: senior UX polish – hierarchy, accents, motion ========== */
+@keyframes heroContentEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroKeypointRowEnter {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.hero-headline-block {
+  max-width: 32em; /* Optimal line length for readability */
+}
+
+.hero-headline {
+  font-family: 'Space Grotesk', 'Outfit', 'Inter', sans-serif;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.35),
+    0 4px 28px rgba(0, 0, 0, 0.25),
+    0 0 60px rgba(0, 0, 0, 0.12);
+  animation: heroContentEnter 0.75s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.hero-headline .hero-accent {
+  background: linear-gradient(135deg, #B8A4FF 0%, #9B7EFF 50%, #7551FF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  font-weight: 800;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.hero-subhead {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.98);
+  margin: 0;
+  line-height: 1.5;
+  letter-spacing: -0.015em;
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.28),
+    0 4px 20px rgba(0, 0, 0, 0.18);
+  animation: heroContentEnter 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.12s backwards;
+}
+
+.hero-subhead .hero-accent {
+  color: #C0B8FE;
+  font-weight: 700;
+  text-shadow: 0 0 24px rgba(192, 184, 254, 0.4), 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Key points block: clean container, optional glass on desktop */
 .hero-keypoints {
   font-family: 'Outfit', 'Inter', sans-serif;
 }
 
-.hero-keypoint-num {
-  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+.hero-keypoint-row {
+  animation: heroKeypointRowEnter 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.hero-keypoint-row--1 { animation-delay: 0.25s; }
+.hero-keypoint-row--2 { animation-delay: 0.42s; }
+.hero-keypoint-row--3 { animation-delay: 0.6s; }
+
+.hero-keypoint-title {
+  margin: 0;
   font-weight: 700;
-  font-size: 1.5rem;
-  line-height: 1;
   color: #fff;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #7551FF 0%, #422AFB 50%, #A195FD 100%);
+  text-wrap: balance;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.35),
+    0 1px 4px rgba(0, 0, 0, 0.25);
+  letter-spacing: -0.015em;
+  line-height: 1.28;
+}
+
+.hero-keypoint-body {
+  margin: 0;
+  padding: 0;
+  padding-top: 10px;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.55;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.02em;
+}
+
+/* Numeric step icons – primary focal point: larger, more depth, subtle entrance */
+@keyframes heroKeypointEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-keypoint-num {
+  --hero-num-size: 56px;
+  position: relative;
+  width: var(--hero-num-size);
+  height: var(--hero-num-size);
+  min-width: var(--hero-num-size);
+  min-height: var(--hero-num-size);
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 6px 20px rgba(66, 42, 251, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  align-self: center;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #8B6BFF 0%, #5C3DD9 35%, #422AFB 65%, #7B5CF7 100%);
+  /* Multi-layer shadow: outer glow + soft lift + inner highlight for depth */
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.35),
+    0 12px 40px rgba(66, 42, 251, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  animation: heroKeypointEnter 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) backwards;
+}
+
+.hero-keypoint-num--1 { animation-delay: 0.05s; }
+.hero-keypoint-num--2 { animation-delay: 0.15s; }
+.hero-keypoint-num--3 { animation-delay: 0.25s; }
+
+.hero-keypoint-num-ring {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+}
+
+.hero-keypoint-num-ring svg {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-keypoint-num-digit {
+  position: relative;
+  z-index: 1;
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), 0 0 20px rgba(255, 255, 255, 0.15);
+  letter-spacing: -0.02em;
 }
 
 .hero-keypoints:hover .hero-keypoint-num {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 8px 24px rgba(66, 42, 251, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: scale(1.06);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.25),
+    0 12px 32px rgba(0, 0, 0, 0.4),
+    0 16px 48px rgba(66, 42, 251, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
 @media (min-width: 769px) {
   .hero-keypoint-num {
+    --hero-num-size: 64px;
+  }
+  .hero-keypoint-num-digit {
     font-size: 1.75rem;
-    width: 2.75rem;
-    height: 2.75rem;
+  }
+  .hero-keypoints {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero-headline {
+    font-size: 3rem;
+  }
+  .hero-subhead {
+    font-size: 1.375rem;
+  }
+  .hero-keypoint-title {
+    font-size: 1.25rem;
+  }
+  .hero-keypoint-body {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-headline {
+    font-size: 1.5rem;
+  }
+  .hero-subhead {
+    font-size: 1.0625rem;
+  }
+  .hero-keypoint-title {
+    font-size: 1rem;
+  }
+  .hero-keypoint-body {
+    font-size: 0.875rem;
   }
 }
 

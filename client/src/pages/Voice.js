@@ -51,8 +51,72 @@ export default function Voice() {
           margin: "0 auto",
         }}
       >
+        {/* Voice Solutions Header */}
+        <div
+          style={{
+            textAlign: "center",
+            marginBottom: spacing["4xl"],
+            width: "100%",
+            maxWidth: "1200px",
+          }}
+        >
+          <h2
+            style={{
+              fontSize: isMobile ? typography.fontSize["2xl"] : typography.fontSize["4xl"],
+              fontWeight: typography.fontWeight.bold,
+              color: colors.text.primary,
+              margin: 0,
+              marginBottom: spacing.lg,
+              fontFamily: typography.fontFamily.display,
+              letterSpacing: typography.letterSpacing.tight,
+            }}
+          >
+            Take Calls. Make Calls. 24/7.
+          </h2>
+          <p
+            style={{
+              fontSize: isMobile ? typography.fontSize.lg : typography.fontSize.xl,
+              color: colors.text.secondary,
+              margin: 0,
+              maxWidth: "700px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              lineHeight: 1.6,
+            }}
+          >
+            Inbound and outbound—all on autopilot.
+          </p>
+        </div>
+
         {/* Voice Use Cases Section */}
         <VoiceUseCases />
+
+        {/* Custom industry CTA - same font as FAQ */}
+        <div
+          style={{
+            width: "100%",
+            textAlign: "center",
+            marginTop: spacing["5xl"],
+            marginBottom: spacing["5xl"],
+          }}
+        >
+          <h2
+            style={{
+              fontSize: isMobile ? typography.fontSize["2xl"] : typography.fontSize["4xl"],
+              fontWeight: typography.fontWeight.bold,
+              color: colors.text.primary,
+              margin: 0,
+              fontFamily: typography.fontFamily.display,
+              letterSpacing: typography.letterSpacing.tight,
+              maxWidth: "900px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              lineHeight: 1.3,
+            }}
+          >
+            Don't see your industry? We build custom solutions for any business type.
+          </h2>
+        </div>
 
         {/* Inquiry Form */}
         <div
@@ -81,10 +145,9 @@ export default function Voice() {
                 marginBottom: spacing.lg,
                 fontFamily: typography.fontFamily.display,
                 letterSpacing: typography.letterSpacing.tight,
-                textTransform: "uppercase",
               }}
             >
-              Talk to the Team
+              Talk To Our Team
             </h2>
           </div>
           <GoogleFormWrapper />
