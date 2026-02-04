@@ -7,8 +7,8 @@ import "../../../index.css";
 export default function VideoHero() {
   const { isMobile } = useResponsive();
 
-  // Reserve space for sticky navbar so hero text is not covered
-  const navbarReserve = isMobile ? 104 : 140;
+  // Reserve space for sticky navbar so hero text is not covered (mobile: match nav + safe area)
+  const navbarReserve = isMobile ? 120 : 140;
 
   return (
     <div
@@ -72,14 +72,14 @@ export default function VideoHero() {
             paddingRight: isMobile ? spacing['3xl'] : "6%",
             bottom: 0,
             paddingTop: navbarReserve,
-            paddingBottom: isMobile ? spacing.lg : spacing['4xl'],
+            paddingBottom: isMobile ? spacing['3xl'] : spacing['4xl'],
             boxSizing: "border-box",
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
             alignItems: isMobile ? "center" : "stretch",
             justifyContent: isMobile ? "center" : "space-between",
             gap: isMobile ? spacing.lg : spacing['4xl'],
-            overflowY: "hidden",
+            overflowY: isMobile ? "auto" : "hidden",
           }}
         >
           <div

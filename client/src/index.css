@@ -455,11 +455,15 @@ pre {
   .hero-subhead {
     font-size: 1.375rem;
   }
+  /* Match keypoint titles and body to left-side headline scale on desktop */
   .hero-keypoint-title {
-    font-size: 1.25rem;
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.035em;
   }
   .hero-keypoint-body {
-    font-size: 0.9375rem;
+    font-size: 1.375rem;
   }
 }
 
