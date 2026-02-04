@@ -449,11 +449,12 @@ pre {
     flex-direction: column;
     justify-content: center;
   }
+  /* Left column: larger to match visual height of the 3 points on the right */
   .hero-headline {
-    font-size: 3rem;
+    font-size: 3.5rem;
   }
   .hero-subhead {
-    font-size: 1.375rem;
+    font-size: 1.5rem;
   }
   /* Match keypoint titles and body to left-side headline scale on desktop */
   .hero-keypoint-title {
@@ -479,6 +480,7 @@ pre {
   }
   .hero-keypoint-body {
     font-size: 0.875rem;
+    padding-top: 6px;
   }
 }
 

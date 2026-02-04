@@ -16,7 +16,7 @@ export default function VideoHero() {
         width: "100%",
         maxWidth: "100%",
         height: isMobile ? "auto" : "85vh",
-        minHeight: isMobile ? "100vh" : "680px",
+        minHeight: isMobile ? "120vh" : "680px",
         maxHeight: isMobile ? "none" : "none",
         position: "relative",
         margin: 0,
@@ -70,13 +70,13 @@ export default function VideoHero() {
             maxWidth: isMobile ? "100%" : "100%",
             paddingLeft: isMobile ? spacing['3xl'] : "6%",
             paddingRight: isMobile ? spacing['3xl'] : "6%",
-            ...(isMobile ? { top: 0, bottom: 0, paddingTop: navbarReserve, paddingBottom: spacing['3xl'] } : { bottom: 0, paddingTop: navbarReserve, paddingBottom: spacing['4xl'] }),
+            ...(isMobile ? { top: 0, bottom: 0, paddingTop: navbarReserve, paddingBottom: spacing['2xl'] } : { bottom: 0, paddingTop: navbarReserve, paddingBottom: spacing['4xl'] }),
             boxSizing: "border-box",
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
             alignItems: isMobile ? "center" : "stretch",
             justifyContent: isMobile ? "flex-start" : "space-between",
-            gap: isMobile ? spacing.lg : spacing['4xl'],
+            gap: isMobile ? spacing.md : spacing['4xl'],
             overflowY: "hidden",
           }}
         >
@@ -89,7 +89,7 @@ export default function VideoHero() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              gap: isMobile ? spacing.lg : spacing['2xl'],
+              gap: isMobile ? spacing.md : spacing['2xl'],
             }}
           >
             <h1 className="hero-headline">
@@ -107,7 +107,7 @@ export default function VideoHero() {
               maxWidth: isMobile ? "100%" : "45%",
               display: "flex",
               flexDirection: "column",
-              gap: isMobile ? spacing.xl : spacing['2xl'],
+              gap: isMobile ? spacing.md : spacing['2xl'],
               width: "100%",
               paddingTop: isMobile ? spacing.lg : 0,
               borderTop: isMobile ? "1px solid rgba(255, 255, 255, 0.15)" : "none",

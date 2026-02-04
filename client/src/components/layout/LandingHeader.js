@@ -102,13 +102,13 @@ export default function LandingHeader() {
           )}
         </Link>
 
-        <div style={{ display: "flex", alignItems: "center", gap: spacing.md }}>
-          {/* Voice link (single service) */}
-          <Link to="/solutions/voice" style={{ textDecoration: "none" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: spacing.lg }}>
+          {/* Products link */}
+          <Link to="/solutions/voice" style={{ textDecoration: "none", margin: 0 }}>
             {isMobile ? (
               <button
                 type="button"
-                aria-label="Voice"
+                aria-label="Products"
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -153,7 +153,7 @@ export default function LandingHeader() {
                   e.currentTarget.style.backgroundColor = "transparent";
                 }}
               >
-                Voice
+                Products
               </span>
             )}
           </Link>
@@ -162,7 +162,7 @@ export default function LandingHeader() {
           {isMobile ? (
             <Link
               to="/pricing"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", margin: 0 }}
             >
               <button
                 type="button"
@@ -196,6 +196,7 @@ export default function LandingHeader() {
               to="/pricing"
               style={{
                 textDecoration: "none",
+                margin: 0,
                 padding: `${spacing.sm} ${spacing.md}`,
                 borderRadius: borderRadius.md,
                 color: colors.text.primary,
@@ -215,7 +216,7 @@ export default function LandingHeader() {
             </Link>
           )}
 
-          <Link to="/login" style={{ textDecoration: "none" }}>
+          <Link to="/login" style={{ textDecoration: "none", margin: 0 }}>
             {isMobile ? (
               <button
                 type="button"
@@ -237,12 +238,12 @@ export default function LandingHeader() {
                 <Icon name="user" size={22} color={colors.brand[600]} strokeWidth="2.5" />
               </button>
             ) : (
-              <Button variant="primary" style={{ minWidth: "auto", padding: `${spacing.md} ${spacing.xl}` }}>
+              <Button variant="primary" style={{ minWidth: "auto", margin: 0, padding: `${spacing.md} ${spacing.xl}` }}>
                 Login
               </Button>
             )}
           </Link>
-          <Link to="/talk-to-sales" style={{ textDecoration: "none" }}>
+          <Link to="/talk-to-sales" style={{ textDecoration: "none", margin: 0 }}>
             {isMobile ? (
               <button
                 type="button"
@@ -268,6 +269,7 @@ export default function LandingHeader() {
                 variant="outline"
                 style={{
                   minWidth: "auto",
+                  margin: 0,
                   padding: `${spacing.md} ${spacing.xl}`,
                   display: "flex",
                   alignItems: "center",
