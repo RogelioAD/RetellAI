@@ -7,17 +7,17 @@ import "../../../index.css";
 export default function VideoHero() {
   const { isMobile } = useResponsive();
 
-  // Reserve space for sticky navbar so hero text is not covered (mobile: match nav + safe area)
-  const navbarReserve = isMobile ? 120 : 140;
+  // Reserve space for sticky navbar so hero text is not covered (mobile: clear nav fully)
+  const navbarReserve = isMobile ? 128 : 140;
 
   return (
     <div
       style={{
         width: "100%",
         maxWidth: "100%",
-        height: isMobile ? "100vh" : "85vh",
-        minHeight: isMobile ? 0 : "680px",
-        maxHeight: isMobile ? "100vh" : "none",
+        height: isMobile ? "auto" : "85vh",
+        minHeight: isMobile ? "100vh" : "680px",
+        maxHeight: isMobile ? "none" : "none",
         position: "relative",
         margin: 0,
         padding: 0,
@@ -64,22 +64,20 @@ export default function VideoHero() {
           style={{
             position: "absolute",
             top: 0,
-            left: "50%",
-            transform: "translateX(-50%)",
+            left: isMobile ? 0 : "50%",
+            transform: isMobile ? "none" : "translateX(-50%)",
             width: "100%",
             maxWidth: isMobile ? "100%" : "100%",
             paddingLeft: isMobile ? spacing['3xl'] : "6%",
             paddingRight: isMobile ? spacing['3xl'] : "6%",
-            bottom: 0,
-            paddingTop: navbarReserve,
-            paddingBottom: isMobile ? spacing['3xl'] : spacing['4xl'],
+            ...(isMobile ? { top: 0, bottom: 0, paddingTop: navbarReserve, paddingBottom: spacing['3xl'] } : { bottom: 0, paddingTop: navbarReserve, paddingBottom: spacing['4xl'] }),
             boxSizing: "border-box",
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
             alignItems: isMobile ? "center" : "stretch",
-            justifyContent: isMobile ? "center" : "space-between",
+            justifyContent: isMobile ? "flex-start" : "space-between",
             gap: isMobile ? spacing.lg : spacing['4xl'],
-            overflowY: isMobile ? "auto" : "hidden",
+            overflowY: "hidden",
           }}
         >
           <div
