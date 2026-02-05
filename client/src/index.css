@@ -438,33 +438,48 @@ pre {
 }
 
 @media (min-width: 769px) {
+  /* 1, 2, 3 as main focal point – large and prominent */
   .hero-keypoint-num {
-    --hero-num-size: 64px;
+    --hero-num-size: 100px;
   }
   .hero-keypoint-num-digit {
-    font-size: 1.75rem;
+    font-size: 3rem;
   }
   .hero-keypoints {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 1.75rem;
   }
-  /* Left column: larger to match visual height of the 3 points on the right */
+  /* Big bold headline and subhead – fill hero space */
+  .hero-headline-block {
+    max-width: 46em;
+  }
   .hero-headline {
-    font-size: 3.5rem;
+    font-size: 4.75rem;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
   }
   .hero-subhead {
-    font-size: 1.5rem;
+    font-size: 1.875rem;
+    line-height: 1.4;
   }
-  /* Match keypoint titles and body to left-side headline scale on desktop */
+  /* Uniform keypoint rows – min-height prevents mismatch from word wrap */
+  .hero-keypoint-row {
+    min-height: 7rem;
+    align-items: center;
+    gap: 1.5rem;
+  }
   .hero-keypoint-title {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.035em;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
   }
   .hero-keypoint-body {
-    font-size: 1.375rem;
+    font-size: 1.25rem;
+    padding-top: 8px;
   }
 }
 

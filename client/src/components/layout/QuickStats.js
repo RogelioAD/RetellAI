@@ -119,7 +119,7 @@ function QuickStats({
                   letterSpacing: typography.letterSpacing.tight,
                 }}
               >
-                {index === 0 ? `${stat.value}+` : stat.value}
+                {index === 0 ? (stat.value >= 100 ? `${stat.value}+` : stat.value) : stat.value}
               </div>
             </div>
             <div

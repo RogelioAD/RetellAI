@@ -68,8 +68,8 @@ export default function VideoHero() {
             transform: isMobile ? "none" : "translateX(-50%)",
             width: "100%",
             maxWidth: isMobile ? "100%" : "100%",
-            paddingLeft: isMobile ? spacing['3xl'] : "6%",
-            paddingRight: isMobile ? spacing['3xl'] : "6%",
+            paddingLeft: isMobile ? spacing['3xl'] : "8%",
+            paddingRight: isMobile ? spacing['3xl'] : "8%",
             ...(isMobile ? { top: 0, bottom: 0, paddingTop: navbarReserve, paddingBottom: spacing['2xl'] } : { bottom: 0, paddingTop: navbarReserve, paddingBottom: spacing['4xl'] }),
             boxSizing: "border-box",
             display: "flex",
@@ -84,12 +84,12 @@ export default function VideoHero() {
             className="hero-headline-block"
             style={{
               flex: isMobile ? "none" : "1",
-              maxWidth: isMobile ? "100%" : "55%",
+              maxWidth: isMobile ? "100%" : "50%",
               textAlign: isMobile ? "center" : "left",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              gap: isMobile ? spacing.md : spacing['2xl'],
+              gap: isMobile ? spacing.md : spacing['3xl'],
             }}
           >
             <h1 className="hero-headline">
@@ -104,19 +104,19 @@ export default function VideoHero() {
             className="hero-keypoints"
             style={{
               flex: isMobile ? "none" : "1",
-              maxWidth: isMobile ? "100%" : "45%",
+              maxWidth: isMobile ? "100%" : "48%",
               display: "flex",
               flexDirection: "column",
-              gap: isMobile ? spacing.md : spacing['2xl'],
+              gap: isMobile ? spacing.md : spacing['3xl'],
               width: "100%",
               paddingTop: isMobile ? spacing.lg : 0,
               borderTop: isMobile ? "1px solid rgba(255, 255, 255, 0.15)" : "none",
               textAlign: isMobile ? "center" : "left",
             }}
           >
-            <div className="hero-keypoint-row hero-keypoint-row--1" style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "center" : "flex-start", gap: isMobile ? spacing.sm : spacing.lg, minWidth: isMobile ? undefined : "220px" }}>
+            <div className="hero-keypoint-row hero-keypoint-row--1" style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "center" : "center", gap: isMobile ? spacing.sm : spacing.xl, minWidth: isMobile ? undefined : "280px" }}>
               <span className="hero-keypoint-num hero-keypoint-num--1" aria-hidden>
-                <span className="hero-keypoint-num-ring" aria-hidden><Circle size={56} strokeWidth={1.5} /></span>
+                <span className="hero-keypoint-num-ring" aria-hidden><Circle size={isMobile ? 56 : 100} strokeWidth={1.5} /></span>
                 <span className="hero-keypoint-num-digit">1</span>
               </span>
               <div className="hero-keypoint-text" style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>
@@ -124,9 +124,9 @@ export default function VideoHero() {
                 <span className="hero-keypoint-body">6 out of 10 phone calls to small businesses go unanswered.</span>
               </div>
             </div>
-            <div className="hero-keypoint-row hero-keypoint-row--2" style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "center" : "flex-start", gap: isMobile ? spacing.sm : spacing.lg, minWidth: isMobile ? undefined : "220px" }}>
+            <div className="hero-keypoint-row hero-keypoint-row--2" style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "center" : "center", gap: isMobile ? spacing.sm : spacing.xl, minWidth: isMobile ? undefined : "280px" }}>
               <span className="hero-keypoint-num hero-keypoint-num--2" aria-hidden>
-                <span className="hero-keypoint-num-ring" aria-hidden><Circle size={56} strokeWidth={1.5} /></span>
+                <span className="hero-keypoint-num-ring" aria-hidden><Circle size={isMobile ? 56 : 100} strokeWidth={1.5} /></span>
                 <span className="hero-keypoint-num-digit">2</span>
               </span>
               <div className="hero-keypoint-text" style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>
@@ -134,9 +134,9 @@ export default function VideoHero() {
                 <span className="hero-keypoint-body">85% of callers don't call back after their first attempt.</span>
               </div>
             </div>
-            <div className="hero-keypoint-row hero-keypoint-row--3" style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "center" : "flex-start", gap: isMobile ? spacing.sm : spacing.lg, minWidth: isMobile ? undefined : "220px" }}>
+            <div className="hero-keypoint-row hero-keypoint-row--3" style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "center" : "center", gap: isMobile ? spacing.sm : spacing.xl, minWidth: isMobile ? undefined : "280px" }}>
               <span className="hero-keypoint-num hero-keypoint-num--3" aria-hidden>
-                <span className="hero-keypoint-num-ring" aria-hidden><Circle size={56} strokeWidth={1.5} /></span>
+                <span className="hero-keypoint-num-ring" aria-hidden><Circle size={isMobile ? 56 : 100} strokeWidth={1.5} /></span>
                 <span className="hero-keypoint-num-digit">3</span>
               </span>
               <div className="hero-keypoint-text" style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>

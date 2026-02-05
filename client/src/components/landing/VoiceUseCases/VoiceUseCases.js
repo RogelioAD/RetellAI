@@ -108,6 +108,8 @@ export default function VoiceUseCases() {
             padding: spacing['3xl'],
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
           onMouseEnter={(e) => {
@@ -123,7 +125,7 @@ export default function VoiceUseCases() {
           <div
             style={{
               display: "flex",
-              justifyContent: "flex-start",
+              justifyContent: "center",
               marginBottom: spacing.lg,
             }}
           >
@@ -179,6 +181,8 @@ export default function VoiceUseCases() {
               display: "flex",
               flexDirection: "column",
               gap: spacing.sm,
+              alignItems: "center",
+              textAlign: "center",
             }}
           >
             {inboundFeatures.map((item, itemIdx) => (
@@ -188,11 +192,12 @@ export default function VoiceUseCases() {
                   fontSize: typography.fontSize.sm,
                   color: colors.text.secondary,
                   display: "flex",
-                  alignItems: "flex-start",
+                  alignItems: "center",
+                  justifyContent: "center",
                   gap: spacing.xs,
                 }}
               >
-                <span style={{ color: colors.brand[500], marginRight: spacing.xs, fontWeight: typography.fontWeight.bold }}>•</span>
+                <span style={{ color: colors.brand[500], fontWeight: typography.fontWeight.bold }}>•</span>
                 {item}
               </li>
             ))}
@@ -207,6 +212,8 @@ export default function VoiceUseCases() {
             padding: spacing['3xl'],
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
           onMouseEnter={(e) => {
@@ -222,7 +229,7 @@ export default function VoiceUseCases() {
           <div
             style={{
               display: "flex",
-              justifyContent: "flex-start",
+              justifyContent: "center",
               marginBottom: spacing.lg,
             }}
           >
@@ -278,6 +285,8 @@ export default function VoiceUseCases() {
               display: "flex",
               flexDirection: "column",
               gap: spacing.sm,
+              alignItems: "center",
+              textAlign: "center",
             }}
           >
             {outboundFeatures.map((item, itemIdx) => (
@@ -287,11 +296,12 @@ export default function VoiceUseCases() {
                   fontSize: typography.fontSize.sm,
                   color: colors.text.secondary,
                   display: "flex",
-                  alignItems: "flex-start",
+                  alignItems: "center",
+                  justifyContent: "center",
                   gap: spacing.xs,
                 }}
               >
-                <span style={{ color: colors.brand[500], marginRight: spacing.xs, fontWeight: typography.fontWeight.bold }}>•</span>
+                <span style={{ color: colors.brand[500], fontWeight: typography.fontWeight.bold }}>•</span>
                 {item}
               </li>
             ))}
