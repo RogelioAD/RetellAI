@@ -452,17 +452,16 @@ pre {
     margin-bottom: 0;
   }
   .hero-subhead {
-    font-size: 1.625rem;
+    font-size: 1.8125rem;
     line-height: 1.38;
     margin-top: 0;
   }
-  /* Right column: 3 rows with equal space between to fill glass height */
+  /* Right column: 3 points with tighter gap, larger text */
   .hero-keypoints {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 0;
-    min-height: 100%;
+    justify-content: center;
+    gap: 0.75rem;
   }
   .hero-keypoint-row {
     flex: 0 0 auto;
@@ -471,13 +470,13 @@ pre {
     gap: 1rem;
   }
   .hero-keypoint-num {
-    --hero-num-size: 88px;
+    --hero-num-size: 96px;
   }
   .hero-keypoint-num-digit {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
   }
   .hero-keypoint-title {
-    font-size: 1.875rem;
+    font-size: 2.5rem;
     font-weight: 800;
     line-height: 1.2;
     letter-spacing: -0.025em;
@@ -485,7 +484,7 @@ pre {
     padding-top: 0;
   }
   .hero-keypoint-body {
-    font-size: 1.125rem;
+    font-size: 1.5rem;
     padding-top: 0.25rem;
     line-height: 1.4;
   }
@@ -499,10 +498,10 @@ pre {
     font-size: 1.0625rem;
   }
   .hero-keypoint-title {
-    font-size: 1rem;
+    font-size: 1.125rem;
   }
   .hero-keypoint-body {
-    font-size: 0.875rem;
+    font-size: 1rem;
     padding-top: 6px;
   }
 }
