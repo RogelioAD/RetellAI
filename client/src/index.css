@@ -438,48 +438,56 @@ pre {
 }
 
 @media (min-width: 769px) {
-  /* 1, 2, 3 as main focal point – large and prominent */
-  .hero-keypoint-num {
-    --hero-num-size: 100px;
+  /* Typography scale: headline → subhead; left block has no padding so it uses full space */
+  .hero-headline-block {
+    max-width: 46em;
+    justify-content: center;
+    gap: 0.625rem;
+    padding: 0;
   }
-  .hero-keypoint-num-digit {
-    font-size: 3rem;
+  .hero-headline {
+    font-size: 4.25rem;
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+    margin-bottom: 0;
   }
+  .hero-subhead {
+    font-size: 1.625rem;
+    line-height: 1.38;
+    margin-top: 0;
+  }
+  /* Right column: 3 rows with equal space between to fill glass height */
   .hero-keypoints {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 1.75rem;
+    justify-content: space-between;
+    gap: 0;
+    min-height: 100%;
   }
-  /* Big bold headline and subhead – fill hero space */
-  .hero-headline-block {
-    max-width: 46em;
-  }
-  .hero-headline {
-    font-size: 4.75rem;
-    line-height: 1.1;
-    letter-spacing: -0.04em;
-  }
-  .hero-subhead {
-    font-size: 1.875rem;
-    line-height: 1.4;
-  }
-  /* Uniform keypoint rows – min-height prevents mismatch from word wrap */
   .hero-keypoint-row {
-    min-height: 7rem;
+    flex: 0 0 auto;
+    min-height: 0;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
+  }
+  .hero-keypoint-num {
+    --hero-num-size: 88px;
+  }
+  .hero-keypoint-num-digit {
+    font-size: 2.5rem;
   }
   .hero-keypoint-title {
-    font-size: 2rem;
+    font-size: 1.875rem;
     font-weight: 800;
     line-height: 1.2;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.025em;
     text-wrap: balance;
+    padding-top: 0;
   }
   .hero-keypoint-body {
-    font-size: 1.25rem;
-    padding-top: 8px;
+    font-size: 1.125rem;
+    padding-top: 0.25rem;
+    line-height: 1.4;
   }
 }
 
