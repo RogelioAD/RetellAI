@@ -149,7 +149,7 @@ export default function Home() {
                 letterSpacing: "0.02em",
               }}
             >
-              Keep your existing number.
+              Keep your existing number
             </p>
             <p
               style={{
@@ -166,7 +166,7 @@ export default function Home() {
                 letterSpacing: "0.02em",
               }}
             >
-              You don't need to change a thing. We help you enable "Call Forwarding" on your current business line to route calls to your AI Receptionist.
+              You don't need to change a thing. We help you enable "Call Forwarding" on your current business line to route calls to your AI Receptionist
             </p>
         </div>
 

@@ -104,13 +104,16 @@ export default function VoiceUseCases() {
         <div
           style={{
             ...plainCardStyles.base,
+            backgroundColor: colors.background.card,
             borderRadius: borderRadius.xl,
             padding: spacing['3xl'],
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
+            alignItems: "flex-start",
+            textAlign: "left",
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            border: `1px solid ${colors.gray[100]}`,
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = "translateY(-6px) scale(1.02)";
@@ -125,7 +128,7 @@ export default function VoiceUseCases() {
           <div
             style={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "flex-start",
               marginBottom: spacing.lg,
             }}
           >
@@ -173,7 +176,7 @@ export default function VoiceUseCases() {
           >
             Enjoy your downtime while the AI handles the phone. No hold times. That's happier customers.
           </p>
-          <ul
+            <ul
             style={{
               listStyle: "none",
               padding: 0,
@@ -181,8 +184,8 @@ export default function VoiceUseCases() {
               display: "flex",
               flexDirection: "column",
               gap: spacing.sm,
-              alignItems: "center",
-              textAlign: "center",
+              alignItems: "flex-start",
+              textAlign: "left",
             }}
           >
             {inboundFeatures.map((item, itemIdx) => (
@@ -193,7 +196,7 @@ export default function VoiceUseCases() {
                   color: colors.text.secondary,
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
+                  justifyContent: "flex-start",
                   gap: spacing.xs,
                 }}
               >
@@ -208,13 +211,16 @@ export default function VoiceUseCases() {
         <div
           style={{
             ...plainCardStyles.base,
+            backgroundColor: colors.background.card,
             borderRadius: borderRadius.xl,
             padding: spacing['3xl'],
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
+            alignItems: "flex-start",
+            textAlign: "left",
             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            border: `1px solid ${colors.gray[100]}`,
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = "translateY(-6px) scale(1.02)";
@@ -229,7 +235,7 @@ export default function VoiceUseCases() {
           <div
             style={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "flex-start",
               marginBottom: spacing.lg,
             }}
           >
@@ -285,8 +291,8 @@ export default function VoiceUseCases() {
               display: "flex",
               flexDirection: "column",
               gap: spacing.sm,
-              alignItems: "center",
-              textAlign: "center",
+              alignItems: "flex-start",
+              textAlign: "left",
             }}
           >
             {outboundFeatures.map((item, itemIdx) => (
@@ -297,7 +303,7 @@ export default function VoiceUseCases() {
                   color: colors.text.secondary,
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
+                  justifyContent: "flex-start",
                   gap: spacing.xs,
                 }}
               >

@@ -1225,7 +1225,7 @@ export default function PatientJourney() {
             letterSpacing: "0.02em",
           }}
         >
-          Follow one patient from phone call to completed appointment—see how every system works together seamlessly.
+          Follow one patient from phone call to completed appointment—see how every system works together seamlessly
         </p>
       </div>
 

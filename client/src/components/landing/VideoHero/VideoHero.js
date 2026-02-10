@@ -94,10 +94,10 @@ export default function VideoHero() {
             }}
           >
             <h1 className="hero-headline">
-              Stop paying <span className="hero-accent">$35,000</span> a year for someone who takes lunch breaks, sick days, and can only answer one call at a time.
+              Stop paying <span className="hero-accent">$35,000</span> a year for someone who takes lunch breaks, sick days, and can only answer one call at a time
             </h1>
             <p className="hero-subhead" style={{ marginTop: 0 }}>
-              Missed calls cost businesses <span className="hero-accent">$25,000+</span> a month. Our AI receptionist works <span className="hero-accent">24/7</span> for a <span className="hero-accent">fraction of the cost</span>.
+              Missed calls cost businesses <span className="hero-accent">$25,000+</span> a month. Our AI receptionist works <span className="hero-accent">24/7</span> for a <span className="hero-accent">fraction of the cost</span>
             </p>
           </div>
 
