@@ -71,13 +71,16 @@ export default function PricingPage() {
           Try it free for 2 weeks. No credit card, no contracts. Month-to-month, cancel anytime.
         </p>
 
-        {/* FAQs */}
+        {/* Blue divider + FAQs */}
         <div
           style={{
             width: "100%",
             display: "flex",
             justifyContent: "center",
             marginTop: spacing["5xl"],
+            borderTop: `3px solid ${colors.brand[400]}`,
+            paddingTop: spacing["5xl"],
+            boxSizing: "border-box",
           }}
         >
           <FAQ

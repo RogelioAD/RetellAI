@@ -105,12 +105,16 @@ export default function TalkToSales() {
           <GoogleFormWrapper />
         </div>
 
-        {/* FAQ Section */}
+        {/* Blue divider + FAQ Section */}
         <div
           style={{
             width: "100%",
             display: "flex",
             justifyContent: "center",
+            marginTop: spacing["5xl"],
+            borderTop: `3px solid ${colors.brand[400]}`,
+            paddingTop: spacing["5xl"],
+            boxSizing: "border-box",
           }}
         >
           <FAQ

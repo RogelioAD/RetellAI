@@ -118,7 +118,7 @@ export default function Voice() {
           </h2>
         </div>
 
-        {/* Inquiry Form */}
+        {/* Blue divider + Talk To Our Team */}
         <div
           style={{
             width: "100%",
@@ -126,6 +126,9 @@ export default function Voice() {
             flexDirection: "column",
             alignItems: "center",
             marginTop: spacing["5xl"],
+            borderTop: `3px solid ${colors.brand[400]}`,
+            paddingTop: spacing["5xl"],
+            boxSizing: "border-box",
           }}
         >
           <div
@@ -153,13 +156,16 @@ export default function Voice() {
           <GoogleFormWrapper />
         </div>
 
-        {/* FAQ Section */}
+        {/* Blue divider + FAQ Section */}
         <div
           style={{
             width: "100%",
             display: "flex",
             justifyContent: "center",
             marginTop: spacing["5xl"],
+            borderTop: `3px solid ${colors.brand[400]}`,
+            paddingTop: spacing["5xl"],
+            boxSizing: "border-box",
           }}
         >
           <FAQ
