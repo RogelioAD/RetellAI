@@ -9,16 +9,19 @@ export async function authenticateUser(username, password) {
     throw new Error("JWT_SECRET is not configured");
   }
 
+  const invalidCredsError = new Error("Invalid username or password");
+  invalidCredsError.statusCode = 401;
+
   const sanitizedUsername = String(username).trim();
   const user = await User.findOne({ where: { username: sanitizedUsername } });
-  
+
   if (!user) {
-    throw new Error("Invalid username or password");
+    throw invalidCredsError;
   }
 
   const isValid = await compare(password, user.passwordHash);
   if (!isValid) {
-    throw new Error("Invalid username or password");
+    throw invalidCredsError;
   }
 
   const token = jwt.sign({ userId: user.id }, jwtSecret, { expiresIn: "30d" });

@@ -13,6 +13,9 @@ import { seedAdmin } from "./services/adminService.js";
 
 const app = express();
 
+// Trust the first proxy (e.g. Railway) so X-Forwarded-For is used and rate-limit sees real client IPs
+app.set("trust proxy", 1);
+
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
   ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim()).filter(origin => origin)
   : ['http://localhost:3000', 'http://localhost:3001'];

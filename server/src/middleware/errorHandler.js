@@ -25,11 +25,13 @@ export function errorHandler(err, req, res, next) {
     return res.status(400).json({ error: "Resource already exists" });
   }
 
-  const message = process.env.NODE_ENV === 'production' 
-    ? "Server error" 
-    : err.message || "Server error";
+  const status = err.statusCode || 500;
+  const is4xx = status >= 400 && status < 500;
+  const message = process.env.NODE_ENV === 'production'
+    ? (is4xx ? (err.message || "Bad request") : "Server error")
+    : (err.message || "Server error");
 
-  res.status(err.statusCode || 500).json({ error: message });
+  res.status(status).json({ error: message });
 }
 
 // Wraps async route handlers to automatically catch errors and pass to error handler
