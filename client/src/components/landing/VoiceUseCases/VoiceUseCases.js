@@ -97,7 +97,7 @@ export default function VoiceUseCases() {
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
           gap: spacing.xl,
-          marginBottom: spacing['5xl'],
+          marginBottom: spacing['2xl'],
         }}
       >
         {/* Inbound Calls Column */}
@@ -319,7 +319,7 @@ export default function VoiceUseCases() {
       <div
         style={{
           textAlign: "center",
-          marginBottom: spacing['4xl'],
+          marginBottom: spacing['2xl'],
         }}
       >
         <h2
@@ -328,7 +328,7 @@ export default function VoiceUseCases() {
             fontWeight: typography.fontWeight.bold,
             color: colors.text.primary,
             margin: 0,
-            marginBottom: spacing.lg,
+            marginBottom: spacing.md,
             fontFamily: typography.fontFamily.display,
             letterSpacing: typography.letterSpacing.tight,
           }}
@@ -363,11 +363,14 @@ export default function VoiceUseCases() {
             key={idx}
             style={{
               ...plainCardStyles.base,
+              backgroundColor: colors.background.card,
               borderRadius: borderRadius.xl,
               padding: spacing['3xl'],
               display: "flex",
               flexDirection: "column",
               transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              border: `1px solid ${colors.gray[100]}`,
+              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-6px) scale(1.02)";

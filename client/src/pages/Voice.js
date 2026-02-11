@@ -55,7 +55,7 @@ export default function Voice() {
         <div
           style={{
             textAlign: "center",
-            marginBottom: spacing["4xl"],
+            marginBottom: spacing["2xl"],
             width: "100%",
             maxWidth: "1200px",
           }}

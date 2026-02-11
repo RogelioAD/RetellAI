@@ -99,7 +99,7 @@ export default function FeatureCards() {
             letterSpacing: "0.02em",
           }}
         >
-          No more language barriers, spam calls, or customers lost while you're tied up on another call.
+          No more language barriers, spam calls, or customers lost while you're tied up on another call
         </p>
       </div>
 
